@@ -1,0 +1,53 @@
+Author's Walkthrough for Go-Strange-Ghost Range
+
+by Andrew Schultz
+
+This was a submission to EctoComp Petite Mort 2025, where you had 4 hours to code. Graphics were not counted against the time limit. (Please, no cracks about how they wouldn't have counted much!)
+
+The solution is, in the big picture, fairly straightforward. You need to escape the ghost's grip, then do something in each of the four other rooms. There's an order for this. Then you return to the ghost to finish them. If you do something out of order, the game alerts you and notes things for later.
+
+Dull eyes leave you unable to do anything. Oh, the thoughts they put in your head! You can't leave until you address them.
+
+>DUH LIES
+
+Now you'll be able to listen to something, but you can't deal with it until you're strong enough.
+
+>S
+
+Rue Fear. You feel small and can't see anything.
+
+>ROOF ERE
+
+Okay, you see ways out now.
+
+>S
+
+No trouble? Nothing to see here?
+
+>NOTE RUBBLE
+
+You have a friend now.
+
+>E
+
+>HELP LOTS
+
+More people now!
+
+>W
+>W
+
+The sheer volume of people lets you search for the food source.
+
+>CURSE TREATS
+
+Okay, now you are ready for the final bit.
+
+>E
+>N
+
+If you listen, the Reap Elegy runs through.
+
+>REPEL EDGY
+
+And you win!
