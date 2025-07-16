@@ -1,0 +1,86 @@
+game_settings {
+}
+
+game_information {
+   game_name                    = Go-Strange-Ghost Range
+   game_version                 = 1.0.0
+   game_shortname               = GSGR
+   written_by                   = Andrew Schultz
+   uuid                         = 194e9232-a134-4c81-b596-6e431efacea4
+   year_of_release              = 2025
+   copyright_message            = Free to distribute, voluntary payments welcome
+   short_synopsis               = EctoComp 2025 Petite Mort entry, in the vein of Why Pout and Us Too
+}
+
+booleans {
+}
+
+integers {
+}
+
+collections {
+}
+
+strings {
+}
+
+stats {
+}
+
+objects {
+}
+
+vocabulary {
+}
+
+locations {
+   go_strange_ghost_range : location {
+   }
+   rue_fear : location {
+   }
+   cur_streets : location {
+   }
+   hell_plots : location {
+   }
+   no_trouble : location {
+   }
+}
+connections {
+   go_strange_ghost_range, south, rue_fear
+   rue_fear, south, no_trouble
+   rue_fear, west, cur_streets
+   rue_fear, east, hell_plots
+}
+
+barriers {
+}
+
+subroutines {
+}
+
+themes {
+}
+
+on_render {
+}
+
+on_startup {
+}
+
+on_tick {
+}
+
+on_pre_describe {
+}
+
+on_describe {
+}
+
+on_pre_command {
+}
+
+on_command {
+}
+
+assets {
+}
