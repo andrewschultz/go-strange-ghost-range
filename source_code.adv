@@ -31,6 +31,7 @@ booleans {
 
    # option boolean(s)
    oaf_aid : boolean "true" ;
+   oaf_aid_extra : boolean "true" ;
 
    # game state boolean(s)
    bonus_note : boolean "false" ;
@@ -54,6 +55,7 @@ strings {
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
    my_score : string "{score}/{max_score}" ;
    oaf_says : string "---" ;
+   c_oaf_aid : string "<OAF AID<#f0f>>" ;
 
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
@@ -367,12 +369,17 @@ on_command {
       }
    }
    : match "oaf aid" {
-      : print "OAF AID is now on." ;
-      : set_true "oaf_aid" ;
+      : if (!oaf_aid) {
+         : print "{c_oaf_aid} is now on." ;
+         : set_true "oaf_aid" ;
+      } : else {
+         : print {( "Extended {c_oaf_aid} is now " + (oaf_aid_extra ? "off" : "on") + "." )} ;
+         : set_boolean var="oaf_aid" {(!oaf_aid)} ;
+	  }
    }
    : match "oh fade" {
-      : print "OAF AID is now on." ;
-      : set_true "oaf_aid" ;
+      : print {( "{c_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
+      : set_false "oaf_aid" ;
    }
 }
 
