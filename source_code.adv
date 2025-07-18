@@ -15,7 +15,7 @@ game_information {
 }
 
 booleans {
-   #POINT booleans
+   # POINT booleans
    point_duh_lies : boolean "false" ;
    point_repel_edgy : boolean "false" ;
    point_roof_ere : boolean "false" ;
@@ -23,13 +23,16 @@ booleans {
    point_curse_treats : boolean "false" ;
    point_help_lots : boolean "false" ;
 
-   #THINK booleans
+   # THINK booleans
    think_repel_edgy : boolean "false" ;
    think_curse_treats : boolean "false" ;
    think_help_lots : boolean "false" ;
 
    # option boolean(s)
    oaf_aid : boolean "true" ;
+
+   # game state boolean(s)
+   bonus_note : boolean "false" ;
 
    # auxiliary semi-function-parameter booleans
    done_already : boolean "false" ;
@@ -40,9 +43,16 @@ booleans {
 }
 
 integers {
+   score : integer "0" ;
+   max_score : integer "6" ;
 }
 
 strings {
+   gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
+   my_score : string "{score}/{max_score}" ;
+   oaf_says : string "" ;
+
+   right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)}
 }
 
 objects {
@@ -253,6 +263,13 @@ on_pre_command {
 }
 
 on_command {
+   : match "score _" {
+      : print "You have scored {score} of {max_score} points so far." ;
+      : if (!bonus_note) {
+         : print "NOTE: {gsgr} contains no hidden bonus points." ;
+         : set_true "bonus_note" ;
+      }
+   }
    : match "oaf aid" {
       : print "OAF AID is now on." ;
       : set_true "oaf_aid" ;
