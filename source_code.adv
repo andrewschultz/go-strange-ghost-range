@@ -1,3 +1,5 @@
+start_at = "go_strange_ghost_range"
+
 game_settings {
 }
 
@@ -13,24 +15,41 @@ game_information {
 }
 
 booleans {
+   #POINT booleans
+   point_duh_lies : boolean "false" ;
+   point_repel_edgy : boolean "false" ;
+   point_roof_ere : boolean "false" ;
+   point_note_rubble : boolean "false" ;
+   point_curse_treats : boolean "false" ;
+   point_help_lots : boolean "false" ;
+
+   #THINK booleans
+   think_repel_edgy : boolean "false" ;
+   think_curse_treats : boolean "false" ;
+   think_help_lots : boolean "false" ;
+
+   # option boolean(s)
+   oaf_aid : boolean "true" ;
+
+   # auxiliary semi-function-parameter booleans
+   done_already : boolean "false" ;
+   think_already : boolean "false" ;
+
+   # dynamic boolean(s)
+   db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
 }
 
 integers {
 }
 
-collections {
-}
-
 strings {
-}
-
-stats {
 }
 
 objects {
 }
 
 vocabulary {
+   : noun / aliases = [dude, well, dwell]
 }
 
 locations {
