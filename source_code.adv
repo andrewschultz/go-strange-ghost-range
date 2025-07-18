@@ -69,7 +69,7 @@ locations {
             : if (point_duh_lies) {
                : print "Already done that." ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_duh_lies" ;
             }
             : done ;
@@ -85,7 +85,7 @@ locations {
                : print "Still need to do something." ;
                : set_true "think_repel_edgy" ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_repel_edgy" ;
                : win_game ;
             }
@@ -104,7 +104,7 @@ locations {
             : if (point_roof_ere) {
                : print "Already done that." ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_roof_ere" ;
             }
             : done ;
@@ -121,7 +121,7 @@ locations {
             : if (point_note_rubble) {
                : print "Already done that." ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_note_rubble" ;
             }
             : done ;
@@ -141,7 +141,7 @@ locations {
                : print "Still need to do something." ;
                : set_true "think_curse_treats" ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_curse_treats" ;
             }
             : done ;
@@ -162,7 +162,7 @@ locations {
                : print "Still need to do something." ;
                : set_true "think_help_lots" ;
             } : else {
-               : print "You do the thing and get a point." ;
+               : gosub "add_point" ;
                : set_true "point_help_lots" ;
             }
             : done ;
@@ -238,6 +238,10 @@ subroutines {
          : print "Something almost happens. One word must be right." ;
       }
       : done ;
+   }
+   add_point : subroutine {
+      : print "<Your score has just gone up by a point!<#ff0>>" ;
+	  : increment "score" ;
    }
 }
 
