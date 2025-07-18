@@ -75,6 +75,16 @@ barriers {
 }
 
 subroutines {
+   reject_half : subroutine {
+      : if (done_already) {
+         : print "One word's wrong, but you already did that fully." ;
+      } : else_if (think_already) {
+         : print "One word's wrong, but you already figured that fully." ;
+      } : else {
+         : print "Something almost happens. One word must be right." ;
+      }
+      : done ;
+   }
 }
 
 themes {
