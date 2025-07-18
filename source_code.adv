@@ -1,4 +1,5 @@
 start_at = "go_strange_ghost_range"
+start_theme = my_theme
 
 game_settings {
 }
@@ -56,6 +57,8 @@ strings {
 
    right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
+
+   custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
 }
 
 objects {
@@ -66,7 +69,7 @@ vocabulary {
 }
 
 locations {
-   go_strange_ghost_range : location {
+   go_strange_ghost_range : location header="{gsgr}" {
       on_command {
          : match "duh lies" {
             : if (point_duh_lies) {
@@ -102,7 +105,7 @@ locations {
          }
       }
    }
-   rue_fear : location {
+   rue_fear : location header="<Rue Fear<#f00>>" {
       on_command {
          : match "roof ere" {
             : if (point_roof_ere) {
@@ -119,7 +122,7 @@ locations {
          }
       }
    }
-   no_trouble : location {
+   no_trouble : location header="<No Trouble<#888>>" {
       on_command {
          : match "note rubble" {
             : if (point_note_rubble) {
@@ -136,7 +139,7 @@ locations {
          }
       }
    }
-   cur_streets : location {
+   cur_streets : location header="<Cur Streets<#f00>>" {
       on_command {
          : match "curse treats" {
             : if (point_curse_treats) {
@@ -158,7 +161,7 @@ locations {
          }
       }
    }
-   hell_plots : location {
+   hell_plots : location header="<Hell Plots<#f00>>" {
       on_command {
          : match "help lots" {
             : if (point_help_lots) {
@@ -252,6 +255,29 @@ subroutines {
 }
 
 themes {
+   my_theme : theme {
+      status_bar {
+         : header_text ;
+         : dynamic_text "right_hand" ;
+      }
+      theme_settings {
+         parser_delay  = 0
+      }
+      colors {
+         status_bar_pen   = 15
+         status_bar_paper = #222
+      }
+      system_messages {
+
+   i_cant_do_that = That's a valid command, but not right here and now.
+   not_present = You can't see ${entity} here.
+   ask_new_game                                   = Would you like to restart {gsgr}?
+   ask_quit                                       = Do you wish to quit {gsgr}?
+   invalid_choice                                 = {yn_or_12_or_14}
+   post_quit = I hope you enjoyed the experience. Pressing {key_enter} will restart {gsgr}.
+   unknown_verb                                   = {custom_unknown_verb_error}
+      }
+   }
 }
 
 on_render {
