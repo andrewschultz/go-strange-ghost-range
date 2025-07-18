@@ -61,11 +61,17 @@ strings {
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
 
+   # in-game text
+   rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
+
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 
    custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
+   exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
+   all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
+   end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the dull eyes." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 }
 
 objects {
@@ -283,6 +289,7 @@ themes {
    invalid_choice                                 = {yn_or_12_or_14}
    post_quit = I hope you enjoyed the experience. Pressing {key_enter} will restart {gsgr}.
    unknown_verb                                   = {custom_unknown_verb_error}
+   you_cant_go_that_direction                     = {exitserr}
       }
    }
 }
@@ -315,9 +322,19 @@ on_command {
    }
    : match "sw _;se _;ne _;nw _" {
       : print "Diagonal directions aren't used in {gsgr}." ;
+      : done ;
    }
    : match "u _;d _" {
       : print "Vertical directions aren't used in {gsgr}." ;
+      : done ;
+   }
+   : match "enter _;exit _;in _;out _" {
+      : print "You don't need to go in or out in {gsgr}." ;
+      : done ;
+   }
+   : match "exits _" {
+      : print "{all_exits}" ;
+      : done ;
    }
    : match "about _" {
       : done ;
