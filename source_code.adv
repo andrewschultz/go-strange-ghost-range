@@ -37,9 +37,11 @@ booleans {
    # auxiliary semi-function-parameter booleans
    done_already : boolean "false" ;
    think_already : boolean "false" ;
+   once_now_boolean : boolean "false" ;
 
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
+   thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots|| think_curse_treats )} ;
 }
 
 integers {
@@ -52,7 +54,8 @@ strings {
    my_score : string "{score}/{max_score}" ;
    oaf_says : string "" ;
 
-   right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)}
+   right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
+   once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 }
 
 objects {
@@ -81,12 +84,13 @@ locations {
          : match "repel edgy" {
             : if (point_repel_edgy) {
                : print "Already done that." ;
-            } : else_if (1 == 0) {
-               : print "Still need to do something." ;
+            } : else_if (!point_help_lots) {
+               : print "You don't have enough support yet." ;
                : set_true "think_repel_edgy" ;
             } : else {
                : gosub "add_point" ;
                : set_true "point_repel_edgy" ;
+               : set_false "think_repel_edgy" ;
                : win_game ;
             }
             : done ;
@@ -137,12 +141,13 @@ locations {
          : match "curse treats" {
             : if (point_curse_treats) {
                : print "Already done that." ;
-            } : else_if (1 == 0) {
-               : print "Still need to do something." ;
+            } : else_if (!point_note_rubble) {
+               : print "You're too benign to provide a curse." ;
                : set_true "think_curse_treats" ;
             } : else {
                : gosub "add_point" ;
                : set_true "point_curse_treats" ;
+               : set_false "think_curse_treats" ;
             }
             : done ;
          }
@@ -158,12 +163,13 @@ locations {
          : match "help lots" {
             : if (point_help_lots) {
                : print "Already done that." ;
-            } : else_if (1 == 0) {
-               : print "Still need to do something." ;
+            } : else_if (!point_curse_treats) {
+               : print "Canine howls from the west leave you too fearful." ;
                : set_true "think_help_lots" ;
             } : else {
                : gosub "add_point" ;
                : set_true "point_help_lots" ;
+               : set_false "think_help_lots" ;
             }
             : done ;
          }
@@ -272,6 +278,24 @@ on_command {
       : if (!bonus_note) {
          : print "NOTE: {gsgr} contains no hidden bonus points." ;
          : set_true "bonus_note" ;
+      }
+   }
+   : match "think _" {
+      : if (!thought_any) {
+         : print "You haven't thought of any point-scoring commands to try later." ;
+         : done ;
+      }
+      : if (think_curse_treats) {
+         : set_boolean var="once_now_boolean" {( point_note_rubble )} ;
+         : print "You can <CURSE TREATS<#f80>> {once_now} you have someone cursed to help you." ;
+      }
+      : if (think_help_lots) {
+         : set_boolean var="once_now_boolean" {( point_curse_treats )} ;
+         : print "You can <HELP LOTS<#f80>> {once_now} you have gotten rid of the distraction." ;
+      }
+      : if (think_repel_edgy) {
+         : set_boolean var="once_now_boolean" {( point_help_lots )} ;
+         : print "You can get rid of the ghost for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
       }
    }
    : match "oaf aid" {
