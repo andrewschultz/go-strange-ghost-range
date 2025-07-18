@@ -30,8 +30,8 @@ booleans {
    think_help_lots : boolean "false" ;
 
    # option boolean(s)
-   oaf_aid : boolean "true" ;
-   oaf_aid_extra : boolean "true" ;
+   oaf_aid : boolean "false" ;
+   oaf_aid_extra : boolean "false" ;
 
    # game state boolean(s)
    bonus_note : boolean "false" ;
@@ -54,7 +54,6 @@ integers {
 strings {
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
    my_score : string "{score}/{max_score}" ;
-   oaf_says : string "---" ;
    c_oaf_aid : string "<OAF AID<#f0f>>" ;
 
    vm_about : string "<ABOUT<#f80>>" ;
@@ -69,6 +68,30 @@ strings {
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
+
+   # oaf strings
+   oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
+   oaf_gsgr : dynamic_string {( !point_duh_lies ? ( oaf_aid_extra ? "<3/4<#0f0>>" : "3/4" ) :
+      !oaf_aid_extra ? "5/4" :
+      point_help_lots ? "<5/4<#0f0>>" : "<5/4<#ff0>>" )} ;
+   oaf_rue_fear : dynamic_string {( point_roof_ere ? "DONE" :
+      oaf_aid_extra ? "<4/3<#0f0>>" : "4/3" )} ;
+   oaf_no_trouble : dynamic_string {( point_note_rubble ? "DONE" :
+      oaf_aid_extra ? "<4/6<#0f0>>" : "4/6" )} ;
+   oaf_cur_streets : dynamic_string {( point_curse_treats ? "DONE" :
+      !oaf_aid_extra ? "5/6" :
+      point_note_rubble ? "<5/6<#0f0>>" :
+      "<5/6<#ff0>>" )} ;
+   oaf_hell_plots : dynamic_string {( point_help_lots ? "DONE" :
+      !oaf_aid_extra ? "4/4" :
+      point_curse_treats ? "<4/4<#0f0>>" :
+      "<4/4<#ff0>>" )} ;
+   oaf_says : dynamic_string {( is_at "go_strange_ghost_range" ? oaf_gsgr :
+      is_at "rue_fear" ? oaf_rue_fear :
+      is_at "no_trouble" ? oaf_no_trouble :
+      is_at "cur_streets" ? oaf_cur_streets :
+      is_at "hell_plots" ? oaf_hell_plots :
+      "BUG" )} ;
 
    custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
    exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
@@ -370,11 +393,11 @@ on_command {
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print "{c_oaf_aid} is now on." ;
+         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}." )} ;
          : set_true "oaf_aid" ;
       } : else {
-         : print {( "Extended {c_oaf_aid} is now " + (oaf_aid_extra ? "off" : "on") + "." )} ;
-         : set_boolean var="oaf_aid" {(!oaf_aid)} ;
+         : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
+         : print "{c_oaf_aid} is now switched to {oaf_aid_status}." ;
 	  }
    }
    : match "oh fade" {
