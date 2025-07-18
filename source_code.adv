@@ -54,16 +54,118 @@ vocabulary {
 
 locations {
    go_strange_ghost_range : location {
+      on_command {
+         : match "duh lies" {
+            : if (point_duh_lies) {
+               : print "Already done that." ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_duh_lies" ;
+            }
+            : done ;
+         }
+         : match "duh _;_ lies" {
+            : set_boolean var="done_already" {(point_duh_lies)} ;
+            : gosub "reject_half" ;
+         }
+         : match "repel edgy" {
+            : if (point_repel_edgy) {
+               : print "Already done that." ;
+            } : else_if (1 == 0) {
+               : print "Still need to do something." ;
+               : set_true "think_repel_edgy" ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_repel_edgy" ;
+               : win_game ;
+            }
+            : done ;
+         }
+         : match "repel _;_ edgy" {
+            : set_boolean var="done_already" {(point_repel_edgy)} ;
+            : set_boolean var="think_already" {(think_repel_edgy)} ;
+            : gosub "reject_half" ;
+         }
+      }
    }
    rue_fear : location {
-   }
-   cur_streets : location {
-   }
-   hell_plots : location {
+      on_command {
+         : match "roof ere" {
+            : if (point_roof_ere) {
+               : print "Already done that." ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_roof_ere" ;
+            }
+            : done ;
+         }
+         : match "roof _;_ ere" {
+            : set_boolean var="done_already" {(point_roof_ere)} ;
+            : gosub "reject_half" ;
+         }
+      }
    }
    no_trouble : location {
+      on_command {
+         : match "note rubble" {
+            : if (point_note_rubble) {
+               : print "Already done that." ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_note_rubble" ;
+            }
+            : done ;
+         }
+         : match "note _;_ rubble" {
+            : set_boolean var="done_already" {(point_note_rubble)} ;
+            : gosub "reject_half" ;
+         }
+      }
+   }
+   cur_streets : location {
+      on_command {
+         : match "curse treats" {
+            : if (point_curse_treats) {
+               : print "Already done that." ;
+            } : else_if (1 == 0) {
+               : print "Still need to do something." ;
+               : set_true "think_curse_treats" ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_curse_treats" ;
+            }
+            : done ;
+         }
+         : match "curse _;_ treats" {
+            : set_boolean var="done_already" {(point_curse_treats)} ;
+            : set_boolean var="think_already" {(think_curse_treats)} ;
+            : gosub "reject_half" ;
+         }
+      }
+   }
+   hell_plots : location {
+      on_command {
+         : match "help lots" {
+            : if (point_help_lots) {
+               : print "Already done that." ;
+            } : else_if (1 == 0) {
+               : print "Still need to do something." ;
+               : set_true "think_help_lots" ;
+            } : else {
+               : print "You do the thing and get a point." ;
+               : set_true "point_help_lots" ;
+            }
+            : done ;
+         }
+         : match "help _;_ lots" {
+            : set_boolean var="done_already" {(point_help_lots)} ;
+            : set_boolean var="think_already" {(think_help_lots)} ;
+            : gosub "reject_half" ;
+         }
+      }
    }
 }
+
 connections {
    go_strange_ghost_range, south, rue_fear
    rue_fear, south, no_trouble
