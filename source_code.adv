@@ -53,8 +53,15 @@ integers {
 strings {
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
    my_score : string "{score}/{max_score}" ;
-   oaf_says : string "" ;
+   oaf_says : string "---" ;
 
+   vm_about : string "<ABOUT<#f80>>" ;
+   vm_credits : string "<CREDITS<#f80>>" ;
+   vm_opt : string "<OPTIONS<#f80>>" ;
+   vm_verbs : string "<VERBS<#f80>>" ;
+   vm_versions : string "<VERSIONS<#f80>>" ;
+
+   # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 
@@ -305,6 +312,24 @@ on_command {
          : print "NOTE: {gsgr} contains no hidden bonus points." ;
          : set_true "bonus_note" ;
       }
+   }
+   : match "sw _;se _;ne _;nw _" {
+      : print "Diagonal directions aren't used in {gsgr}." ;
+   }
+   : match "u _;d _" {
+      : print "Vertical directions aren't used in {gsgr}." ;
+   }
+   : match "about _" {
+      : done ;
+   }
+   : match "credits _; credit _" {
+      : done ;
+   }
+   : match "verbs _;verb _" {
+      : done ;
+   }
+   : match "versions _;version _" {
+      : done ;
    }
    : match "think _" {
       : if (!thought_any) {
