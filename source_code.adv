@@ -109,6 +109,14 @@ on_pre_command {
 }
 
 on_command {
+   : match "oaf aid" {
+      : print "OAF AID is now on." ;
+      : set_true "oaf_aid" ;
+   }
+   : match "oh fade" {
+      : print "OAF AID is now on." ;
+      : set_true "oaf_aid" ;
+   }
 }
 
 assets {
