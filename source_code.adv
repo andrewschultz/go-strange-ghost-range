@@ -167,13 +167,55 @@ locations {
 }
 
 connections {
-   go_strange_ghost_range, south, rue_fear
-   rue_fear, south, no_trouble
-   rue_fear, west, cur_streets
-   rue_fear, east, hell_plots
+   from, direction, to = [
+      go_strange_ghost_range, south, rue_fear,
+      rue_fear, south, no_trouble,
+      rue_fear, west, cur_streets,
+      rue_fear, east, hell_plots
+   ]
 }
 
 barriers {
+   block_ghost_south_0 : block {
+      location = rue_fear
+      block_when_not = point_duh_lies
+      message = You must face the dull eyes!
+   }
+   block_ghost_south_end : block {
+      location = rue_fear
+      block_when = db_at_the_end
+      message = Your destiny is here!
+   }
+   block_rue_fear_w : block {
+      location = cur_streets
+      block_when_not = point_roof_ere
+      message = {rue_fear_block}
+   }
+   block_rue_fear_e : block {
+      location = hell_plots
+      block_when_not = point_roof_ere
+      message = {rue_fear_block}
+   }
+   block_rue_fear_s : block {
+      location = no_trouble
+      block_when_not = point_roof_ere
+      message = {rue_fear_block}
+   }
+   done_rue_fear_w : block {
+      location = cur_streets
+      block_when = point_curse_treats
+      message = You already took care of Cur Streets. No need to go back.
+   }
+   done_rue_fear_e : block {
+      location = hell_plots
+      block_when = point_help_lots
+      message = You already took care of Hell Plots. No need to go back.
+   }
+   done_rue_fear_s : block {
+      location = no_trouble
+      block_when = point_note_rubble
+      message = You already took care of No Trouble. No need to go back.
+   }
 }
 
 subroutines {
