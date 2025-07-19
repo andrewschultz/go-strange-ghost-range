@@ -35,6 +35,7 @@ booleans {
 
    # game state boolean(s)
    bonus_note : boolean "false" ;
+   have_won : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
    done_already : boolean "false" ;
@@ -129,10 +130,22 @@ locations {
                : print "You don't have enough support yet." ;
                : set_true "think_repel_edgy" ;
             } : else {
+               : print "With support, you're ready. Everybody brings a little edginess and a little perspective on how to curb the ghost's edginess. It's a tense fight, but numbers win out. The ghost flees." ;
                : gosub "add_point" ;
+               : press_any_key ;
+               : print "You reflect on your journey. The oaf and dude feel more useful. The folk feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
+               : press_any_key ;
+               : print "Aha! That's it!" ;
+               : press_any_key ;
+               : print "It was supposed to be a park, so you decide on Jog-'Round/Jaw Ground. Where people can socialize or enjoy nature. You ch3eck to make sure you haven't broken a grammatical rule too badly. But everyone nods and agrees." ;
+               : press_any_key ;
+               : print "You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
+               : press_any_key ;
+               : print "^c^<YOU SAW USE, AWW<#ff0>>\n^l^" ;
                : set_true "point_repel_edgy" ;
                : set_false "think_repel_edgy" ;
                : win_game ;
+               : set_true "have_won" ;
             }
             : done ;
          }
@@ -323,6 +336,28 @@ on_render {
 }
 
 on_startup {
+   : print "{gsgr}, by Andrew Schultz" ;
+   : print "A go-stop-ghost op" ;
+   : print "Submitted to the 2025 EctoComp Petite Mort" ;
+   : press_any_key ;
+   : if (have_won) {
+      : print "There's nothing new to be found on replay, if you're wondering. But thanks for checking." ;
+      : press_any_key ;
+   }
+   : print "You're too old for Halloween scariness and silliness, of course. But you still fear ten-cent library fines when books are a day overdue." ;
+   : press_any_key ;
+   : print "You had a couple due today. The library's closed now, but if you return the books in the drop before it opens tomorrow, you won't get fined." ;
+   : press_any_key ;
+   : print "You're not sure why you picked these two books, but you got ironic enjoyment from them: <Cruel-Itches-Crew Liches<#ff0>> and <Wight-Ail-Why Tale<#ff0>>." ;
+   : press_any_key ;
+   : print "You take a shortcut back through a mini-forest preserve in a city park. It's maybe four blocks square. But it's taking too long to get out. What is going on?" ;
+   : press_any_key ;
+   : print "Ah, there, things are opening up. But you don't recognize where you are, and there's a strange ghost. You can't face it alone!" ;
+   : press_any_key ;
+   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"But I can help you if you need it. We need someone to perform a... a...\"" ;
+   : print "There's an awkward pause, then ..." ;
+   : print "\"Go-stop-ghost op!\"" ;
+   : press_any_key ;
 }
 
 on_tick {
