@@ -84,7 +84,7 @@ strings {
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 
    # room strings
-   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are gone, but the ghost remains here in {gsgr}." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
+   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are gone, but the ghost remains here in {gsgr}, decidedly un-silent." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear NO TROUBLE ... NO TROUBLE. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
@@ -129,10 +129,19 @@ vocabulary {
 locations {
    go_strange_ghost_range : location "{gsgr_desc}" header="{gsgr}" graphic="r_go_strange_ghost_range" {
       on_command {
+         : match "_ eyes" {
+            : if (point_duh_lies) {
+               : print "The eyes are no longer here." ;
+            } : else {
+               : print "The eyes simply stare at you, freezing you and making you feel like a much worse person than you thought you were being. And if you don't agree, why, maybe you're not trying hard enough to be objective." ;
+            }
+         }
          : match "duh lies" {
             : if (point_duh_lies) {
-               : print "Already done that." ;
+               : print "The eyes are no longer here." ;
             } : else {
+               : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
+               : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south." ;
                : gosub "add_point" ;
                : set_true "point_duh_lies" ;
                : update_graphic ;
@@ -145,10 +154,17 @@ locations {
          }
          : match "repel edgy" {
             : if (point_repel_edgy) {
-               : print "Already done that." ;
+               : print "You should have won the game already, and you shouldn't see this." ;
             } : else_if (!point_help_lots) {
-               : print "You don't have enough support yet." ;
+               : if (!point_duh_lies) {
+                  : print "No way you're dealing with the reap elegy before the dull eyes." ;
+               } :else_if (!point_note_rubble) {
+                  : print "Oh, hey, that seems like a good idea, a great idea even, but there's no way you're going to be able to repel the ghost on your own." ;
+               } : else {
+                  : print "While the dude's companionship gives you some confidence, they look quite intimidated by the ghost. So that won't quite work out." ;
+               }
                : set_true "think_repel_edgy" ;
+               : done ;
             } : else {
                : print "You wouldn't think the {wlwc} could help, objectively, since all of them are smaller than you. But boy does the variety and amount of their complaints disrupt the elegy in a way that your more measured responses, or the dude's strength, never could." ;
                : print "The ghost has trouble trying to pick off each single complaint, and it eventually gets frustrated realizing how impossible it is, whirling into a ball of energy and floating away." ;
@@ -162,7 +178,7 @@ locations {
                : press_any_key ;
                : print "Aha! That's it!" ;
                : press_any_key ;
-               : print "It was supposed to be a park, so you decide on Jog-'Round/Jaw Ground. Where people can socialize or enjoy nature. You ch3eck to make sure you haven't broken a grammatical rule too badly. But everyone nods and agrees." ;
+               : print "It was supposed to be a park, so you decide on Jog-'Round/Jaw Ground. Where people can socialize or enjoy nature. You check to make sure you haven't broken a grammatical rule too badly. But everyone nods and agrees." ;
                : press_any_key ;
                : print "You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
                : press_any_key ;
@@ -184,10 +200,18 @@ locations {
    }
    rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
       on_command {
+         : if (!point_roof_ere) {
+            : match "roof ear" {
+               : print "You listen to the roofs. You hope they can't hear your heart pounding. You sense you're close, but ... maybe something more informal." ;
+               : done ;
+            }
+         }
          : match "roof ere" {
             : if (point_roof_ere) {
-               : print "Already done that." ;
+               : print "You found enough passages from here the first time you climbed." ;
             } : else {
+               : print "You half-jokingly request a roof to come down to you. Then you think, hmm, here is how to climb one of them." ;
+               : print "While the houses seem to be watching you, you realize they don't have arms or feet or anything like that, so while there still might be a bad looking around a corner, the house is themselves can't stop you. You climb on to one of them, and you see passages to the west, south, and east. When you get back down, they seem to have given up on trying to intimidate you, sort of knowing that jig is up. They're resting for the next poor soul to come this way, maybe. " ;
                : gosub "add_point" ;
                : set_true "point_roof_ere" ;
                : update_graphic ;
@@ -204,7 +228,7 @@ locations {
       on_command {
          : match "note rubble" {
             : if (point_note_rubble) {
-               : print "Already done that." ;
+               : print "You found a companion in the rubble. That's good enough." ;
             } : else {
                : set_true "point_note_rubble" ;
                : gosub "add_point" ;
@@ -221,11 +245,14 @@ locations {
       on_command {
          : match "curse treats" {
             : if (point_curse_treats) {
-               : print "Already done that." ;
+               : print "The treats were already cursed with lethargy. You don't need to maintain or increase the curse." ;
             } : else_if (!point_note_rubble) {
                : print "You're too benign to provide a curse." ;
                : set_true "think_curse_treats" ;
             } : else {
+               : print "Cursing the treats seems the way to go, but it might be inhumane, or whatever passes for inhumane in the afterlife, to actually kill the dogs, or whatever passes for killing in the afterlife." ;
+               : print "Fortunately, the dude has an idea. He explains that many people told him that his curse of laziness was something that could spread to other people as well. He sort of remembered how it happened, and he thinks he can pull it off again, with some luck. It's worth a try." ;
+               : print "And what do you know? The first dogs who wolf down the treats look a little groggy then fall over you can see them breathing, so they're not dead, but they're not going to stop you from anything you might need to do soon." ;
                : gosub "add_point" ;
                : set_true "point_curse_treats" ;
                : set_false "think_curse_treats" ;
@@ -243,7 +270,7 @@ locations {
       on_command {
          : match "help lots" {
             : if (point_help_lots) {
-               : print "Already done that." ;
+               : print "You've already helped the {wlwc} enough. They're following you, after all." ;
             } : else_if (!point_curse_treats) {
                : print "Canine howls from the west leave you too fearful." ;
                : set_true "think_help_lots" ;
