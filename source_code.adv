@@ -38,6 +38,7 @@ booleans {
    have_won : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
+   show_overlay : boolean "true" ;
    done_already : boolean "false" ;
    think_already : boolean "false" ;
    once_now_boolean : boolean "false" ;
@@ -141,9 +142,10 @@ locations {
                : press_any_key ;
                : print "You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
                : press_any_key ;
+               : set_false "show_overlay" ;
+               : update_graphic "s_you_saw_use_aww" ;
+               : set_true "show_overlay" ;
                : print "^c^<YOU SAW USE, AWW<#ff0>>\n^l^" ;
-               : set_true "point_repel_edgy" ;
-               : set_false "think_repel_edgy" ;
                : win_game ;
                : set_true "have_won" ;
             }
@@ -333,6 +335,9 @@ themes {
 }
 
 on_render {
+   : if (!show_overlay) {
+      : done ;
+   }
 }
 
 on_startup {
@@ -442,4 +447,9 @@ on_command {
 }
 
 assets {
+   graphics {
+
+      # endgame
+      s_you_saw_use_aww : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAAAD//wCwbzSHAAAA10lEQVR4Xu3VMWoEMQyF4beCwKA+vUujUyw5QYrkPorLOYWZyrxTxg5M+rwJgcD+vT+wETLeL/ZPgAdwB3ATgVesNOANZ0HyQwScs4ytdOEKTnLUSFeBrQYmAN9dBSpqDafLwCoQEAHHWEA6HJCA9gXQ3dNkAIEJHLsIIECEk9QAgmfqIP0OMErbiggMY/dtAeIk5jWgoJGtXQCYdg2wNKYBCfUNGhdgHeI+6Gltto9DAlCQZtk5G88/B16y4mAjZeB7jDETgYGVCNzPs08nKQC3P/lcH8AnwStDf3dGzvgAAAAASUVORK5CYII=" ;
+   }
 }
