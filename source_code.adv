@@ -74,6 +74,12 @@ strings {
    right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 
+   # room strings
+   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are gone, but the ghost remains here in {gsgr}." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
+   rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
+   nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear NO TROUBLE ... NO TROUBLE. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
+   cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
+
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
    oaf_gsgr : dynamic_string {( !point_duh_lies ? ( oaf_aid_extra ? "<3/4<#0f0>>" : "3/4" ) :
@@ -112,7 +118,7 @@ vocabulary {
 }
 
 locations {
-   go_strange_ghost_range : location header="{gsgr}" {
+   go_strange_ghost_range : location "{gsgr_desc}" header="{gsgr}" graphic="r_go_strange_ghost_range" {
       on_command {
          : match "duh lies" {
             : if (point_duh_lies) {
@@ -120,6 +126,7 @@ locations {
             } : else {
                : gosub "add_point" ;
                : set_true "point_duh_lies" ;
+               : update_graphic ;
             }
             : done ;
          }
@@ -135,7 +142,10 @@ locations {
                : set_true "think_repel_edgy" ;
             } : else {
                : print "With support, you're ready. Everybody brings a little edginess and a little perspective on how to curb the ghost's edginess. It's a tense fight, but numbers win out. The ghost flees." ;
+               : set_true "point_repel_edgy" ;
+               : set_false "think_repel_edgy" ;
                : gosub "add_point" ;
+               : update_graphic ;
                : press_any_key ;
                : print "You reflect on your journey. The oaf and dude feel more useful. The folk feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
                : press_any_key ;
@@ -161,7 +171,7 @@ locations {
          }
       }
    }
-   rue_fear : location header="<Rue Fear<#f00>>" {
+   rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
       on_command {
          : match "roof ere" {
             : if (point_roof_ere) {
@@ -169,6 +179,7 @@ locations {
             } : else {
                : gosub "add_point" ;
                : set_true "point_roof_ere" ;
+               : update_graphic ;
             }
             : done ;
          }
@@ -178,14 +189,14 @@ locations {
          }
       }
    }
-   no_trouble : location header="<No Trouble<#888>>" {
+   no_trouble : location "{nt_desc}" header="<No Trouble<#888>>" {
       on_command {
          : match "note rubble" {
             : if (point_note_rubble) {
                : print "Already done that." ;
             } : else {
-               : gosub "add_point" ;
                : set_true "point_note_rubble" ;
+               : gosub "add_point" ;
             }
             : done ;
          }
@@ -195,7 +206,7 @@ locations {
          }
       }
    }
-   cur_streets : location header="<Cur Streets<#f00>>" {
+   cur_streets : location "{cs_desc}" header="<Cur Streets<#f00>>" graphic="r_cur_streets" {
       on_command {
          : match "curse treats" {
             : if (point_curse_treats) {
@@ -217,7 +228,7 @@ locations {
          }
       }
    }
-   hell_plots : location header="<Hell Plots<#f00>>" {
+   hell_plots : location "{hp_desc}" header="<Hell Plots<#f00>>" graphic="r_hell_plots" {
       on_command {
          : match "help lots" {
             : if (point_help_lots) {
@@ -333,6 +344,7 @@ subroutines {
    add_point : subroutine {
       : print "<Your score has just gone up by a point!<#ff0>>" ;
 	  : increment "score" ;
+	  : update_graphic ;
    }
 }
 
@@ -366,6 +378,26 @@ themes {
 on_render {
    : if (!show_overlay) {
       : done ;
+   }
+   : if (is_at "go_strange_ghost_range") {
+      : if (score == 0) {
+         : overlay "o_exclam_red" x="0" y="0" ;
+         : overlay "o_dull_eyes" x="58" y="2" ;
+         : overlay "o_dull_eyes" x="22" y="10" ;
+         : overlay "o_dull_eyes" x="122" y="1" ;
+         : overlay "o_dull_eyes" x="223" y="11" ;
+         : overlay "o_dull_eyes" x="157" y="13" ;
+      } : else_if (score == 1) {
+         : overlay "o_exclam_orange" x="0" y="0" ;
+      } : else_if (score == 2) {
+         : overlay "o_exclam_yellow" x="0" y="0" ;
+      } : else_if (score == 3) {
+         : overlay "o_exclam_green" x="0" y="0" ;
+      } : else_if (score == 4) {
+         : overlay "o_exclam_blue" x="0" y="0" ;
+      } : else_if (score == 5) {
+         : overlay "o_exclam_purple" x="0" y="0" ;
+      }
    }
 }
 
@@ -481,6 +513,29 @@ on_command {
 
 assets {
    graphics {
+   # overlays
+      o_dull_eyes : base64_png "iVBORw0KGgoAAAANSUhEUgAAAA4AAAAGAgMAAACOdUcvAAAACVBMVEX///9gYGDAwMAVgKX3AAAAAXRSTlMAQObYZgAAABxJREFUCB1j0GrQamBYtWDVAoalC5ZCCTAXJAEAwOwM5cUDKHwAAAAASUVORK5CYII=" ;
+      o_exclam_red : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA6ElEQVR4nO3bQQrDMAxFwaj0/ld2V11k15iCJf7MCURsHvIitda6gEyv0wMA5wgABBOAqarWVXX+/dZlDrYIAAQTAAgmAE9ZeXtyLlsEAIIJAAR7nx7gZ9/1bq06PEkPXb5Dlzm6GHZPbQBTdXnzdpmDLQIAweY8AbrostqZ467LHMPYAJ6y8vbkXLYIAAQrvwNDrjkbgBWPCYbd0zkBAP7OEwCC2QAgmABAMAGAYAIAwQQAggkABBMACCYAEEwAIJgAQDABgGACAMEEAIIJAAQTAAgmABBMACCYAEAwAYBgAgDBBACCfQDa7S9XC/xzSwAAAABJRU5ErkJggg==" ;
+      o_exclam_orange : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA6klEQVR4nO3bQQrDMAxFwbj03iEnd1dddJeYgiX+zAlEbB7yImPOeQCZXrsHAPYRAAgmAF1dYx7X2P9+qzIHSwQAggkABBOAp6y8NTmXJQIAwQQAgr13D3Dbd70759g8SQ1VvkOVOapodk9tAF1VefNWmYMlAgDB+jwBqqiy2pnjV5U5mrEBPGXlrcm5LBEACDb8Dgy5+mwAVjw6aHZP+wQA+DtPAAhmA4BgAgDBBACCCQAEEwAIJgAQTAAgmABAMAGAYAIAwQQAggkABBMACCYAEEwAIJgAQDABgGACAMEEAIIJAAQTAAj2AegGNleAkCC0AAAAAElFTkSuQmCC" ;
+      o_exclam_yellow : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA5klEQVR4nO3bMYrDMBBA0Tjs/a+sFCHFdhuzoBH/PXA/WOYzKnyttR5A03P3AMA+AgBhAnCsa72f3abMwR0CAGECAGEC8DUr70zO5Q4BgDABgLCf3QP83We9W9feOaaY8h6mzDHFWd+pDeBYU+68U+bgDgGAsIOuAFNMWe3M8duUOc5iA/ialXcm53KHAEDY5Xdg6DpoA7DicYKzvtODAgD8N1cACLMBQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQJgAQNgLCm4nSWDeFFgAAAAASUVORK5CYII=" ;
+      o_exclam_green : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA6UlEQVR4nO3bMQ4CMQxFwRhx/yuHioIOIqTY+jMnsDbRk1Ns7b0XkOlxewDgHgGAYAIwVK3ater6+63LHJwRAAgmABBMAH5k5e3JuZwRAAgmABDseXuAb73Xu7123Z6lgy7focscXUy7pzaAobq8ebvMwRkBgGBjngBddFntzPGpyxzT2AB+ZOXtybmcEQAIVn4HhlxjNgArHhNMu6djAgD8nycABLMBQDABgGACAMEEAIIJAAQTAAgmABBMACCYAEAwAYBgAgDBBACCCQAEEwAIJgAQTAAgmABAMAGAYAIAwQQAggkABHsB4vsvVw8c1S0AAAAASUVORK5CYII=" ;
+      o_exclam_blue : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA6UlEQVR4nO3bMQ4CMQxFwRhx/yuHioIOIqTY+jMnsDbRk1Ns7b0XkOlxewDgHgGAYAIwVNXaVev6+63LHJwRAAgmABBMAH5k5e3JuZwRAAgmABDseXuAb73Xu71X3Z6lgy7focscXUy7pzaAobq8ebvMwRkBgGBjngBddFntzPGpyxzT2AB+ZOXtybmcEQAIVn4HhlxjNgArHhNMu6djAgD8nycABLMBQDABgGACAMEEAIIJAAQTAAgmABBMACCYAEAwAYBgAgDBBACCCQAEEwAIJgAQTAAgmABAMAGAYAIAwQQAggkABHsB6wkvV8/hDe4AAAAASUVORK5CYII=" ;
+      o_exclam_purple : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAYAAAAR+iSJAAAA6ElEQVR4nO3bMQrEMAxFQXvZ+1/ZqbZItzEBS/yZE4jYPOQic601gEyf0wMA5wgABBOAruZYY47z77cqc7BFACCYAEAwAXjKyluTc9kiABBMACDY9/QAf/utd2vMw5PUUOU7VJmjimb31AbQVZU3b5U52CIAEKzPE6CKKqudOe6qzNGMDeApK29NzmWLAECw6XdgyNVnA7Di0UGze9onAMDrPAEgmA0AggkABBMACCYAEEwAIJgAQDABgGACAMEEAIIJAAQTAAgmABBMACCYAEAwAYBgAgDBBACCCQAEEwAIJgAQTAAg2AUSfCdJdj47ugAAAABJRU5ErkJggg==" ;
+
+   # rooms
+      r_go_strange_ghost_range : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAMAAAAmJNS7AAADAFBMVEUAAACAAAAAgACAgAAAAICAAIAAgIDAwMDA3MCmyvBAIABgIACAIACgIADAIADgIAAAQAAgQABAQABgQACAQACgQADAQADgQAAAYAAgYABAYABgYACAYACgYADAYADgYAAAgAAggABAgABggACAgACggADAgADggAAAoAAgoABAoABgoACAoACgoADAoADgoAAAwAAgwABAwABgwACAwACgwADAwADgwAAA4AAg4ABA4ABg4ACA4ACg4ADA4ADg4AAAAEAgAEBAAEBgAECAAECgAEDAAEDgAEAAIEAgIEBAIEBgIECAIECgIEDAIEDgIEAAQEAgQEBAQEBgQECAQECgQEDAQEDgQEAAYEAgYEBAYEBgYECAYECgYEDAYEDgYEAAgEAggEBAgEBggECAgECggEDAgEDggEAAoEAgoEBAoEBgoECAoECgoEDAoEDgoEAAwEAgwEBAwEBgwECAwECgwEDAwEDgwEAA4EAg4EBA4EBg4ECA4ECg4EDA4EDg4EAAAIAgAIBAAIBgAICAAICgAIDAAIDgAIAAIIAgIIBAIIBgIICAIICgIIDAIIDgIIAAQIAgQIBAQIBgQICAQICgQIDAQIDgQIAAYIAgYIBAYIBgYICAYICgYIDAYIDgYIAAgIAggIBAgIBggICAgICggIDAgIDggIAAoIAgoIBAoIBgoICAoICgoIDAoIDgoIAAwIAgwIBAwIBgwICAwICgwIDAwIDgwIAA4IAg4IBA4IBg4ICA4ICg4IDA4IDg4IAAAMAgAMBAAMBgAMCAAMCgAMDAAMDgAMAAIMAgIMBAIMBgIMCAIMCgIMDAIMDgIMAAQMAgQMBAQMBgQMCAQMCgQMDAQMDgQMAAYMAgYMBAYMBgYMCAYMCgYMDAYMDgYMAAgMAggMBAgMBggMCAgMCggMDAgMDggMAAoMAgoMBAoMBgoMCAoMCgoMDAoMDgoMAAwMAgwMBAwMBgwMCAwMCgwMD/+/CgoKSAgID/AAAA/wD//wAAAP//AP8A//////9Y0jREAAABFUlEQVRo3u1VWw7DIAyLfIbe/6DwM2mbKkpCQlW1IGp/QpyHMSBCEATxQ375PkEz8Mx55gSdQBAEwT+Af8Ais+Ll/yGAl99o3EvA5OMBRwugzzI5YOTAYI/dfVUfig/jQuR+TasKmNwBWpBuB2SbsDOylb+IHvLg6/poSZTN6UJNQwHncoA+PlRLkJOPxoFh5x/7x9WedCWiAxr9ph1/QipWUrWbvOhnYdTXzSDuV1oEzYCTfowGriBAvWT22+uAVn46YB0HaIInoBE9wgDNJ+uLbdvCfiWwjCfgTA4wBywEuOoAtbmmA0rFYgdU+j6OQ/2OA7H7FSckEHAqATr6uSSAxV9QAJcxet7TgvRBbs4/PSS9HB8ANqlcTudETAAAAABJRU5ErkJggg==" ;
+
+      rue_fear : dynamic_graphic {( point_roof_ere ? "r_rue_fear_after" : "r_rue_fear_before" )} ;
+      r_rue_fear_after : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoBAMAAADj1Dm6AAAAIVBMVEUAAAAAgAAAgP+AAACAAP+AgIDAwMD/AAD/gED//wD///9FavbFAAACM0lEQVR4XuzVMY6DMBiE0QWhDXThBhEnScFBtqKmc0tJmZbb7kg2+n4zUto0mYJiGo8elvxT5Zvb6l2/eTe8vGvu3rUP77onhSUl7/bdu+Pwbhy9mybv5vkNQEpG0O+7EQzHYQTNOBpBO01G0M0zBA7gBLviAE4wKg7gBLPyBgACACAAAAIAIAAAAgACgQMoBqAYgGIAigEoBgCBA0AAAAQAQAAABABAAAAEDuAEe4kBKAagGIBiABAYAAQAQAAABABAAAAEAEDgACUGoBiAYgCKASgGoLwBgAAACACAAAAIAIAAAAhICgGAAEAAIAAQAIgBxKIQ9LErBEPsCkETu0LQxq4QdLG7EqxRoKzZokBZ84oCZc09CpQ1jyhQ1jyjQHcFSCGZoK9/wZYB4oBM0NS/4J4B4oBM0NW/oCZY6wG3jF4N6DN6NWDI6NWAJqNXA9qMXg3IBCSt53N84xJu53Pccwlf53M8cAnv53PccAkf53Pccgmf53Pc6WMDluUvpd9liQPU7bu6OEDdcaiLA9SNo7o4QN00qYsD1M2zOgZ8VOAr8BX4/FvgA1YBXAeIob8OEMMQB4iguQ4QQXsdIILuzQAdbwI63gR0vAvI3wTkbwJ5ggtwPAIcjwDHRwEmIMAEBM4JQeC/HTK2ARgIgdhQ7tgjE7JoJCvXJPSfAhpLbs7ies5lEHEug4hzGUSc8yDinAcR5zyIuFfABvQQ0ENAfwNqCKghoH76gQ04hfMBG3ADaoOAuy6cRhEAAAAASUVORK5CYII=" ;
+      r_rue_fear_before : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoBAMAAADj1Dm6AAAAIVBMVEUAAAAAgAAAgP+AAACAAP+AgIDAwMD/AAD/gED//wD///9FavbFAAACVUlEQVR4XuzVIY7zMBiE4T9RtE1Yc4MqJ1nggyxaXGZaGLg0t/2nsqP3c0Yp7YIdEDDEo8eR/K/JXy5378aHd9OPd93Vu/7m3fBJYcnZu3X1btu8m2fvlsW7lF4A5GwE47oawbRtRtDNsxH0y2IEQ0rnBFkxAMUBnGBWHMAJkvICAAIAIAAAAgAgAAACAAKBAygGoBiAYgCKASgGoJwCQAAABABAAAAEAEAAwDlBrjEAxQAUA1AMQDEA5QwAAgAgAAACACAAAAIAIHCAGgNQDEAxAMUAFANQTgAgAAACACAAAAIAIADgjCCHAEAAIAAQAAgAxABiUQnG2FWCKXaVoItdJehjVwmG2B0J7lGgrnlEgbGeGQXqmmsUqGtuUaCvZ0aB4QiQQwrB2F7BowDEAYWga66gEPTtFdwKQAo5ENzbAZeC3gwYC3ozYCrozYCuoDcD+oLeDCgEJN/35/jCT/jYn+ORn/Bnf44nfsLr/hx3/IS3/Tnu+Qk/9+d40McGfH985fzx9R0HqFtXdXGAum1TFweom2d1cYC6ZVEXB6hLSd3vHPD+K9BHAs0AdU+BZoC6p0A7QALSbwTUPQc0AupSUvf+Ae+/gt/1FjBADJfjADGMxwFimOIAEXTHASLojwNEMLwYoONNQMebgI53AfmbgPxNoExwAY5HgOMR4PgowAQEmIDAPiEI/G+HjG0ABkIgNpQ79siELBrJyjUJ/aeAxpKbs7iecxlEnMsg4lwGEec8iDjnQcQ5DyLuFbABPQT0ENDfgBoCagion35gA07hfMAG3LXXeY9rPBfQAAAAAElFTkSuQmCC" ;
+
+      no_trouble : dynamic_graphic {( point_note_rubble ? "r_no_trouble_after" : "r_no_trouble_before" )} ;
+      r_no_trouble_after : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAQAD//wDonGzOAAAAp0lEQVR4XmIYHICDbHoYAIRPGsimqQFGARMFNAI0UEAPqCeGF2iggB5woIBBs4Yi+PhonEA0xIGBEsDIGhDAQAlgdRAMIUE5oNQ5tgEYCIEgCJLJHZh+/gPyQzr6b8UF2MELtoDR1idPZR33AzxKmQBcwOgAxRwBWXKLTQ7E1dYA2PQIDgBD2R4BSU/0AeqCingbAC6FWx/Y9AC9DwRrJ8smQCYrToEX7j8ur5QhD0kAAAAASUVORK5CYII=" ;
+      r_no_trouble_before : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAQAD//wDonGzOAAAAPElEQVR4XmMYHICDbHoYAIRPGsimqQFGARMFNAI0kEsPtCeGF2ggnx54oEA2PWxAKIWASgaMGjBqwKgBAFZsNzDVyPAUAAAAAElFTkSuQmCC" ;
+
+      r_cur_streets : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAMAAAAmJNS7AAADAFBMVEUAAACAAAAAgACAgAAAAICAAIAAgIDAwMDA3MCmyvBAIABgIACAIACgIADAIADgIAAAQAAgQABAQABgQACAQACgQADAQADgQAAAYAAgYABAYABgYACAYACgYADAYADgYAAAgAAggABAgABggACAgACggADAgADggAAAoAAgoABAoABgoACAoACgoADAoADgoAAAwAAgwABAwABgwACAwACgwADAwADgwAAA4AAg4ABA4ABg4ACA4ACg4ADA4ADg4AAAAEAgAEBAAEBgAECAAECgAEDAAEDgAEAAIEAgIEBAIEBgIECAIECgIEDAIEDgIEAAQEAgQEBAQEBgQECAQECgQEDAQEDgQEAAYEAgYEBAYEBgYECAYECgYEDAYEDgYEAAgEAggEBAgEBggECAgECggEDAgEDggEAAoEAgoEBAoEBgoECAoECgoEDAoEDgoEAAwEAgwEBAwEBgwECAwECgwEDAwEDgwEAA4EAg4EBA4EBg4ECA4ECg4EDA4EDg4EAAAIAgAIBAAIBgAICAAICgAIDAAIDgAIAAIIAgIIBAIIBgIICAIICgIIDAIIDgIIAAQIAgQIBAQIBgQICAQICgQIDAQIDgQIAAYIAgYIBAYIBgYICAYICgYIDAYIDgYIAAgIAggIBAgIBggICAgICggIDAgIDggIAAoIAgoIBAoIBgoICAoICgoIDAoIDgoIAAwIAgwIBAwIBgwICAwICgwIDAwIDgwIAA4IAg4IBA4IBg4ICA4ICg4IDA4IDg4IAAAMAgAMBAAMBgAMCAAMCgAMDAAMDgAMAAIMAgIMBAIMBgIMCAIMCgIMDAIMDgIMAAQMAgQMBAQMBgQMCAQMCgQMDAQMDgQMAAYMAgYMBAYMBgYMCAYMCgYMDAYMDgYMAAgMAggMBAgMBggMCAgMCggMDAgMDggMAAoMAgoMBAoMBgoMCAoMCgoMDAoMDgoMAAwMAgwMBAwMBgwMCAwMCgwMD/+/CgoKSAgID/AAAA/wD//wAAAP//AP8A//////9Y0jREAAAApElEQVRo3u3WOwoAIQxF0Vi5gey/moVOMw74xUYSzH1god07qESkyrMbuTQAAAAAAAAAAAAAAAAAAAAAxAXY8LgcoDRsCgcG6G5EMID+TQT7A2Rxcu0N+FbTFoDoAHIdgFYZ/wFlm9J/pAeSp9FzGQKspp5zACb9HQHY9PcDYNTfDYBVfy8AZv1VcvAAAAAAAAAAQGQAtYzd/DObBMP1NwXw0F9fuShMbrVnvQIAAAAASUVORK5CYII=" ;
+
+      r_hell_plots : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAMAAAAmJNS7AAADAFBMVEUAAACAAAAAgACAgAAAAICAAIAAgIDAwMDA3MCmyvBAIABgIACAIACgIADAIADgIAAAQAAgQABAQABgQACAQACgQADAQADgQAAAYAAgYABAYABgYACAYACgYADAYADgYAAAgAAggABAgABggACAgACggADAgADggAAAoAAgoABAoABgoACAoACgoADAoADgoAAAwAAgwABAwABgwACAwACgwADAwADgwAAA4AAg4ABA4ABg4ACA4ACg4ADA4ADg4AAAAEAgAEBAAEBgAECAAECgAEDAAEDgAEAAIEAgIEBAIEBgIECAIECgIEDAIEDgIEAAQEAgQEBAQEBgQECAQECgQEDAQEDgQEAAYEAgYEBAYEBgYECAYECgYEDAYEDgYEAAgEAggEBAgEBggECAgECggEDAgED/gAAAoEAgoEBAoEBgoECAoECgoEDAoEDgoEAAwEAgwEBAwEBgwECAwECgwEDAwEDgwEAA4EAg4EBA4EBg4ECA4ECg4EDA4EDg4EAAAIAgAIBAAIBgAICAAICgAIDAAIDgAIAAIIAgIIBAIIBgIICAIICgIIDAIIDgIIAAQIAgQIBAQIBgQICAQICgQIDAQIDgQIAAYIAgYIBAYIBgYICAYICgYIDAYIDgYIAAgIAggIBAgIBggICAgICggIDAgIDggIAAoIAgoIBAoIBgoICAoICgoIDAoIDgoIAAwIAgwIBAwIBgwICAwICgwIDAwIDgwIAA4IAg4IBA4IBg4ICA4ICg4IDA4IDg4IAAAMAgAMBAAMBgAMCAAMCgAMDAAMD/AP8AIMAgIMBAIMBgIMCAIMCgIMDAIMDgIMAAQMAgQMBAQMBgQMCAQMCgQMDAQMDgQMAAYMAgYMBAYMBgYMCAYMCgYMDAYMDgYMAAgMAggMBAgMBggMCAgMCggMDAgMDggMAAoMAgoMBAoMBgoMCAoMCgoMDAoMDgoMAAwMAgwMBAwMBgwMCAwMCgwMD/+/CgoKSAgID/AAAA/wD//wAAAP//AP8A//////8leMIQAAAClElEQVRo3tWZW3LDMAhFxWrv/nfQzjTt2ILLyyht/ZWkqoBjXkIL5UcyT3JZ+kmLrT7riPmfmsjwkxZ8FsC4vgc2/C0A9wWY9nnYct4M4CaF2Z4DEHkTBWBKNNQ5AYDpYxgD39DrZj87U4tsovcVaPrAavo/iC67LTdDlclCFys8CpLncmcAmCZj+wodserjth3j8vobXgt8SUAzD6x2/oPlhzBe9lUn5uBuJgDZ++oY7Uy42unfDFyhv3VrA1SAGLuz2JkDIJy6dubZLlBHPUggtsKgDgBbWhJHwTPNkOo2vvUxFB0CsCthu8CM/Z7/bBI2B2hVw/Wg/9ssZ/lonsAmyVFwBkCo6leuxlQCQAjnKlBcBScAGBsaUX88Aaiot0puPQ+szvu3SlOuAqgOHs340AKpqgcAON1raL9RTiqd0S4AQSJ4DoBJR6IlD9+/6wuk//LyMD03HgBACPgAnIStfQnmZojsHwbgiIepklfVHEfXsshiU5rXbg8DAG9LmP2p+LYAkM+BBrMA3C5Fi88GcpAeXbBVDWQWgHhHH/TH42H5tFUAUWoKgBeEkITwuSMhvJdg56MUgVVpAr3JzPxdCC8SRiu6nYvz7WDFA3Bvwd9ov3IBOLMJS+8mAD8FIjH9PXZNch8JoJ8GV/UUsH1B6v1DjhGAoVSFwOoeAtz+s1kKKuxYZ1A9ElQBMG9Drcb3APi10EPdAJC8guEN6IwD0DMj4rFzqhSs3Bg4nHPDu/p6Gu0w2kpEAYDckHglb0GCi1/rP+YL4N0bvHhhNrQBbEHn35U+jnseAyTolEb5UrCaBUDIvee4B8QzaVezkMBqFoDTdf7J8LhUCioA5L8AkFMATjQ6Zy5Q3g1A5E+5QAXAB0u/WLDXm1XuAAAAAElFTkSuQmCC" ;
 
       # endgame
       s_you_saw_use_aww : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAAAD//wCwbzSHAAAA10lEQVR4Xu3VMWoEMQyF4beCwKA+vUujUyw5QYrkPorLOYWZyrxTxg5M+rwJgcD+vT+wETLeL/ZPgAdwB3ATgVesNOANZ0HyQwScs4ytdOEKTnLUSFeBrQYmAN9dBSpqDafLwCoQEAHHWEA6HJCA9gXQ3dNkAIEJHLsIIECEk9QAgmfqIP0OMErbiggMY/dtAeIk5jWgoJGtXQCYdg2wNKYBCfUNGhdgHeI+6Gltto9DAlCQZtk5G88/B16y4mAjZeB7jDETgYGVCNzPs08nKQC3P/lcH8AnwStDf3dGzvgAAAAASUVORK5CYII=" ;
