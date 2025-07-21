@@ -51,20 +51,29 @@ booleans {
 integers {
    score : integer "0" ;
    max_score : integer "6" ;
+
+   to_think : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
 }
 
 strings {
+   # abbreviations
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
+   wlwc : string "<weak loud wee cloud<#faa>>" ;
+
    my_score : string "{score}/{max_score}" ;
+
+   # options
    c_oaf_aid : string "<OAF AID<#f0f>>" ;
    c_oh_fade : string "<OH FADE<#f0f>>" ;
 
+   # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
    vm_opt : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
 
+   # diagnostic verbs
    vd_think : string "<THINK<#f80>>" ;
 
    # in-game text
@@ -141,13 +150,15 @@ locations {
                : print "You don't have enough support yet." ;
                : set_true "think_repel_edgy" ;
             } : else {
-               : print "With support, you're ready. Everybody brings a little edginess and a little perspective on how to curb the ghost's edginess. It's a tense fight, but numbers win out. The ghost flees." ;
+               : print "You wouldn't think the {wlwc} could help, objectively, since all of them are smaller than you. But boy does the variety and amount of their complaints disrupt the elegy in a way that your more measured responses, or the dude's strength, never could." ;
+               : print "The ghost has trouble trying to pick off each single complaint, and it eventually gets frustrated realizing how impossible it is, whirling into a ball of energy and floating away." ;
+               : print "You have freed {gsgr}!" ;
                : set_true "point_repel_edgy" ;
                : set_false "think_repel_edgy" ;
                : gosub "add_point" ;
                : update_graphic ;
                : press_any_key ;
-               : print "You reflect on your journey. The oaf and dude feel more useful. The folk feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
+               : print "You reflect on your journey. The oaf and dude feel more useful. The {wlwc} feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
                : press_any_key ;
                : print "Aha! That's it!" ;
                : press_any_key ;
@@ -237,6 +248,9 @@ locations {
                : print "Canine howls from the west leave you too fearful." ;
                : set_true "think_help_lots" ;
             } : else {
+               : print "The {wlwc} seems only to want to moan to you about how unfairly they were judged in the afterlife at first. But you, with the dude, manage to persuade them that there might still be a way out. It isn't something you could have done alone, but the dude is an impressive story, a lot bigger than you, and even if he doesn't yell, he uses his weight too be impressive and the sort of entity you just don't talk back to.";
+               : print "The {wlwc} admits to fear of ... dog guardians that kept them out. But you assure them those are taken care of." ;
+               : print "You've got a full posse now!" ;
                : gosub "add_point" ;
                : set_true "point_help_lots" ;
                : set_false "think_help_lots" ;
@@ -441,6 +455,9 @@ on_pre_command {
 on_command {
    : match "score _" {
       : print "You have scored {score} of {max_score} points so far." ;
+      : if (to_think > 0) {
+         : print {( "You have {to_think} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
+      }
       : if (!bonus_note) {
          : print "NOTE: {gsgr} contains no hidden bonus points." ;
          : set_true "bonus_note" ;
