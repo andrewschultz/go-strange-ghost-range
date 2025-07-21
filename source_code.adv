@@ -46,6 +46,15 @@ booleans {
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
    thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots|| think_curse_treats )} ;
+   done_here : dynamic_boolean {( (point_help_lots && is_at "hell_plots") ||
+      (point_roof_ere && is_at "rue_fear") ||
+      (point_note_rubble && is_at "no_trouble") ||
+      (point_curse_treats && is_at "cur_streets")
+   )} ;
+   unready_here : dynamic_boolean {( (is_at "hell_plots" && !point_curse_treats) ||
+      (is_at "go_strange_ghost_range" && point_duh_lies && !point_help_lots) ||
+      (is_at "cur_streets" && !point_note_rubble)
+   )} ;
 }
 
 integers {
@@ -80,7 +89,7 @@ strings {
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
 
    # dynamic or long/special strings
-   right_hand : dynamic_string {(oaf_aid ? oaf_says : my_score)} ;
+   right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
 
    # room strings
@@ -91,26 +100,14 @@ strings {
 
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
-   oaf_gsgr : dynamic_string {( !point_duh_lies ? ( oaf_aid_extra ? "<3/4<#0f0>>" : "3/4" ) :
-      !oaf_aid_extra ? "5/4" :
-      point_help_lots ? "<5/4<#0f0>>" : "<5/4<#ff0>>" )} ;
-   oaf_rue_fear : dynamic_string {( point_roof_ere ? "DONE" :
-      oaf_aid_extra ? "<4/3<#0f0>>" : "4/3" )} ;
-   oaf_no_trouble : dynamic_string {( point_note_rubble ? "DONE" :
-      oaf_aid_extra ? "<4/6<#0f0>>" : "4/6" )} ;
-   oaf_cur_streets : dynamic_string {( point_curse_treats ? "DONE" :
-      !oaf_aid_extra ? "5/6" :
-      point_note_rubble ? "<5/6<#0f0>>" :
-      "<5/6<#ff0>>" )} ;
-   oaf_hell_plots : dynamic_string {( point_help_lots ? "DONE" :
-      !oaf_aid_extra ? "4/4" :
-      point_curse_treats ? "<4/4<#0f0>>" :
-      "<4/4<#ff0>>" )} ;
-   oaf_says : dynamic_string {( is_at "go_strange_ghost_range" ? oaf_gsgr :
-      is_at "rue_fear" ? oaf_rue_fear :
-      is_at "no_trouble" ? oaf_no_trouble :
-      is_at "cur_streets" ? oaf_cur_streets :
-      is_at "hell_plots" ? oaf_hell_plots :
+   oaf_gsgr : dynamic_string {( !point_duh_lies ? "3/4" : "5/4" )} ;
+   oaf_shows : dynamic_string {( done_here ? "DONE" : "<" + oaf_numbers + "<" + (!oaf_aid_extra ? "#fff" : unready_here ? "#ff0" : "#0f0") + ">>" )} ;
+   oaf_numbers : dynamic_string {(
+      is_at "go_strange_ghost_range" ? oaf_gsgr :
+      is_at "rue_fear" ? "4/3" :
+      is_at "no_trouble" ? "4/6" :
+      is_at "cur_streets" ? "5/6" :
+      is_at "hell_plots" ? "4/4" :
       "BUG" )} ;
 
    custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
@@ -443,6 +440,7 @@ on_render {
 }
 
 on_startup {
+   : print {( "<" + "the" + "<" + (is_at "hell_plots" ? "#ff0" : "#0ff") + ">>" )} ;
    : print "{gsgr}, by Andrew Schultz" ;
    : print "A go-stop-ghost op" ;
    : print "Submitted to the 2025 EctoComp Petite Mort" ;
