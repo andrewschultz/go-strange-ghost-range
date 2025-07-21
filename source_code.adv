@@ -522,6 +522,52 @@ on_command {
       : gosub "meta_versions" ;
       : done ;
    }
+   : match "hint _;help _" {
+      : if (done_here) {
+         : print "You are done here." ;
+         : done ;
+      }
+      : if (unready_here) {
+         : print "There's more to do here, but you're not ready yet." ;
+         : done ;
+      }
+      : if (is_at "rue_fear") {
+         : cycle key = "rue_fear_hints" predictable_order = "true" skip_interval = "0" {
+            : print "The location is what you need to work with here, as opposed to something in it. " ;
+            : print "There's a bit of slang, but also, the words are short enough, you may be able to figure it out " ;
+            : print "Rue becomes roof." ;
+            : print "But what does the rest become? Ear doesn't quite make sense." ;
+            : print "If you drop the letter, though, you will see that you get ROOF ERE." ;
+            : print "" ;
+         }
+         : done ;
+      }
+      : if (is_at "go_strange_ghost_range") {
+         : if (!point_duh_lies) {
+            : cycle key = "gsgr_hints_1" predictable_order = "true" skip_interval = "0" {
+               : print "You may notice something about the title of the game. " ;
+               : print "You may also notice something about the commands to have the oaf help or not. " ;
+               : print "You may also remember the names of the books you laughed at in the introduction. " ;
+               : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
+               : print "The dull eyes are stopping you from going south. You need to do something to talk back against them. " ;
+               : print "What two words together sound like dull eyes?" ;
+               : print "The first one's a bit slangy." ;
+               : print "DUH LIES." ;
+            }
+         } : else {
+            : cycle key = "gsgr_hints_2" predictable_order = "true" skip_interval = "0" {
+               : print "The reap elegy pulses through everywhere, and you need to shut it down, somehow. " ;
+               : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
+               : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
+               : print "If you LISTEN to it, you will gain some clues. What is being rhymed?" ;
+               : print "REPEL EDGY." ;
+            }
+         }
+         : done ;
+      }
+      : print "Due to EctoComp's time limits for programming, there is no hinting in the dead end areas. But I think they're a bit easier than the initial puzzles." ;
+      : done ;
+   }
    : match "think _" {
       : if (!thought_any) {
          : print "You haven't thought of any point-scoring commands to try later." ;
