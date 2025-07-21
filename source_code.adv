@@ -57,12 +57,15 @@ strings {
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
    my_score : string "{score}/{max_score}" ;
    c_oaf_aid : string "<OAF AID<#f0f>>" ;
+   c_oh_fade : string "<OH FADE<#f0f>>" ;
 
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
    vm_opt : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
+
+   vd_think : string "<THINK<#f80>>" ;
 
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
@@ -291,11 +294,37 @@ barriers {
 }
 
 subroutines {
+   meta_about : subroutine {
+      : print "{gsgr} was written for EctoComp Petit Mort 2025." ;
+      : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
+      : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
+      : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {why_pout} and {us_too}." ;
+      : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but HINTs can help non-English speakers." ;
+      : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
+   }
+
+   meta_credits : subroutine {
+      : print "Thanks to the administrators Ruber Eaglenest for holding EctoComp, as well as former administrators like JJ Guest and Duncan Bowsman." ;
+      : print "Thanks to Chris Ainsley for creating Adventuron." ;
+      : print "Thanks to testers here." ;
+   }
+
+   meta_versions : subroutine {
+      : print "Version one was published on itch.io on October 30th, 2025." ;
+   }
+
+   meta_verbs : subroutine {
+      : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
+      : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
+      : print " Help and hint are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
+      : print "{c_oaf_aid} and {c_oh_fade} toggle the oaf's help on and off. Using {c_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+   }
+
    reject_half : subroutine {
       : if (done_already) {
          : print "One word's wrong, but you already did that fully." ;
       } : else_if (think_already) {
-         : print "One word's wrong, but you already figured that fully." ;
+         : print "One word's wrong, but you already figured what to do fully. See {vd_think} for a refresher." ;
       } : else {
          : print "Something almost happens. One word must be right." ;
       }
@@ -402,15 +431,19 @@ on_command {
       : done ;
    }
    : match "about _" {
+      : gosub "meta_about" ;
       : done ;
    }
    : match "credits _; credit _" {
+      : gosub "meta_verbs" ;
       : done ;
    }
    : match "verbs _;verb _" {
+      : gosub "meta_verbs" ;
       : done ;
    }
    : match "versions _;version _" {
+      : gosub "meta_versions" ;
       : done ;
    }
    : match "think _" {
