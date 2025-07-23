@@ -90,15 +90,19 @@ strings {
    # diagnostic verbs
    vd_think : string "<THINK<#f80>>" ;
 
+   # noting stuff
+   one_time : string "<ONE-TIME NOTE: <#f0f>>" ;
+
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
 
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
+   oaf_status : dynamic_string {( unready_here ? "tentative" : "purposeful" )} ;
 
    # room strings
-   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are gone, but the ghost remains here in {gsgr}, decidedly un-silent." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
+   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear NO TROUBLE ... NO TROUBLE. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
@@ -356,7 +360,7 @@ barriers {
    block_ghost_south_end : block {
       location = rue_fear
       block_when = db_at_the_end
-      message = Your destiny is here!
+      message = No, your destiny is here. You have the support you need!
    }
    block_rue_fear_w : block {
       location = cur_streets
@@ -709,11 +713,11 @@ on_command {
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}." )} ;
+         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}. The oaf makes itself more prominent." )} ;
          : set_true "oaf_aid" ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print "{c_oaf_aid} is now switched to {oaf_aid_status}." ;
+         : print "{c_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself less prominent." ;
 	  }
    }
    : match "oh fade" {
