@@ -71,6 +71,8 @@ strings {
    # abbreviations
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
    wlwc : string "<weak loud wee cloud<#faa>>" ;
+   dwdw : string "<Dude Well-Do-Dwell<#faa>>" ;
+   pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
 
    my_score : string "{score}/{max_score}" ;
 
@@ -180,12 +182,12 @@ locations {
                } :else_if (!point_note_rubble) {
                   : print "Oh, hey, that seems like a good idea, a great idea even, but there's no way you're going to be able to repel the ghost on your own." ;
                } : else {
-                  : print "While the dude's companionship gives you some confidence, they look quite intimidated by the ghost. So that won't quite work out." ;
+                  : print "While {dwdw}'s companionship gives you some confidence, they look quite intimidated by the ghost. So that won't quite work out." ;
                }
                : set_true "think_repel_edgy" ;
                : done ;
             } : else {
-               : print "You wouldn't think the {wlwc} could help, objectively, since all of them are smaller than you. But boy does the variety and amount of their complaints disrupt the elegy in a way that your more measured responses, or the dude's strength, never could." ;
+               : print "You wouldn't think the {wlwc} could help, objectively, since all of them are smaller than you. But boy does the variety and amount of their complaints disrupt the elegy in a way that your more measured responses, or {dwdw}'s strength, never could." ;
                : print "The ghost has trouble trying to pick off each single complaint, and it eventually gets frustrated realizing how impossible it is, whirling into a ball of energy and floating away." ;
                : print "You have freed {gsgr}!" ;
                : set_true "point_repel_edgy" ;
@@ -262,7 +264,10 @@ locations {
             : if (point_note_rubble) {
                : print "You found a companion in the rubble. That's good enough." ;
             } : else {
+               : print "There looks like there's nothing here, and nothing's been here. But you wonder why it looks that way. Of course there is rubble! You inspect it, for treasure or whatever, and you're surprised to see someone sleeping in a small cavern they dug out of the rubble. They introduce themselves as {dwdw}. They mention they never really did much in the pre-afterlife but were sort of just, well, there. And they've felt listless, and it was probably foolish to wait around for someone who had adventure for them, but ... they hope you do." ;
+               : print "You mention you're not sure what you're here for, but there's a weird ghost to chase away. Good enough for the {dwdw}! He'll be following you from now on." ;
                : set_true "point_note_rubble" ;
+               : create "dude" ;
                : gosub "add_point" ;
             }
             : done ;
@@ -287,7 +292,7 @@ locations {
                : set_true "think_curse_treats" ;
             } : else {
                : print "Cursing the treats seems the way to go, but it might be inhumane, or whatever passes for inhumane in the afterlife, to actually kill the dogs, or whatever passes for killing in the afterlife." ;
-               : print "Fortunately, the dude has an idea. He explains that many people told him that his curse of laziness was something that could spread to other people as well. He sort of remembered how it happened, and he thinks he can pull it off again, with some luck. It's worth a try." ;
+               : print "Fortunately, {dwdw} has an idea. He explains that many people told him that his curse of laziness was something that could spread to other people as well. He sort of remembered how it happened, and he thinks he can pull it off again, with some luck. It's worth a try." ;
                : print "And what do you know? The first dogs who wolf down the treats look a little groggy then fall over you can see them breathing, so they're not dead, but they're not going to stop you from anything you might need to do soon." ;
                : gosub "add_point" ;
                : set_true "point_curse_treats" ;
@@ -315,8 +320,8 @@ locations {
                : print "Canine howls from the west leave you too fearful." ;
                : set_true "think_help_lots" ;
             } : else {
-               : print "The {wlwc} seems only to want to moan to you about how unfairly they were judged in the afterlife at first. But you, with the dude, manage to persuade them that there might still be a way out. It isn't something you could have done alone, but the dude is an impressive story, a lot bigger than you, and even if he doesn't yell, he uses his weight too be impressive and the sort of entity you just don't talk back to.";
-               : print "The {wlwc} admits to fear of ... dog guardians that kept them out. But you assure them those are taken care of." ;
+               : print "The {wlwc} seems only to want to moan to you about how unfairly they were judged in the afterlife at first. But you, with {dwdw}, manage to persuade them that there might still be a way out. It isn't something you could have done alone, but {dwdw} is an impressive fellow, a lot bigger than you, and even if he doesn't yell, he uses his weight too be impressive and the sort of entity you just don't talk back to.";
+               : print "The {wlwc} admits to fear of ... dog guardians that kept them out. But you assure them those are taken care of. They promise to help you in return for freeing them from the doldrums, no matter what!" ;
                : print "You've got a full posse now!" ;
                : gosub "add_point" ;
                : set_true "point_help_lots" ;
