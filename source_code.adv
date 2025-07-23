@@ -117,6 +117,11 @@ strings {
 }
 
 objects {
+   oaf : scenery "an oaf" at = "go_strange_ghost_range" conspicuous="false" ;
+   dude : scenery "Dude Well-Do-Dwell" conspicuous="false" ;
+   wee_cloud : scenery "a {wlwc}" at = "hell_plots" conspicuous="false" ;
+   curs : scenery "curs" at = "cur_streets" conspicuous="false" ;
+   strange_ghost : scenery "the strange ghost" at= "go_strange_ghost_range" conspicuous="false" ;
 }
 
 vocabulary {
