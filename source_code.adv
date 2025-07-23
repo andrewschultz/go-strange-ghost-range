@@ -36,6 +36,7 @@ booleans {
    # game state boolean(s)
    listen_elegy : boolean "false" ;
    bonus_note : boolean "false" ;
+   noun_based_noted : boolean "false" scope="survivor";
    have_won : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
@@ -43,6 +44,7 @@ booleans {
    done_already : boolean "false" ;
    think_already : boolean "false" ;
    once_now_boolean : boolean "false" ;
+   six_warn : boolean "false" ;
 
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
@@ -217,6 +219,11 @@ locations {
    }
    rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
       on_command {
+         : match "_ ghost" {
+            : print "Not very visible. It's making some noise, though." ;
+            : gosub "note_noun_based" ;
+            : done ;
+         }
          : match "listen _" {
             : print "Eer-ie silence." ;
             : done ;
@@ -415,6 +422,13 @@ subroutines {
       : print "{c_oaf_aid} and {c_oh_fade} toggle the oaf's help on and off. Using {c_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
    }
 
+   note_noun_based : subroutine {
+      : if (noun_based_noted) {
+         : return ;
+      }
+      : print "{one_time}{gsgr} tends to look at the noun more than the verb, so it will probably funnel most verbs to <X<#f80>>/<EXAMINE<#f80>>. There's enough verb guessing with the actual puzzles." ;
+      : set_true "noun_based_noted" ;
+   }
    reject_half : subroutine {
       : if (done_already) {
          : print "One word's wrong, but you already did that fully." ;
@@ -518,15 +532,56 @@ on_tick {
 }
 
 on_pre_describe {
+   : if (linger() == 0) {
+      : if (oaf_aid) {
+         : create "oaf" ;
+      }
+      : if (point_note_rubble) {
+       : create "dude" ;
+      }
+      : if (point_help_lots) {
+       : create "wee_cloud" ;
+      }
+   }
 }
 
 on_describe {
+   : if (point_note_rubble) {
+      : print {( "{dwdw} " + (point_help_lots ? " and the {wlwc} " : "") + (linger() > 0 ? "stand{pals} by you" : "follow{pals} you") + " loyally." )} ;
+   }
 }
 
 on_pre_command {
 }
 
 on_command {
+   : if (is_present "wee_cloud") {
+      : match "_ weak;_ loud;_ wee;_ cloud" {
+         : print "You're not sure how many souls make it up." ;
+         : print {( point_help_lots ? "Restless with anticipation of bettering themselves/itself." : "Fidgety and moaning about its fate in the afterlife." )} ;
+         : gosub "note_noun_based" ;
+      }
+   }
+   : if (is_present "dude") {
+      : match "_ dude" {
+         : print "Waiting for you." ;
+         : gosub "note_noun_based" ;
+         : done ;
+      }
+   }
+   : match "_ oaf" {
+      : if (!oaf_aid) {
+         : print "But the oaf is not available. {c_oaf_aid} will toggle its appearance on." ;
+      } : else_if (done_here) {
+         : print "The oaf applauds. You must be done here." ;
+      } : else {
+         : print "The oaf looks {oaf_status} while holding up {oaf_hands}." ;
+         : if (!six_warn) {
+            : print "{one_time}the oaf doesn't have six fingers. They just wiggle their thumb. Resourceful, especially for an oaf!" ;
+         }
+      }
+      : gosub "note_noun_based" ;
+   }
    : match "score _" {
       : print "You have scored {score} of {max_score} points so far." ;
       : if (to_think > 0) {
