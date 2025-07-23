@@ -330,6 +330,11 @@ barriers {
       block_when_not = point_roof_ere
       message = {rue_fear_block}
    }
+   done_rue_fear_w_2 : block {
+      location = cur_streets
+      block_when = point_help_lots
+      message = No, you have everyone you need. Time to revisit the ghost!
+   }
    done_rue_fear_w : block {
       location = cur_streets
       block_when = point_curse_treats
@@ -339,6 +344,11 @@ barriers {
       location = hell_plots
       block_when = point_help_lots
       message = You already took care of Hell Plots. No need to go back.
+   }
+   done_rue_fear_s_2 : block {
+      location = no_trouble
+      block_when = point_help_lots
+      message = No, you have everyone you need. Time to revisit the ghost!
    }
    done_rue_fear_s : block {
       location = no_trouble
