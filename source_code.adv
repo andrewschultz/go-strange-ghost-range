@@ -34,6 +34,7 @@ booleans {
    oaf_aid_extra : boolean "false" ;
 
    # game state boolean(s)
+   listen_elegy : boolean "false" ;
    bonus_note : boolean "false" ;
    have_won : boolean "false" scope="survivor" ;
 
@@ -131,6 +132,20 @@ vocabulary {
 locations {
    go_strange_ghost_range : location "{gsgr_desc}" header="{gsgr}" graphic="r_go_strange_ghost_range" {
       on_command {
+         : match "listen _" {
+            : if (!point_duh_lies) {
+               : print "The ghost is making some noise, but the dull eyes are boring a sense of worthlessness into you, and that's what's got your focus." ;
+            } : else_if (!listen_elegy) {
+               : print "The ghost emits a reap elegy. Its tone and words are terrifying. Listen again for a clue what to do with it ... if you dare!" ;
+               : set_true "listen_elegy" ;
+            } : else {
+               : cycle key = "reap_elegy_stuff" predictable_order = "true" skip_interval = "0" {
+                  : print "The ghost's reap elegy rhymes creep, deep, and even \"beep\" to block out profanity." ;
+                  : print "The ghost's reap elegy takes a weird turn. \"Elegy\"'s syllables ae stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredgey to mortals in a drive-a-wedgey manner. It has special scorn for people named Reggie." ;
+               }
+            }
+            : done ;
+         }
          : match "_ eyes" {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
@@ -202,6 +217,10 @@ locations {
    }
    rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
       on_command {
+         : match "listen _" {
+            : print "Eer-ie silence." ;
+            : done ;
+         }
          : if (!point_roof_ere) {
             : match "roof ear" {
                : print "You listen to the roofs. You hope they can't hear your heart pounding. You sense you're close, but ... maybe something more informal." ;
@@ -228,6 +247,10 @@ locations {
    }
    no_trouble : location "{nt_desc}" header="<No Trouble<#888>>" {
       on_command {
+         : match "listen _" {
+            : print {( point_note_rubble ? "Quiet. Too quiet." : "The quiet is more relaxing now." )} ;
+            : done ;
+         }
          : match "note rubble" {
             : if (point_note_rubble) {
                : print "You found a companion in the rubble. That's good enough." ;
@@ -245,6 +268,10 @@ locations {
    }
    cur_streets : location "{cs_desc}" header="<Cur Streets<#f00>>" graphic="r_cur_streets" {
       on_command {
+         : match "listen _" {
+            : print {( point_curse_treats ? "The snoring's pretty obnoxious, but compared to the alternative, it's great." : "Supernatural canine yapping probably meant to give all near a headache." )} ;
+            : done ;
+         }
          : match "curse treats" {
             : if (point_curse_treats) {
                : print "The treats were already cursed with lethargy. You don't need to maintain or increase the curse." ;
@@ -270,6 +297,10 @@ locations {
    }
    hell_plots : location "{hp_desc}" header="<Hell Plots<#f00>>" graphic="r_hell_plots" {
       on_command {
+         : match "listen _" {
+            : print {( point_help_lots ? "You faintly hear the cries of souls who have it worse than the {wlwc}. They sound terrible, and yet, you also cringe at the thought of the {wlwc} being told \"you know, there are spirits who have it worse than you. Buck up!\"" : "The {wlwc} just keep moaning and moaning about how they feel trapped." )} ;
+            : done ;
+         }
          : match "help lots" {
             : if (point_help_lots) {
                : print "You've already helped the {wlwc} enough. They're following you, after all." ;
