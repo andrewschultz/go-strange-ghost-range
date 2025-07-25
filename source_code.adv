@@ -40,6 +40,7 @@ booleans {
    have_won : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
+   showing_map : boolean "false" ;
    show_overlay : boolean "true" ;
    done_already : boolean "false" ;
    think_already : boolean "false" ;
@@ -417,6 +418,7 @@ subroutines {
    meta_credits : subroutine {
       : print "Thanks to the administrators Ruber Eaglenest for holding EctoComp, as well as former administrators like JJ Guest and Duncan Bowsman." ;
       : print "Thanks to Chris Ainsley for creating Adventuron." ;
+      : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
       : print "Thanks to testers here." ;
    }
 
@@ -483,6 +485,56 @@ themes {
 }
 
 on_render {
+   : if (showing_map) {
+      : overlay "m_visited" x="202" y="0" ;
+      : overlay "m_t_gsgr" x="205" y="1" ;
+      : if (!point_duh_lies) {
+         : overlay "m_v_notyet" x="247" y="42" ;
+      } : else_if (is_at "go_strange_ghost_range" && point_help_lots) {
+         : overlay "m_v_done" x="247" y="42" ;
+      } : else {
+         : overlay "m_v_cango" x="247" y="42" ;
+      }
+      : if (has_visited "cur_streets") {
+         : overlay "m_visited" x="0" y="82" ;
+         : overlay "m_t_cur_streets" x="23" y="83" ;
+      }
+      : if (has_visited "hell_plots") {
+         : overlay "m_visited" x="404" y="82" ;
+         : overlay "m_t_hell_plots" x="434" y="83" ;
+      }
+      : if (has_visited "no_trouble") {
+         : overlay "m_visited" x="202" y="164" ;
+         : overlay "m_t_no_trouble" x="223" y="165" ;
+      }
+      : if (!has_visited "rue_fear") {
+         : done ;
+      }
+      : overlay "m_visited" x="202" y="82" ;
+      : overlay "m_t_rue_fear" x="236" y="83" ;
+      : if (!point_roof_ere) {
+         : overlay "m_h_notyet" x="102" y="97" ;
+         : overlay "m_h_notyet" x="304" y="97" ;
+         : overlay "m_v_notyet" x="247" y="124" ;
+         : done ;
+      }
+      : if (!point_curse_treats || is_at "cur_streets") {
+         : overlay "m_h_cango" x="102" y="97" ;
+      } : else {
+         : overlay "m_h_done" x="102" y="97" ;
+      }
+      : if (!point_help_lots || is_at "hell_plots") {
+         : overlay "m_h_cango" x="304" y="97" ;
+      } : else {
+         : overlay "m_h_done" x="304" y="97" ;
+      }
+      : if (!point_note_rubble || is_at "no_trouble") {
+         : overlay "m_v_cango" x="247" y="124" ;
+      } : else {
+         : overlay "m_v_done" x="247" y="124" ;
+      }
+      : done ;
+   }
    : if (!show_overlay) {
       : done ;
    }
@@ -577,6 +629,15 @@ on_pre_command {
 }
 
 on_command {
+   : match "map _" {
+      : set_true "showing_map" ;
+      : clear_screen ;
+      : update_graphic "m_blank" ;
+      : press_any_key ;
+      : set_false "showing_map" ;
+      : update_graphic ;
+      : done ;
+   }
    : if (is_present "wee_cloud") {
       : match "_ weak;_ loud;_ wee;_ cloud" {
          : print "You're not sure how many souls make it up." ;
@@ -764,5 +825,25 @@ assets {
 
       # endgame
       s_you_saw_use_aww : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAAAD//wCwbzSHAAAA10lEQVR4Xu3VMWoEMQyF4beCwKA+vUujUyw5QYrkPorLOYWZyrxTxg5M+rwJgcD+vT+wETLeL/ZPgAdwB3ATgVesNOANZ0HyQwScs4ytdOEKTnLUSFeBrQYmAN9dBSpqDafLwCoQEAHHWEA6HJCA9gXQ3dNkAIEJHLsIIECEk9QAgmfqIP0OMErbiggMY/dtAeIk5jWgoJGtXQCYdg2wNKYBCfUNGhdgHeI+6Gltto9DAlCQZtk5G88/B16y4mAjZeB7jDETgYGVCNzPs08nKQC3P/lcH8AnwStDf3dGzvgAAAAASUVORK5CYII=" ;
+
+      # map graphics
+      # plain/reusable
+      m_blank : base64_png "iVBORw0KGgoAAAANSUhEUgAAAfoAAADOAQMAAADsR1IFAAAABlBMVEUAAADgwKARqR3JAAAAS0lEQVRo3u3MMQ0AAAgDsPlXhTMmgoukFdDszUQgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEPwICp6bHMzeCnYpAAAAAElFTkSuQmCC" ;
+      m_visited : base64_png "iVBORw0KGgoAAAANSUhEUgAAAGYAAAAqCAIAAADOJ7kiAAAAU0lEQVRo3u3QMQEAIAwDsA7/nosF9nAlEpKwNEnainj9mjkWtpQpU6ZMmTKUKVOmTBnKlClTpgxlypQpU6YMZcqUKVOGMmXKlClDmTJlypShjG8uh2wDUBUG56sAAAAASUVORK5CYII=" ;
+
+      # connectors
+      m_h_cango : base64_png "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAMCAYAAACURRhjAAAAQElEQVR4nO3WwQkAMAzDQLv77+y+O0H10E0QECHptojj/B5AL4PAGATGIDBN4lUHcUNg6tvL4obAGATGIDAGgblWGwcPCCNk+AAAAABJRU5ErkJggg==" ;
+      m_h_done : base64_png "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAMCAYAAACURRhjAAAAVElEQVR4nO3WQQqAMBBD0UR6/yvHlVC0W2uE/3az7WfoOInubEeSkpj5/Xl2PGrgUwQpQ5AyBCkzrg8G+63eng0pM1anF1uzB2fvDxCkDEHKEKTMCTyWaBsfUWxkAAAAAElFTkSuQmCC" ;
+      m_h_notyet : base64_png "iVBORw0KGgoAAAANSUhEUgAAAGQAAAAMCAYAAACURRhjAAAASUlEQVR4nO3WwQkAIAwEwZz993y+/QsuuFNACCxB03bEsV4voJNBYAwCYxCYzMzVV71tbs5L8tV+XghM/PayeCEwBoExCIxBYDZdqQ8PCsHQNQAAAABJRU5ErkJggg==" ;
+      m_v_cango : base64_png "iVBORw0KGgoAAAANSUhEUgAAAAwAAAAoCAYAAADKSBvHAAAALklEQVR4nO3LoREAMAzDQLv776zyFOSuWKL2F8isLUkCdG7neS8JBAKBQCD4BRdGMAdNSlrh/gAAAABJRU5ErkJggg==" ;
+      m_v_done : base64_png "iVBORw0KGgoAAAANSUhEUgAAAAwAAAAoCAYAAADKSBvHAAAASUlEQVR4nO2VMQoAMAgDL/3/n9PdFuogtBSzajjORdkmRpIBbCvOxrJ9yIMFAat1KWF31loC7ZAgtEOGQDskCO2QIXDF4feXNQEbBisdOGR8YgAAAABJRU5ErkJggg==" ;
+      m_v_notyet : base64_png "iVBORw0KGgoAAAANSUhEUgAAAAwAAAAoCAYAAADKSBvHAAAARElEQVR4nO2TQQoAIAzDGv//53ryMgVFRETW6xY6GMG2YgBLkm3irHTbkySwEkZ/ONqQwDYAuDnxyEm/A+nDw0D6cB2ol40RTcJMXEkAAAAASUVORK5CYII=" ;
+
+      # text renderings
+      m_t_cur_streets : base64_png "iVBORw0KGgoAAAANSUhEUgAAADoAAAAoCAIAAAAgx37vAAADZklEQVRYw+1YPUsrQRQ9GwSxioUfSCSISColoGAripWy6QKxV5gUgj9g7Sw3lY3YWqxgt2mNnSSkkBRaJNhEsNhUSaXdfcXOy2w2M5Psvhfh8TJssXvvzNmzM3fu7D0GEeHfaYk4g2o1FIswDORyKJVQqwHA/T0MA8Uiej0AuLyEYaBUAoCnJxiGuHI5lMsx+VLUdntLQPhqNgfug49Ekv4AOQ5FbxHpNhoDrzRNMk2yrAFOerqWRaYpXBHbTLS1eHwU940Gvr7w/IzT03GHuy4AXF3FD96IixGYpEqFx0bIpZnd/rwCxFiM2U3E/MrdXRwcRB4V3GGMTT4zmCa/abUAoNfD1la4T7OJZnMEDmPIZicfDNK04EeFbUtc/or3H22bGOP3jcbkM0O3y7NBiFa7TdWqoBKM4yDdSoUsS8TxxGM3mcTdHVIpWJYwOg7SaczN4fMTjiOW2zSRyQCAbXPj6ir293nUlsv8fInSZiJHTzKJfB6bmzg+xvo6rq9RKHDX3h4KBWxvY34es7OCZT6PbhcAMhlkMnh4AGNgDCsrk6cL8Jzw+oqlJWHMZrG2BgDLy0gmAeD8nLvSaZ5MAHQ6WFjg/X/iEI7XLItcVzzadjwY44f+yDodfH/zaf6DZvwHP5BTulO6U7pTulO6U7pTun+JbquFUolLLMUiymX0eqjVkMsNqC+GwWtDjSrTaoVdKqMGX0UJIQEmWFRJpZeQAjKsygzXPyqjBl9FiSiBlxdJMX14yIvekeW1ZfGeJycAcHMj6SM1avBVlIAZvL0J38YGB8pmcXGBVEq8yTSRSuHsbFxVhjEcHemMGnwVJQDkupKZJyLPE1Wr340x8rwRqswwlBTfdXX4KkpECSwuSlbEVz1CP/97e3FUmXpdaVThayiJuA5qg/26Kvj1w0rZsOA15q7t12pSfDWl35s06Bif7rAqE6JlmuR5cqMGX01JEVu+jjSSbkiVabfl6Ul6afDVlBKo1yWBsrOjS14qVeb9PcIB9fGhdGkokecNCHWuKyRbPz/4oli3K4ztNlkWT+n+KcAYNRrkeVSthhU0y5IbNfhqSuCT74/3d0yQrq9oDKsnfZnDz0f91/vra5pUqQxoH1KjBl9BCUREjiNO1+HmeRJxU6PKVKvkOCL6NUYNvoLSL7KRd+AEkZFzAAAAAElFTkSuQmCC" ;
+      m_t_gsgr : base64_png "iVBORw0KGgoAAAANSUhEUgAAAGEAAAAoCAIAAABhMwNQAAAFY0lEQVRo3u1av2sUTRh+LnydYILgHUE5LORALA60FAz+AXudojY2JqxgKq+wWAuJiMWms5D9B1awchfs1k42WIRNJXfdBQLukeJSCHbzFe9kZnZmdvdyft934WNftpjM7/eZ98fcPAFjjM1mLIqY4zCAASwMWZ4zEq3JdVkUsdmMVchoxHxf75+mchLxRRFjjCVJodJxeL0qUcRbfV+uTgMdh00mvMbz5LRlSo1G+nJ1AsYYc119957H280m0rwMJm0HQjGzUqxibQpDOWeaFpqC4HTvyn60mgqlzPp6jMQRqV+WFU5PbEUzAVPC0NI/y/h5avszMfI8efJCTIjphEzg1O2VKWXW12Ok7TsIWJpajCjLmOuyLKsxUbJ21XyoZ5IUZnMc5rrcR1TFVN2Es6ujqEA71FRVza1CKbUPrViPUZlHqNqS5ZOLVcNvPUDGWJ4XJowi5ro8QJgQqO6jai526PulTlrt5uoean3iVFagShTJ8ps3snztGgC8fo3VVVTL5ctwXb1yPAaAbrdQubGhd4tjWRaTfPsmKy9e5IXhECcnls5WKVNKyPfvNUpJs6QEkSSFLKZF0MmkxtdEzFYjizgo69FZc4LpaBWe5fssCOyh01TKams1vhYEcnySFMIQeYRwaTWVUoz8slVY7MupzipA82Pk+4Uwb2a0sgRielCFUtrnOCzP7YpIjCgYW8fneWnTaGTHyBqPaJe1GCWJ1Jbs1MxojmOxCO1IUKmU9avBiBK2uTDtMgjsp1QmnmfZnLhMWTESQIxGhfSnGRENEdcIgoY604VDXDvId6xKlX3iFmqTvwDg0SOEIQD0+zg+xvXruHMHN24AwP4+XBfdLra2AMBxAODBg9Lwtr2Nz58L8fLnTxnp8xxPnwLA3buyz/37mM0AoNdDr4dPn+C6cF2sr8P3MRzCdXF0xDv3+7hyhZc3N/H8ObIM6+sYjbC/jyjChQu4fbtKqR8/8PZtIT94np5P9JitmgAFXfIjkctJHIeFIb/+V/8WiSJ5oyVLNC9QpvXRQnRFELd8MXYykYt6nswh6lTWNGJVirwkSWqjteJr4sZIqcQKAW1XRJYKCUN5gTYlz3k8tmIkvK9CVL8QN0OtvlqpNOXnPZ+0GGP4x2U6Rbt9tv6/f9cY/PLk38Ho/yUrDQQNRg1GDUYNRg1GDUYNRo00GDUYNRgtC6OTE8QxBgO0Wmi18PEjplMAODhAq4XBgP85nfI+Bwd8tDbw2TPEceE1fjzG7q7eurcnh4hPfdAR8vVroc9gYOkWx7x1d1cuTQMHAxwe8ppXr+QqZfqOx/py8v2ojNIUL5D0+CLe88WbfDWLuwBnq7/cnAsKdz5KU8OIBteyuAtwthUYLY/CnY/SpOco9Z8X5mFxF+BsyzBaKoV7RkpT3WUti7sAZ1uG0VIp3Pl42mopY3H/hLM1A7OQ/57CPRulafW1MhZ3Ac62NmYvg8Kdj9L0fT2IkCtVs7gLcLZlGC2Rwq3haVU16H/RtLBSzeIuwNmWYbRECpexFfT72Njg5KIqWs3qKi5dKjh5u41bt+B5+sAgQK/HndkMB0QQzim+zwtXr+LePT5bHGNvD8NhIawwhp0dWeN5vPPNm4hjTkbShGX6lsnhYSVP+/Iljo4QxzzErq3BcRDHePKEj69mcRfgbDU5JxRuFaXpugXWlFrVP2tZ3AU42/NH4Sq5//gYADoddDq85t07/WA7nULaFhbrOHj4kH7aFG4Av37xwocP/HhV2d5Gls1r8+02dnawtiYthaTblStubvJtAEhTOfb9e8uEpr406vFjAHjxQtTVcZD0m/BPGNSzcrbm8GVTuH8D2n6kbJaENi4AAAAASUVORK5CYII=" ;
+      m_t_hell_plots : base64_png "iVBORw0KGgoAAAANSUhEUgAAACwAAAAoCAIAAAAKd49AAAADAklEQVRYw+1XIU/sQBD+Sl5CUHch4UCRp+4HgEDiSfYUBoFfJDlbg0MUT4pE1Lf2qktQPdkqjpzpqbsgkPPELt3ddtsePF7ee8lNVnRnd2a/Tme28zlEhL8tWx3r0ykcB6MRFgsAWCwwGsFxMJ0CQJ7DcdQYjQDg6Uk+r1bKj1VZCrWL6xJAAGUZEVGWySnnREScy2k56iZWP6Z0gSi9V0CI8yoIKkr9PKvyQ36s+93mcwyHmM/tq5zj7OzrSbFuJNpfuhxh+IVIbH1zoj8//4Hq+Kz0++r5/d2ywaZcG4TnIY7BedsexnB5qaaTCfJc1na7ct2cCENaLilJlGY2a8uYzuz5Yk70etjdVeXQ633C1nV/ozo4J8YIoDQlIioKOU0SIqIkkdNyuK4RLTEqISyV615WnJPrkusqTZYZU4AYozgmzzMMw5DCUN6V7cruy+r2Fp5naPb3cXiopkmClxcAGI+NbScn2N4GgPPzDiXgdP9FX18BGAd/tzj/w698A2IDYgNiA2ID4h8DEUUGi7q6QhRJntREm1YrRJGkYhUTYVUulSOK5Gqe4+6uamhvyHy/jTbViZfgZKJPsToUDYTOncrheaYX11WdUhNZ0JmFsNL7UCLpoQJUgAgCi2GawjhJP6AJhO49TYlzSlM5ZYyIKI6NPYwR5zSbGaEFyPNKk4bPIfhuO5cKAolpuTSgF4VxWBgS51QUlih+mDRUx/V1d07//AkANzeWtrvShp2eyoe9PQtzyXNLmqguVA97/XOISBApAiI+R52w6E1ymSJl8oWh1uhmGR4fMR4jz6tgJxPs7KDfx2Ag2ff9PS4u8PaGgwM8PCgG1i7DoeQg06kqWsBMTLMTt9OmorCXaFPq6JGw5kQcbzXS2SbaNBjg6Miy5PvyRds5ez0njo+halejRFKaaJMoS99XqcBY1VxwtYq+KJSVCJLvExFouVTEyCp12lRuZoyCgOLY/g6iUOvehB9xC0gQYkFcJlYpCnmAXiNCxO0ex42GdZMgkCA0fL8AaafKNuJ3604AAAAASUVORK5CYII=" ;
+      m_t_no_trouble : base64_png "iVBORw0KGgoAAAANSUhEUgAAAD4AAAAoCAIAAAApLN6VAAADZ0lEQVRYw+1ZPU/rMBQ9RW9hgiliQIgBsTAg8QcQEhOSO8MPAJmdMQzs6V6ZH1DmRGILayIkpKxhopUYwuSKAbb7BhvbSdOv1wxFr1cWSq9j+8Q59zr3AFrQ4pgAYoz6fe3xfQIoDImIpKQwJMYIIIA4pzAkKakJw8ITwMKqeIiIc/vTvbMJ9M1BB0iIkicMq4jdroVtDQ3a1RXS1P58fLTXWWb/Ari/b2C5Jnd9XOv1NHmkLNFpibg+DnqSEBEVRTUSloUwe3sQouThXF+8vQGA52Ew0B7GFl/wT2PQpcTNTclzdgYA3S4uLvD5ia0tS/EmoDdHGN+3+Vu1ohjLojxfAsL4vibGwQGiCL2e9gcBPA9HR/D96hAhsL+/BLsuJTFGWUZFQXlOvR6FIcWxPnQ4pywjIfRmM0aMLc1pqjhjjLFSlzl6GKNeT381LBF0lfuUmS+ZiqmDNo6pOWsREX6nreHX2gr6CvoK+gr6CvoK+gr6/w49TdFuo9UqtSgCgKenkrPd1n5lwyGiyI69vkYUYTjUvQ8P2qk8t7dotdDp2C63dToYDpGmehUzCYDX1yoGW2rU1mC+P7ZLiRNTxS23nMvzkhZQO20QaNGvUgGOrmK/11VNWbljFLpbfaoyYrK4NQt0ISiOKQgmFa+jD2mhx3FpYcaIc100uGhcrJXNyDJdy5kZZoSe55QkNQ9fC12prT+VF7S4Y96UQsl5VfFxq32ljE4Vt+YlTL8/666HoaMI7OyUovf4uBrPbnQabUjZ7i4A3N1hY+Pf8wXncwx/fv7JMJ6Hy8tS3/k5PG/sGoeH84lbeY48r59NCAgBxtDt4uXF+r++JkHf3CyLGbUKshv+hotZpsPUeIQo/QtAFdGjwTdKtjy3PHFJGwSU51XSGuoWRVkRmAw9ju3UKgqniltJUnOD6hqXHCcHQDnJTDtNg0BfbG/j5ESTJIqQptPFrfV1vL9bPYxzMDZJ9zo9rZltXAAMBs6uF0WNOtXvk+/rHK/SiEqC6lVOFreyjIKAiPSrl9LOY4YYFqk3aRKlaVJSklTVTN8fkZAUJSrm+5pCKoea5WcRt9S18agHdmeWUrPf1aFM8jZrqX1Rh1e9+lUUOgRroStzBjcjbrl7YWCopzVgkkRvzXzq18cHvr+riX8J7C8zvnaXyJHeHwAAAABJRU5ErkJggg==" ;
+      m_t_rue_fear : base64_png "iVBORw0KGgoAAAANSUhEUgAAACQAAAAoCAIAAAAZoM+0AAACuUlEQVRYw+2WsU7rMBSG/yAGWICh6lLEwNC1G2KFESnMiAdA7oZEJ2QmGNMXgIkpzM0cNmTEQpiQ2VKJIZ3Sje3cwb5xnDqJKl1dMfQoiuwT28c+/h1/HhHhf9ma2/38DM8zz+kpokh/enqC52E4xHwOADc38DyMxwDw9VXtVTFyGuB4wtD6JCVJaapExFi1S2XU9mCck++bzg3BFudn23pLmicTALi7W25zGMPJicPfsrJiTQAxtvTKJpPyqGstcyx0oea7rL29lWvrS2RmMLA8Urb32tlZJo1BYDSWJEREQeBIVyXDxRZk2TJqjGPi3HQmIiEcEpeS0tR9YNr3LAh0YXcXR0d6t6IIr6/Y3MT3N8LQpNf30e9je9s91HTalsY0Jc6Jc11ljBijJKEsoyShICAikpKyjPLcNBPCUq86o+1pJCLOtXCzzApMRHlu3qpBOf++T3GsJ2TbWruiul3c3lq6Uhkr8tbtmk9C4PwcAK6uFkfyav/6sxl+frC39w//+t4vuGJWwVbBVsFWwX5rsI8PC2aHw3bCjSLtH481HTejtLk8nTDbQLhCWP77+3aUNpenkx0agGIRe9Rd2oDSjmBBQElSpSXGaDIxxJnnDooVwuqi2tuzrFmZSksd4ZZzWCxRcUADStdiQRmJFgn35cV4trZ0YTQyMqlB6XUH+XY6ODioJdz5HKOR8VxcmPLnZwtKV9PImIbROsKt6LDCxQ0o7RaImkEd4S7q0PeruOhEaUcwKR2Sq3uUXpLEEUxKimOzOCFKAhECvg8AGxsGDgtnYZxrMlfUrWwwQK+ny2kKzsE5+n0cH+uWSYL9/ZJAHh9xfY1ezwLFw0NEEXwfl5d4f9fc+fAARX/TqeHUTgdhiLMzXVX6ms3Q6ejZWAJJU8pzfTDLJgSFIcUxNVuaOri9+Nf8tT9tLY8rkUvKbQAAAABJRU5ErkJggg==" ;
    }
 }
