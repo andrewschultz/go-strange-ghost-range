@@ -112,6 +112,7 @@ strings {
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
    oaf_gsgr : dynamic_string {( !point_duh_lies ? "3/4" : "5/4" )} ;
+   oaf_hands_gsgr : dynamic_string {( !point_duh_lies ? "three fingers on one hand and four on the other" : "five fingers on one hand and four on the other" )} ;
    oaf_shows : dynamic_string {( done_here ? "DONE" : "<" + oaf_numbers + "<" + (!oaf_aid_extra ? "#fff" : unready_here ? "#ff0" : "#0f0") + ">>" )} ;
    oaf_numbers : dynamic_string {(
       is_at "go_strange_ghost_range" ? oaf_gsgr :
@@ -119,6 +120,12 @@ strings {
       is_at "no_trouble" ? "4/6" :
       is_at "cur_streets" ? "5/6" :
       is_at "hell_plots" ? "4/4" :
+      "BUG" )} ;
+   oaf_hands : dynamic_string {( is_at "go_strange_ghost_range" ? oaf_hands_gsgr :
+      is_at "rue_fear" ? "four fingers on one hand and three on the other" :
+      is_at "no_trouble" ? "four fingers on one hand and five, with a wiggly thumb, on the other" :
+      is_at "cur_streets" ? "five fingers on one hand and five, with a wiggly thumb, on the other" :
+      is_at "hell_plots" ? "four fingers on one hand and four on the other" :
       "BUG" )} ;
 
    custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
