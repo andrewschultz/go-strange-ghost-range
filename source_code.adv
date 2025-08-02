@@ -234,6 +234,11 @@ locations {
             : gosub "reject_half" ;
          }
       }
+      on_describe {
+         : if (!six_warn && !point_duh_lies && turns() >= 5) {
+            : print "You wonder if calling the oaf would help you get started." ;
+         }
+      }
    }
    rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
       on_command {
@@ -705,9 +710,6 @@ on_command {
          : print "The oaf applauds. You must be done here." ;
       } : else {
          : print "The oaf looks {oaf_status} while holding up {oaf_hands}." ;
-         : if (!six_warn) {
-            : print "{one_time}the oaf doesn't have six fingers. They just wiggle their thumb. Resourceful, especially for an oaf!" ;
-         }
       }
       : gosub "note_noun_based" ;
    }
@@ -821,6 +823,10 @@ on_command {
       : if (!oaf_aid) {
          : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}. The oaf makes itself more prominent." )} ;
          : set_true "oaf_aid" ;
+         : if (!six_warn) {
+            : print "{one_time}the oaf informs you that since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
+            : set_true "six_warn" ;
+         }
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
