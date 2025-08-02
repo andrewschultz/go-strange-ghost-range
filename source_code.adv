@@ -497,67 +497,83 @@ themes {
 
 on_render {
    : if (showing_map) {
-      : overlay "m_visited" x="202" y="0" ;
-      : overlay "m_t_gsgr" x="205" y="1" ;
+      : overlay "m_visited" x="203" y="1" ;
+      : overlay "m_t_gsgr" x="204" y="2" ;
       : if (!point_duh_lies) {
-         : overlay "m_v_notyet" x="247" y="42" ;
+         : overlay "m_v_notyet" x="248" y="43" ;
       } : else_if (is_at "go_strange_ghost_range" && point_help_lots) {
-         : overlay "m_v_done" x="247" y="42" ;
+         : overlay "m_v_done" x="248" y="43" ;
       } : else {
-         : overlay "m_v_cango" x="247" y="42" ;
+         : overlay "m_v_cango" x="248" y="43" ;
       }
       : if (has_visited "cur_streets") {
-         : overlay "m_visited" x="0" y="82" ;
-         : overlay "m_t_cur_streets" x="23" y="83" ;
+         : if (!point_curse_treats) {
+            : overlay "m_visited" x="1" y="83" ;
+         } : else {
+            : overlay "m_complete" x="1" y="83" ;
+         }
+         : overlay "m_t_cur_streets" x="2" y="84" ;
          : if (is_at "cur_streets") {
-            : overlay "m_x" x="46" y="98" ;
+            : overlay "m_x" x="47" y="99" ;
          }
       }
       : if (has_visited "hell_plots") {
-         : overlay "m_visited" x="404" y="82" ;
-         : overlay "m_t_hell_plots" x="434" y="83" ;
+         : if (!point_help_lots) {
+            : overlay "m_visited" x="405" y="83" ;
+         } : else {
+            : overlay "m_complete" x="405" y="83" ;
+         }
+         : overlay "m_t_hell_plots" x="405" y="84" ;
          : if (is_at "hell_plots") {
-            : overlay "m_x" x="450" y="98" ;
+            : overlay "m_x" x="451" y="99" ;
          }
       }
       : if (has_visited "no_trouble") {
-         : overlay "m_visited" x="202" y="164" ;
-         : overlay "m_t_no_trouble" x="223" y="165" ;
+         : if (!point_note_rubble) {
+            : overlay "m_visited" x="203" y="165" ;
+         } : else {
+            : overlay "m_complete" x="203" y="165" ;
+         }
+         : overlay "m_t_no_trouble" x="204" y="166" ;
          : if (is_at "no_trouble") {
-            : overlay "m_x" x="248" y="180" ;
+            : overlay "m_x" x="249" y="181" ;
          }
       }
       : if (is_at "go_strange_ghost_range") {
-         : overlay "m_x" x="247" y="16" ;
+         : overlay "m_x" x="249" y="17" ;
       }
       : if (!has_visited "rue_fear") {
          : done ;
       }
-      : overlay "m_visited" x="202" y="82" ;
-      : overlay "m_t_rue_fear" x="236" y="83" ;
+      : if (!point_help_lots || is_at "hell_plots") {
+         : overlay "m_visited" x="203" y="83" ;
+      } : else {
+         : overlay "m_complete" x="203" y="83" ;
+      }
+      : overlay "m_t_rue_fear" x="204" y="84" ;
       : if (is_at "rue_fear") {
-         : overlay "m_x" x="247" y="98" ;
+         : overlay "m_x" x="248" y="99" ;
       }
       : if (!point_roof_ere) {
-         : overlay "m_h_notyet" x="102" y="97" ;
-         : overlay "m_h_notyet" x="304" y="97" ;
-         : overlay "m_v_notyet" x="247" y="124" ;
+         : overlay "m_h_notyet" x="103" y="98" ;
+         : overlay "m_h_notyet" x="305" y="98" ;
+         : overlay "m_v_notyet" x="248" y="125" ;
          : done ;
       }
       : if (!point_curse_treats || is_at "cur_streets") {
-         : overlay "m_h_cango" x="102" y="97" ;
+         : overlay "m_h_cango" x="103" y="98" ;
       } : else {
-         : overlay "m_h_done" x="102" y="97" ;
+         : overlay "m_h_done" x="103" y="98" ;
       }
       : if (!point_help_lots || is_at "hell_plots") {
-         : overlay "m_h_cango" x="304" y="97" ;
+         : overlay "m_h_cango" x="305" y="98" ;
       } : else {
-         : overlay "m_h_done" x="304" y="97" ;
+         : overlay "m_h_done" x="305" y="98" ;
       }
       : if (!point_note_rubble || is_at "no_trouble") {
-         : overlay "m_v_cango" x="247" y="124" ;
+         : overlay "m_v_cango" x="248" y="125" ;
       } : else {
-         : overlay "m_v_done" x="247" y="124" ;
+         : overlay "m_v_done" x="248" y="125" ;
       }
       : done ;
    }
