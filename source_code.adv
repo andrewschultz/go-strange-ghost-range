@@ -34,10 +34,12 @@ booleans {
    oaf_aid_extra : boolean "false" ;
 
    # game state boolean(s)
-   map_notes : boolean "false" ;
+   map_dotted_notes : boolean "false" scope="survivor" ;
+   map_black_note : boolean "false" scope="survivor" ;
+   first_map_note : boolean "false" scope="survivor" ;
    listen_elegy : boolean "false" ;
    bonus_note : boolean "false" ;
-   noun_based_noted : boolean "false" scope="survivor";
+   noun_based_noted : boolean "false" scope="survivor" ;
    have_won : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
@@ -680,13 +682,21 @@ on_command {
       : set_true "showing_map" ;
       : clear_screen ;
       : update_graphic "m_blank" ;
+      : if (!map_dotted_notes && !point_help_lots && (point_roof_ere || !point_duh_lies)) {
+         : set_true "map_dotted_notes" ;
+         : print "{one_time}dotted lines mean a passage you know about but can't follow yet." ;
+      }
+      : if (point_note_rubble && !map_black_note) {
+         : print "{one_time}any room that is black on the map is complete. You won't be able to return to it, but you won't need to." ;
+         : set_true "map_black_note" ;
+      }
+      : if (!first_map_note) {
+         : print "You can mouse-click or hit ENTER to return to the game." ;
+         : set_true "first_map_note" ;
+      }
       : press_any_key ;
       : set_false "showing_map" ;
-      : update_graphic ;
-      : if (!map_notes) {
-         : set_true "map_notes" ;
-         : print "{one_time}dotted lines mean a passage you know about but can't follow yet. Notched lines mean a passage you no longer need to use. Also, you can hit ENTER or mouse-click to return to the game." ;
-      }
+      : redescribe ;
       : done ;
    }
    : if (is_present "wee_cloud") {
