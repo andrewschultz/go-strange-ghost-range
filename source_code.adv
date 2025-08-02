@@ -92,6 +92,9 @@ strings {
    # diagnostic verbs
    vd_think : string "<THINK<#f80>>" ;
 
+   g_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
+   g_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
+
    # noting stuff
    one_time : string "<ONE-TIME NOTE: <#f0f>>" ;
 
@@ -418,7 +421,7 @@ subroutines {
       : print "{gsgr} was written for EctoComp Petit Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
-      : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {why_pout} and {us_too}." ;
+      : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
       : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but HINTs can help non-English speakers." ;
       : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
    }
