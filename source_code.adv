@@ -80,6 +80,9 @@ strings {
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+
+   # changeables
+   c_dull_eyes : string "<DULL EYES<#00f>>" ;
    c_reap_elegy : string "<REAP ELEGY<#00f>>" ;
    c_no_trouble : string "<NO TROUBLE<#00f>>" ;
 
@@ -122,7 +125,7 @@ strings {
    oaf_status : dynamic_string {( unready_here ? "tentative" : "purposeful" )} ;
 
    # room strings
-   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent and hard not to {v_listen} to. {repel_hint}" : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
+   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent and hard not to {v_listen} to. {repel_hint}" : "{c_dull_eyes} stare at you from behind the ghost here in {gsgr}. There's an eerie sound, too." )} ;
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
@@ -150,7 +153,7 @@ strings {
    custom_unknown_verb_error : string "Nothing comes of that. {gsgr} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
    exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
-   end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the dull eyes." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
+   end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 }
 
 collections {
@@ -185,7 +188,7 @@ locations {
       on_command {
          : match "listen _" {
             : if (!point_duh_lies) {
-               : print "The ghost is making some noise, but the dull eyes are boring a sense of worthlessness into you, and that's what's got your focus." ;
+               : print "The ghost is making some noise, but the {c_dull_eyes} are boring a sense of worthlessness into you, and that's what's got your focus." ;
             } : else_if (!listen_elegy) {
                : print "The ghost emits a {c_reap_elegy}. Its tone and words are terrifying. Listen again for a clue what to do with it ... if you dare!" ;
                : set_true "listen_elegy" ;
