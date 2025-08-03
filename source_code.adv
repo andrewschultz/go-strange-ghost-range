@@ -36,6 +36,7 @@ booleans {
    oaf_aid_extra : boolean "false" ;
 
    # game state boolean(s)
+   in_number_choice: boolean "true" ;
    map_dotted_notes : boolean "false" scope="survivor" ;
    map_black_note : boolean "false" scope="survivor" ;
    first_map_note : boolean "false" scope="survivor" ;
@@ -87,6 +88,7 @@ strings {
    c_reap_elegy : string "<REAP ELEGY<#00f>>" ;
    c_no_trouble : string "<NO TROUBLE<#00f>>" ;
 
+   yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
    my_score : string "{score}{conditional_score}/{max_score}" ;
    conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
    to_think_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
@@ -101,13 +103,15 @@ strings {
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
-   vm_opt : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
 
    # diagnostic verbs
    vd_hint : string "<HINT<#f80>>" ;
    vd_think : string "<THINK<#f80>>" ;
+
+   # keyboard stuff
+   key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
 
    g_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
    g_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
@@ -276,6 +280,7 @@ locations {
          }
       }
       on_describe {
+         : set_false "in_number_choice" ;
          : if (!six_warn && !point_duh_lies && turns() >= 5) {
             : print "You wonder if calling the oaf, or maybe a {vd_hint}, would help you get started." ;
          }
@@ -482,17 +487,17 @@ subroutines {
       : print "Thanks to testers here." ;
    }
 
-   meta_versions : subroutine {
-      : print "Version one was published on itch.io on October 30th, 2025." ;
-   }
-
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
       : print " Help and hint are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print "{c_oaf_aid} and {c_oh_fade} toggle the oaf's help on and off. Using {c_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print "You can learn about {gsgr}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
    }
 
+   meta_versions : subroutine {
+      : print "Version 1 was released for EctoComp on itch.io on October 30, 2025." ;
+   }
    note_noun_based : subroutine {
       : if (noun_based_noted) {
          : return ;
