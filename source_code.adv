@@ -102,6 +102,7 @@ strings {
    vm_versions : string "<VERSIONS<#f80>>" ;
 
    # diagnostic verbs
+   vd_hint : string "<HINT<#f80>>" ;
    vd_think : string "<THINK<#f80>>" ;
 
    g_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
@@ -264,7 +265,7 @@ locations {
       }
       on_describe {
          : if (!six_warn && !point_duh_lies && turns() >= 5) {
-            : print "You wonder if calling the oaf would help you get started." ;
+            : print "You wonder if calling the oaf, or maybe a {vd_hint}, would help you get started." ;
          }
       }
    }
@@ -457,7 +458,7 @@ subroutines {
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
       : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
-      : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but HINTs can help non-English speakers." ;
+      : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
       : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
    }
 
