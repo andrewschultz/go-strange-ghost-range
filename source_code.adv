@@ -80,6 +80,8 @@ strings {
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+   c_reap_elegy : string "<REAP ELEGY<#00f>>" ;
+   c_no_trouble : string "<NO TROUBLE<#00f>>" ;
 
    my_score : string "{score}{conditional_score}/{max_score}" ;
    conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
@@ -116,7 +118,7 @@ strings {
    # room strings
    gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
-   nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear NO TROUBLE ... NO TROUBLE. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
+   nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
 
    # oaf strings
@@ -178,12 +180,12 @@ locations {
             : if (!point_duh_lies) {
                : print "The ghost is making some noise, but the dull eyes are boring a sense of worthlessness into you, and that's what's got your focus." ;
             } : else_if (!listen_elegy) {
-               : print "The ghost emits a reap elegy. Its tone and words are terrifying. Listen again for a clue what to do with it ... if you dare!" ;
+               : print "The ghost emits a {c_reap_elegy}. Its tone and words are terrifying. Listen again for a clue what to do with it ... if you dare!" ;
                : set_true "listen_elegy" ;
             } : else {
                : cycle key = "reap_elegy_stuff" predictable_order = "true" skip_interval = "0" {
-                  : print "The ghost's reap elegy rhymes creep, deep, and even \"beep\" to block out profanity." ;
-                  : print "The ghost's reap elegy takes a weird turn. \"Elegy\"'s syllables ae stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredgey to mortals in a drive-a-wedgey manner. It has special scorn for people named Reggie." ;
+                  : print "The ghost's {c_reap_elegy} rhymes creep, deep, and even \"beep\" to block out profanity." ;
+                  : print "The ghost's {c_reap_elegy} takes a weird turn. \"Elegy\"'s syllables ae stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredgey to mortals in a drive-a-wedgey manner. It has special scorn for people named Reggie." ;
                }
             }
             : done ;
@@ -216,7 +218,7 @@ locations {
                : print "You should have won the game already, and you shouldn't see this." ;
             } : else_if (!point_help_lots) {
                : if (!point_duh_lies) {
-                  : print "No way you're dealing with the reap elegy before the dull eyes." ;
+                  : print "No way you're dealing with the {c_reap_elegy} before the dull eyes." ;
                } :else_if (!point_note_rubble) {
                   : print "Oh, hey, that seems like a good idea, a great idea even, but there's no way you're going to be able to repel the ghost on your own." ;
                } : else {
@@ -843,7 +845,7 @@ on_command {
             }
          } : else {
             : cycle key = "gsgr_hints_2" predictable_order = "true" skip_interval = "0" {
-               : print "The reap elegy pulses through everywhere, and you need to shut it down, somehow. " ;
+               : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow. " ;
                : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
                : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
                : print "If you LISTEN to it, you will gain some clues. What is being rhymed?" ;
