@@ -91,6 +91,9 @@ strings {
    c_oaf_aid : string "<OAF AID<#f0f>>" ;
    c_oh_fade : string "<OH FADE<#f0f>>" ;
 
+   # verbs
+   v_listen : string "<LISTEN<#0f0>>" ;
+
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
@@ -116,7 +119,7 @@ strings {
    oaf_status : dynamic_string {( unready_here ? "tentative" : "purposeful" )} ;
 
    # room strings
-   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent." : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
+   gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {gsgr}, decidedly un-silent and hard not to {v_listen} to. {repel_hint}" : "Dull eyes stare at you from behind the ghost in {gsgr}. There's an eerie sound, too." )} ;
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
@@ -202,7 +205,7 @@ locations {
                : print "The eyes are no longer here." ;
             } : else {
                : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
-               : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south." ;
+               : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
                : gosub "add_point" ;
                : set_true "point_duh_lies" ;
                : update_graphic ;
@@ -848,7 +851,7 @@ on_command {
                : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow. " ;
                : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
                : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
-               : print "If you LISTEN to it, you will gain some clues. What is being rhymed?" ;
+               : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
                : print "REPEL EDGY." ;
             }
          }
