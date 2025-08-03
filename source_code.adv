@@ -113,6 +113,7 @@ strings {
 
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
+   repel_hint : dynamic_string {( think_repel_edgy && point_help_lots ? "You feel you have the support to try what failed earlier." : point_help_lots ? "How, then, to get rid of the ghost?" : "You don't feel prepared enough to tackle the ghost yet, though." )}
    oaf_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
 
    # dynamic or long/special strings
@@ -125,6 +126,7 @@ strings {
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
+   hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around here, complaining of the drudgework they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
 
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
@@ -353,6 +355,7 @@ locations {
                : gosub "add_point" ;
                : set_true "point_curse_treats" ;
                : set_false "think_curse_treats" ;
+               : update_graphic ;
             }
             : done ;
          }
@@ -690,17 +693,17 @@ on_startup {
       : print "There's nothing new to be found on replay, if you're wondering. But thanks for checking." ;
       : press_any_key ;
    }
-   : print "You're too old for Halloween scariness and silliness, of course. But you still fear ten-cent library fines when books are a day overdue." ;
+   : print "You're too old for Halloween scariness and silliness, of course. But you still fear ten-cent library fines when books are a day overdue. It's more the nuisance of tracking down change lying around, really." ;
    : press_any_key ;
-   : print "You had a couple due today. The library's closed now, but if you return the books in the drop before it opens tomorrow, you won't get fined." ;
+   : print "A couple books were due today. The library's closed now, but if you return the books in the drop before it opens tomorrow, you won't get fined." ;
    : press_any_key ;
-   : print "You're not sure why you picked these two books, but you got ironic enjoyment from them: <Cruel-Itches-Crew Liches<#ff0>> and <Wight-Ail-Why Tale<#ff0>>." ;
+   : print "You're not sure why you picked these two books, but you got ironic enjoyment from them: <Cruel-Itches-Crew Liches<#ff0>> and <Wight-Ail-Why Tale<#ff0>>. Such silliness! Things never happen that way." ;
    : press_any_key ;
    : print "You take a shortcut back through a mini-forest preserve in a city park. It's maybe four blocks square. But it's taking too long to get out. What is going on?" ;
    : press_any_key ;
    : print "Ah, there, things are opening up. But you don't recognize where you are, and there's a strange ghost. You can't face it alone!" ;
    : press_any_key ;
-   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"But I can help you if you need it. We need someone to perform a... a...\"" ;
+   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {c_oaf_aid}. We need someone to perform a... a...\"" ;
    : print "There's an awkward pause, then ..." ;
    : print "\"{gsgo}!!!\"" ;
    : press_any_key ;
@@ -756,8 +759,8 @@ on_command {
    }
    : if (is_present "wee_cloud") {
       : match "_ weak;_ loud;_ wee;_ cloud" {
-         : print "You're not sure how many souls make it up." ;
          : print {( point_help_lots ? "Restless with anticipation of bettering themselves/itself." : "Fidgety and moaning about its fate in the afterlife." )} ;
+         : print "You're not sure how many souls make it up. I mean, I know there are thirteen in the graphic, but I'm working with limited resolution, here." ;
          : gosub "note_noun_based" ;
       }
    }
