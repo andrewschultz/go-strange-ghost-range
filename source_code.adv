@@ -113,6 +113,7 @@ strings {
 
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
+   oaf_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
 
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
@@ -881,22 +882,30 @@ on_command {
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}. The oaf makes itself more prominent." )} ;
+         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
-            : print "{one_time}the oaf informs you that since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
+            : print "{one_time}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
             : set_true "six_warn" ;
          }
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print "{c_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself less prominent." ;
-	  }
+         : print {( "{c_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
+	   }
+      : done ;
    }
    : match "oh fade" {
       : print {( "{c_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
       : set_false "oaf_aid" ;
       : update_graphic ;
+      : done ;
+   }
+   : match "oaf _" {
+      : print "{oaf_stickler} {c_oaf_aid}.";
+   }
+   : match "oh _" {
+      : print "{oaf_stickler} {c_oh_fade}.";
    }
 }
 
