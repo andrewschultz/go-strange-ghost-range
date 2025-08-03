@@ -234,6 +234,7 @@ locations {
                : done ;
             } : else {
                : print "You wouldn't think the {wlwc} could help, objectively, since all of them are smaller than you. But boy does the variety and amount of their complaints disrupt the elegy in a way that your more measured responses, or {dwdd}'s strength, never could." ;
+               : print {( "Even the oaf " + (oaf_aid ? "gets " : "comes from the shadows to get") + " in on the action! Their questions are just the sort that malevolent people and spirits find stupid. " )} ;
                : print "The ghost has trouble trying to pick off each single complaint, and it eventually gets frustrated realizing how impossible it is, whirling into a ball of energy and floating away." ;
                : print "You have freed {gsgr}!" ;
                : set_true "point_repel_edgy" ;
@@ -241,6 +242,9 @@ locations {
                : gosub "add_point" ;
                : update_graphic ;
                : press_any_key ;
+               : if (!six_warn) {
+                  : print "Wow! Teamwork! You apologize to the oaf for not letting it help along the way, but it assures you that the solitude gave it time to think of such questions. You resolve to have less fear of asking potentially silly questions in real life." ;
+               }
                : print "You reflect on your journey. The oaf and dude feel more useful. The {wlwc} feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
                : press_any_key ;
                : print "Aha! That's it!" ;
