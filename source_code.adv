@@ -81,7 +81,9 @@ strings {
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
 
-   my_score : string "{score}/{max_score}" ;
+   my_score : string "{score}{conditional_score}/{max_score}" ;
+   conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
+   to_think_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
 
    # options
    c_oaf_aid : string "<OAF AID<#f0f>>" ;
@@ -140,6 +142,21 @@ strings {
    exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the dull eyes." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
+}
+
+collections {
+   num_to_word : list {
+      items = [
+         "zero",
+         "one",
+         "two",
+         "three",
+         "four",
+         "five",
+         "six",
+         "seven"
+      ]
+   };
 }
 
 objects {
@@ -753,7 +770,7 @@ on_command {
    : match "score _" {
       : print "You have scored {score} of {max_score} points so far." ;
       : if (to_think > 0) {
-         : print {( "You have {to_think} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
+         : print {( "You have {to_think_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
       }
       : if (!bonus_note) {
          : print "NOTE: {gsgr} contains no hidden bonus points." ;
