@@ -74,6 +74,7 @@ integers {
 strings {
    # abbreviations
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
+   gsgo : string "<A<#f80>> go-<stop<#f80>>-ghost <op<#f80>>" ;
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
@@ -628,7 +629,7 @@ on_render {
 
 on_startup {
    : print "{gsgr}, by Andrew Schultz" ;
-   : print "A go-stop-ghost op" ;
+   : print "{gsgo}" ;
    : print "Submitted to the 2025 EctoComp Petite Mort" ;
    : press_any_key ;
    : if (have_won) {
@@ -647,7 +648,7 @@ on_startup {
    : press_any_key ;
    : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"But I can help you if you need it. We need someone to perform a... a...\"" ;
    : print "There's an awkward pause, then ..." ;
-   : print "\"Go-stop-ghost op!\"" ;
+   : print "\"{gsgo}!!!\"" ;
    : press_any_key ;
 }
 
