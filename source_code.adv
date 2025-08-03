@@ -43,6 +43,7 @@ booleans {
    bonus_note : boolean "false" ;
    noun_based_noted : boolean "false" scope="survivor" ;
    have_won : boolean "false" scope="survivor" ;
+   win_warn : boolean "false" scope="survivor" ;
 
    # auxiliary semi-function-parameter booleans
    showing_map : boolean "false" ;
@@ -258,12 +259,13 @@ locations {
                : press_any_key ;
                : print "You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
                : press_any_key ;
+               : clear_screen ;
                : set_false "show_overlay" ;
                : update_graphic "s_you_saw_use_aww" ;
                : set_true "show_overlay" ;
                : print "^c^<YOU SAW USE, AWW<#ff0>>\n^l^" ;
-               : win_game ;
                : set_true "have_won" ;
+               : win_game ;
             }
             : done ;
          }
@@ -691,11 +693,11 @@ on_startup {
    : print "{gsgr}, by Andrew Schultz" ;
    : print "{gsgo}" ;
    : print "Submitted to the 2025 EctoComp Petite Mort" ;
-   : press_any_key ;
-   : if (have_won) {
-      : print "There's nothing new to be found on replay, if you're wondering. But thanks for checking." ;
-      : press_any_key ;
+   : if (have_won && !win_warn) {
+      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other EctoComp games!" ;
+      : set_true "win_warn" ;
    }
+   : press_any_key ;
    : print "You're too old for Halloween scariness and silliness, of course. But you still fear ten-cent library fines when books are a day overdue. It's more the nuisance of tracking down change lying around, really." ;
    : press_any_key ;
    : print "A couple books were due today. The library's closed now, but if you return the books in the drop before it opens tomorrow, you won't get fined." ;
