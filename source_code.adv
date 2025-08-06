@@ -216,8 +216,8 @@ locations {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
             } : else {
-               : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
-               : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
+               : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds. The dull eyes put one last cruel thought in your mind: \"So-lame soul aim!\" But you do not blink. They do, and they go away, maybe looking for someone easier to push around. You just hope that someone learns to stand up to them, too." ;
+               : print "With the dull eyes gone, you feel less pinned to the spot. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
                : gosub "add_point" ;
                : set_true "point_duh_lies" ;
                : update_graphic ;
