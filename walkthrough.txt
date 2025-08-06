@@ -4,13 +4,15 @@ by Andrew Schultz
 
 This was a submission to EctoComp Petite Mort 2025, where you had 4 hours to code. Graphics were not counted against the time limit. (Please, no cracks about how they wouldn't have counted much!)
 
-The solution is, in the big picture, fairly straightforward. You need to escape the ghost's grip, then do something in each of the four other rooms. There's an order for this. Then you return to the ghost to finish them. If you do something out of order, the game alerts you and notes things for later.
+The solution is, in the big picture, fairly straightforward. You need to escape the ghost's grip, then do something in each of the four other rooms, then return to defeat the ghost. This must be done in a specific order, but if you do it wrong, the game leaves the right command for reference in THINK.
 
-Dull eyes leave you unable to do anything. Oh, the thoughts they put in your head! You can't leave until you address them.
+The oaf is fully optional. Its mechanics are: OH FADE hides it. OAF AID makes it reappear, but if it's there, OAF AID toggles the level of detail of its help. This is also visible in the status line, where the text is always grey in regular mode, but it's yellow/green (unavailable/available) with OAF AID enhanced.
+
+Dull eyes leave you unable to do anything. Oh, the thoughts they put in your head! You can't leave until you address them directly.
 
 >DUH LIES
 
-Now you'll be able to listen to something, but you can't deal with it until you're strong enough.
+Now you'll be able to listen to something new, but you can't deal with it until you're strong enough.
 
 >S
 
@@ -26,28 +28,33 @@ No trouble? Nothing to see here?
 
 >NOTE RUBBLE
 
-You have a friend now.
+You have a friend now. His not having done too much actually helps with the next bit. Also, you're done in this room and can't go back once you leave.
 
->E
-
->HELP LOTS
-
-More people now!
-
->W
+>N
 >W
 
-The sheer volume of people lets you search for the food source.
+Cur streets!
 
 >CURSE TREATS
 
-Okay, now you are ready for the final bit.
+Dude Well-Do-Dwell's laziness rubs off on your canine adversaries, who are now out of commission.
 
 >E
+>E
+
+You couldn't have done anything before, as the curs would interfere. But now you can...
+
+>HELP LOTS
+
+With all these people, um, entities to assist you, you are ready for the final bit!
+
+>W
 >N
 
 If you listen, the Reap Elegy runs through.
 
 >REPEL EDGY
+
+Everyone does their part, including the oaf, whether or not you summoned them.
 
 And you win!
