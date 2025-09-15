@@ -82,6 +82,7 @@ strings {
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+   ecomp : string "<EctoComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
 
    # changeables
    c_dull_eyes : string "<DULL EYES<#88f>>" ;
@@ -253,7 +254,7 @@ locations {
                : update_graphic ;
                : press_any_key ;
                : if (!six_warn) {
-                  : print "Wow! Teamwork! You apologize to the oaf for not letting it help along the way, but it assures you that the solitude gave it time to think of such questions. You resolve to have less fear of asking potentially silly questions in real life." ;
+                  : print "Wow! Teamwork! You apologize to the oaf for not letting it help along the way, but it assures you that the solitude gave it time to think of big questions like, should we be obliged to help? Should we feel helpful even if not asked? It's an interesting chat. You resolve to have less fear of asking potentially silly questions in real life." ;
                }
                : print "You reflect on your journey. The oaf and dude feel more useful. The {wlwc} feel as though they deserve at least limbo. Perhaps there was a clerical error. But you -- you're not ready to join the afterlife. There's just one thing: what to call this place, now the ghost is gone? It's tough, but given your successes, your companions have faith in you." ;
                : press_any_key ;
@@ -472,7 +473,7 @@ barriers {
 
 subroutines {
    meta_about : subroutine {
-      : print "{gsgr} was written for EctoComp Petit Mort 2025." ;
+      : print "{gsgr} was written for {ecomp} Petit Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
       : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
@@ -481,7 +482,7 @@ subroutines {
    }
 
    meta_credits : subroutine {
-      : print "Thanks to the administrators Ruber Eaglenest for holding EctoComp, as well as former administrators like JJ Guest and Duncan Bowsman." ;
+      : print "Thanks to the administrators Ruber Eaglenest for holding {ecomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
       : print "Thanks to Chris Ainsley for creating Adventuron." ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
       : print "Thanks to testers here." ;
@@ -496,7 +497,7 @@ subroutines {
    }
 
    meta_versions : subroutine {
-      : print "Version 1 was released for EctoComp on itch.io on October 30, 2025." ;
+      : print "Version 1 was released for {ecomp} on itch.io on October 30, 2025." ;
    }
    note_noun_based : subroutine {
       : if (noun_based_noted) {
@@ -697,9 +698,9 @@ on_render {
 on_startup {
    : print "{gsgr}, by Andrew Schultz" ;
    : print "{gsgo}" ;
-   : print "Submitted to the 2025 EctoComp Petite Mort" ;
+   : print "Submitted to the 2025 {ecomp} Petite Mort" ;
    : if (have_won && !win_warn) {
-      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other EctoComp games!" ;
+      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other {ecomp} games! Even if it's over now!" ;
       : set_true "win_warn" ;
    }
    : press_any_key ;
@@ -876,7 +877,7 @@ on_command {
          }
          : done ;
       }
-      : print "Due to EctoComp's time limits for programming, there is no hinting in the dead end areas. But I think they're a bit easier than the initial puzzles." ;
+      : print "Due to {ecomp}'s time limits for programming, there is no hinting in the dead end areas. But I think they're a bit easier than the initial puzzles." ;
       : done ;
    }
    : match "think _" {
