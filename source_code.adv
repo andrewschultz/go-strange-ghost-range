@@ -45,6 +45,7 @@ booleans {
    noun_based_noted : boolean "false" scope="survivor" ;
    have_won : boolean "false" scope="survivor" ;
    win_warn : boolean "false" scope="survivor" ;
+   wait_yet : boolean "false" ;
 
    # auxiliary semi-function-parameter booleans
    showing_map : boolean "false" ;
@@ -473,7 +474,7 @@ barriers {
 
 subroutines {
    meta_about : subroutine {
-      : print "{gsgr} was written for {ecomp} Petit Mort 2025." ;
+      : print "{gsgr} was written for {ecomp} Petite Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
       : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
@@ -747,6 +748,13 @@ on_pre_command {
 }
 
 on_command {
+   : match "z _;wait _" {
+      : print "\"Loaf, right? Lo, fright!\"" ;
+      : if (!wait_yet) {
+         : print "{note_once}This is just a silly general response. Waiting gives no penalty or benefit." ;
+         : set_true "wait_yet" ;
+      }
+   }
    : match "map _" {
       : set_true "showing_map" ;
       : clear_screen ;
