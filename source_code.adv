@@ -263,7 +263,15 @@ locations {
                : press_any_key ;
                : print "It was supposed to be a park, so you decide on Jog-'Round/Jaw Ground. Where people can socialize or enjoy nature. You check to make sure you haven't broken a grammatical rule too badly. But everyone nods and agrees." ;
                : press_any_key ;
-               : print "You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
+               : print "It's time to depart. The oaf says it's time to be an eye-loaf-isle oaf. You reassure it it's earned it. The crowd has a more active urge: a crowdy ache, rowdy. The dude has an epiphany. \"Dude, riven?! Do!!! DRIVEN!!!\" You? Well, you have nothing concrete to do here. But you look inside yourself and find a wan tripling want, rippling. You have things to do back home. But how to get back? You see no portal back ... \"Poor ... tell port? L ...\" you mutter. Then you see it." ;
+               : press_any_key ;
+               : clear_screen ;
+               : set_false "show_overlay" ;
+               : update_graphic "s_fence_and_fen_sand" ;
+               : set_true "show_overlay" ;
+               : print "Fence and fen/sand." ;
+               : print "You notice the part of the fence joining the fen and sand is different. You walk closer, and it swirls with magical energy." ;
+               : print "There's a flash as you walk through the weak point in the fence.You walk home to your own world uneventfully. You've half forgotten your outing, until you notice a post-it on your door. It says ..." ;
                : press_any_key ;
                : clear_screen ;
                : set_false "show_overlay" ;
@@ -973,7 +981,8 @@ assets {
 
       r_hell_plots : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoCAMAAAAmJNS7AAADAFBMVEUAAACAAAAAgACAgAAAAICAAIAAgIDAwMDA3MCmyvBAIABgIACAIACgIADAIADgIAAAQAAgQABAQABgQACAQACgQADAQADgQAAAYAAgYABAYABgYACAYACgYADAYADgYAAAgAAggABAgABggACAgACggADAgADggAAAoAAgoABAoABgoACAoACgoADAoADgoAAAwAAgwABAwABgwACAwACgwADAwADgwAAA4AAg4ABA4ABg4ACA4ACg4ADA4ADg4AAAAEAgAEBAAEBgAECAAECgAEDAAEDgAEAAIEAgIEBAIEBgIECAIECgIEDAIEDgIEAAQEAgQEBAQEBgQECAQECgQEDAQEDgQEAAYEAgYEBAYEBgYECAYECgYEDAYEDgYEAAgEAggEBAgEBggECAgECggEDAgED/gAAAoEAgoEBAoEBgoECAoECgoEDAoEDgoEAAwEAgwEBAwEBgwECAwECgwEDAwEDgwEAA4EAg4EBA4EBg4ECA4ECg4EDA4EDg4EAAAIAgAIBAAIBgAICAAICgAIDAAIDgAIAAIIAgIIBAIIBgIICAIICgIIDAIIDgIIAAQIAgQIBAQIBgQICAQICgQIDAQIDgQIAAYIAgYIBAYIBgYICAYICgYIDAYIDgYIAAgIAggIBAgIBggICAgICggIDAgIDggIAAoIAgoIBAoIBgoICAoICgoIDAoIDgoIAAwIAgwIBAwIBgwICAwICgwIDAwIDgwIAA4IAg4IBA4IBg4ICA4ICg4IDA4IDg4IAAAMAgAMBAAMBgAMCAAMCgAMDAAMD/AP8AIMAgIMBAIMBgIMCAIMCgIMDAIMDgIMAAQMAgQMBAQMBgQMCAQMCgQMDAQMDgQMAAYMAgYMBAYMBgYMCAYMCgYMDAYMDgYMAAgMAggMBAgMBggMCAgMCggMDAgMDggMAAoMAgoMBAoMBgoMCAoMCgoMDAoMDgoMAAwMAgwMBAwMBgwMCAwMCgwMD/+/CgoKSAgID/AAAA/wD//wAAAP//AP8A//////8leMIQAAAClElEQVRo3tWZW3LDMAhFxWrv/nfQzjTt2ILLyyht/ZWkqoBjXkIL5UcyT3JZ+kmLrT7riPmfmsjwkxZ8FsC4vgc2/C0A9wWY9nnYct4M4CaF2Z4DEHkTBWBKNNQ5AYDpYxgD39DrZj87U4tsovcVaPrAavo/iC67LTdDlclCFys8CpLncmcAmCZj+wodserjth3j8vobXgt8SUAzD6x2/oPlhzBe9lUn5uBuJgDZ++oY7Uy42unfDFyhv3VrA1SAGLuz2JkDIJy6dubZLlBHPUggtsKgDgBbWhJHwTPNkOo2vvUxFB0CsCthu8CM/Z7/bBI2B2hVw/Wg/9ssZ/lonsAmyVFwBkCo6leuxlQCQAjnKlBcBScAGBsaUX88Aaiot0puPQ+szvu3SlOuAqgOHs340AKpqgcAON1raL9RTiqd0S4AQSJ4DoBJR6IlD9+/6wuk//LyMD03HgBACPgAnIStfQnmZojsHwbgiIepklfVHEfXsshiU5rXbg8DAG9LmP2p+LYAkM+BBrMA3C5Fi88GcpAeXbBVDWQWgHhHH/TH42H5tFUAUWoKgBeEkITwuSMhvJdg56MUgVVpAr3JzPxdCC8SRiu6nYvz7WDFA3Bvwd9ov3IBOLMJS+8mAD8FIjH9PXZNch8JoJ8GV/UUsH1B6v1DjhGAoVSFwOoeAtz+s1kKKuxYZ1A9ElQBMG9Drcb3APi10EPdAJC8guEN6IwD0DMj4rFzqhSs3Bg4nHPDu/p6Gu0w2kpEAYDckHglb0GCi1/rP+YL4N0bvHhhNrQBbEHn35U+jnseAyTolEb5UrCaBUDIvee4B8QzaVezkMBqFoDTdf7J8LhUCioA5L8AkFMATjQ6Zy5Q3g1A5E+5QAXAB0u/WLDXm1XuAAAAAElFTkSuQmCC" ;
 
-      # endgame
+      # endgame / cutscene graphics
+      s_fence_and_fen_sand : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoBAMAAADj1Dm6AAAAFVBMVEWAAAAAgAAAAIDCsoCAQAAA/wAA//9co+zlAAABT0lEQVR4XmJQGmAwGBww6oBRB4w6YNQBThQgJgiiwAQGJRUX8pECAxhRYsioAxhcKAEODGBAiSGjDhj4NDDqgNFEOJoLAM3UzY0CMQwFYFrwwX2sxNIBBWCJ5w7s/ktY/4W5cWAisfZL4BDNfMgR19/75/m5RPC44Hn/NP8AcLZwrrYBhL8MAH0PwMgl0e+Kjx2QrQBaAAa9AVT2A2b8BGnFlLoNwL2/UqShxKCtADAgB0C9a0lGIBUGxcrMybOAW/84Fka2CNyhDhuAOhwNKN4c42WzLQABFwIggntmzaAcOgCCtJRmNn5+BFgAAQmEOQFWL02Gm2KNYAhIQgMdansA/eD8KAAi2tNPCBwNAF4ENa1j2DOCavTz572R6NztABx/GBatOwBXTMnrnjkSoaaoVoOhiubIXBBT3QG44SipXWsLg6nFUiwAY5XXKsAfAkws2I0KBdkAAAAASUVORK5CYII=" ;
       s_you_saw_use_aww : base64_png "iVBORw0KGgoAAAANSUhEUgAAAQAAAAAoAgMAAABslMwaAAAACVBMVEUAAACAAAD//wCwbzSHAAAA10lEQVR4Xu3VMWoEMQyF4beCwKA+vUujUyw5QYrkPorLOYWZyrxTxg5M+rwJgcD+vT+wETLeL/ZPgAdwB3ATgVesNOANZ0HyQwScs4ytdOEKTnLUSFeBrQYmAN9dBSpqDafLwCoQEAHHWEA6HJCA9gXQ3dNkAIEJHLsIIECEk9QAgmfqIP0OMErbiggMY/dtAeIk5jWgoJGtXQCYdg2wNKYBCfUNGhdgHeI+6Gltto9DAlCQZtk5G88/B16y4mAjZeB7jDETgYGVCNzPs08nKQC3P/lcH8AnwStDf3dGzvgAAAAASUVORK5CYII=" ;
 
       # map graphics
