@@ -278,6 +278,9 @@ locations {
                : update_graphic "s_you_saw_use_aww" ;
                : set_true "show_overlay" ;
                : print "^c^<YOU SAW USE, AWW<#ff0>>\n^l^" ;
+               : if (have_won) {
+                  : print "And thanks for playing through again! Even though I had no new content to offer." ;
+               }
                : set_true "have_won" ;
                : win_game ;
             }
@@ -535,8 +538,8 @@ subroutines {
    }
    add_point : subroutine {
       : print "<Your score has just gone up by a point!<#ff0>>" ;
-	  : increment "score" ;
-	  : update_graphic ;
+      : increment "score" ;
+      : update_graphic ;
    }
 }
 
@@ -709,7 +712,7 @@ on_startup {
    : print "{gsgo}" ;
    : print "Submitted to the 2025 {ecomp} Petite Mort" ;
    : if (have_won && !win_warn) {
-      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other {ecomp} games! Even if it's over now!" ;
+      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other {ecomp} games! Whether or not it's over now!" ;
       : set_true "win_warn" ;
    }
    : press_any_key ;
@@ -926,7 +929,7 @@ on_command {
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
          : print {( "{c_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
-	   }
+       }
       : done ;
    }
    : match "oh fade" {
