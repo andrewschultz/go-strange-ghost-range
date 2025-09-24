@@ -494,10 +494,10 @@ subroutines {
    }
 
    meta_credits : subroutine {
-      : print "Thanks to the administrators Ruber Eaglenest for holding {ecomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
+      : print "Thanks to the administrators Ruber Eaglenest and Alyshkalia for holding {ecomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
       : print "Thanks to Chris Ainsley for creating Adventuron." ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
-      : print "Thanks to testers here." ;
+      : print "I had no time for testers, alas, but if you find a bug, you can get your name here!" ;
    }
 
    meta_verbs : subroutine {
