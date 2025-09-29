@@ -12,7 +12,7 @@ game_information {
    uuid                         = 194e9232-a134-4c81-b596-6e431efacea4
    year_of_release              = 2025
    copyright_message            = Free to distribute, voluntary payments welcome
-   short_synopsis               = EctoComp 2025 Petite Mort entry, in the vein of Why Pout and Us Too
+   short_synopsis               = {ecomp} 2025 Petite Mort entry, in the vein of Why Pout and Us Too
 }
 
 booleans {
@@ -54,6 +54,7 @@ booleans {
    think_already : boolean "false" ;
    once_now_boolean : boolean "false" ;
    six_warn : boolean "false" ;
+   showed_first_note : boolean "false" ;
 
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
@@ -733,6 +734,10 @@ on_startup {
 }
 
 on_tick {
+   : if (!showed_first_note) {
+      : print "{one_time}{vm_about} will give general game information. {vm_verbs} will describe {gsgr}'s stripped-down parser." ;
+      : set_true "showed_first_note" ;
+   }
 }
 
 on_pre_describe {
