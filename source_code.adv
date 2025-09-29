@@ -908,7 +908,7 @@ on_command {
    : match "hint _;help _" {
       : gosub "hint_help" ;
       : if (!help_note) {
-         : print "{one_time}Due to {ecomp}'s time limits for programming, there is no specific hinting in the dead end areas beyond if you're done, or if the right command can score a point." ;
+         : print "{one_time}Due to {ecomp}'s time limits for programming, there is specific hinting only for the first two puzzles and the last one. Otherwise, you're just told whether you're done in the current room, you can do something to score a point now, or you'll need to go elsewhere first." ;
          : set_true "help_note" ;
       }
       : done ;
