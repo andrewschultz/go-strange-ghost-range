@@ -196,7 +196,7 @@ locations {
       on_command {
          : match "listen _" {
             : if (!point_duh_lies) {
-               : print "The ghost is making some noise, but the {c_dull_eyes} are boring a sense of worthlessness into you, and that's what's got your focus." ;
+               : print "The ghost is making some noise, but that's secondary to the sense of worthlessness you feel from the {c_dull_eyes}' intense gaze. Or gazes." ;
             } : else_if (!listen_elegy) {
                : print "The ghost emits a {c_reap_elegy}. Its tone and words are terrifying. Listen again for a clue what to do with it ... if you dare!" ;
                : set_true "listen_elegy" ;
@@ -219,8 +219,8 @@ locations {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
             } : else {
-               : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds. The dull eyes put one last cruel thought in your mind: \"So-lame soul aim!\" But you do not blink. They do, and they go away, maybe looking for someone easier to push around. You just hope that someone learns to stand up to them, too." ;
-               : print "With the dull eyes gone, you feel less pinned to the spot. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
+               : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
+               : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
                : gosub "add_point" ;
                : set_true "point_duh_lies" ;
                : update_graphic ;
@@ -492,6 +492,7 @@ subroutines {
       : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
       : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
       : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
+      : print "Some text is color-coded. <Green<#0f0>> is a clickable link, and <Orange<#f80>> or purple indicates a verb you can use. <Lavender<#88f>> text clues what to focus on." ;
    }
 
    meta_credits : subroutine {
@@ -504,7 +505,7 @@ subroutines {
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
-      : print " Help and hint are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
+      : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print "{c_oaf_aid} and {c_oh_fade} toggle the oaf's help on and off. Using {c_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
       : print "You can learn about {gsgr}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
    }
@@ -822,7 +823,7 @@ on_command {
          : print {( "You have {to_think_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
       }
       : if (!bonus_note) {
-         : print "NOTE: {gsgr} contains no hidden bonus points." ;
+         : print "{one_time}{gsgr} contains no hidden bonus points." ;
          : set_true "bonus_note" ;
       }
    }
@@ -873,7 +874,7 @@ on_command {
             : print "There's a bit of slang, but also, the words are short enough, you may be able to figure it out " ;
             : print "Rue becomes roof." ;
             : print "But what does the rest become? Ear doesn't quite make sense." ;
-            : print "If you drop the letter, though, you will see that you get ROOF ERE." ;
+            : print "If you drop the letter, though, you will see that you get <ROOF ERE<#88f>>." ;
             : print "" ;
          }
          : done ;
@@ -888,7 +889,7 @@ on_command {
                : print "The dull eyes are stopping you from going south. You need to do something to talk back against them. " ;
                : print "What two words together sound like dull eyes?" ;
                : print "The first one's a bit slangy." ;
-               : print "DUH LIES." ;
+               : print "<DUH LIES<#88f>>." ;
             }
          } : else {
             : cycle key = "gsgr_hints_2" predictable_order = "true" skip_interval = "0" {
@@ -896,12 +897,12 @@ on_command {
                : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
                : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
                : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
-               : print "REPEL EDGY." ;
+               : print "<REPEL EDGY<#88f>>." ;
             }
          }
          : done ;
       }
-      : print "Due to {ecomp}'s time limits for programming, there is no hinting in the dead end areas. But I think they're a bit easier than the initial puzzles." ;
+      : print "Due to {ecomp}'s time limits for programming, there is no hinting in the dead end areas beyond whether or not the right command can score a point." ;
       : done ;
    }
    : match "think _" {
