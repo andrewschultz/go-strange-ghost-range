@@ -8,9 +8,17 @@ The solution is, in the big picture, fairly straightforward. You need to escape 
 
 The oaf is fully optional. Its mechanics are: OH FADE hides it. OAF AID makes it reappear, but if it's there, OAF AID toggles the level of detail of its help. This is also visible in the status line, where the text is always grey in regular mode, but it's yellow/green (unavailable/available) with OAF AID enhanced.
 
-Dull eyes leave you unable to do anything. Oh, the thoughts they put in your head! You can't leave until you address them directly.
+Go-Strange-Ghost Range has six points/special commands to figure out, and it has no bonus points.
 
->DUH LIES
+One of the main things to figure out is what sort of command gets you points. The title is a clue, as is the header, and the books you read at first. "Go-stop-ghost op" is another clue. You can't leave to the south until you face something down. What's preventing you?
+
+Why, the dull eyes. So deal with them first.
+
+=============================================================================
+
+The dull eyes leave you unable to do anything. Oh, the thoughts they put in your head! You can't leave until you address them directly. How to address them is the core mechanic of the game.
+
+>DUH LIES (1)
 
 Now you'll be able to listen to something new, but you can't deal with it until you're strong enough.
 
@@ -18,7 +26,7 @@ Now you'll be able to listen to something new, but you can't deal with it until 
 
 Rue Fear. You feel small and can't see anything.
 
->ROOF ERE
+>ROOF ERE (1)
 
 Okay, you see ways out now.
 
@@ -26,35 +34,35 @@ Okay, you see ways out now.
 
 No trouble? Nothing to see here?
 
->NOTE RUBBLE
+>NOTE RUBBLE (1)
 
-You have a friend now. His not having done too much actually helps with the next bit. Also, you're done in this room and can't go back once you leave.
+You have a friend now. His not having done too much actually helps with the next bit. Also, you're done in this room now. The game won't let you return.
 
 >N
 >W
 
 Cur streets!
 
->CURSE TREATS
+>CURSE TREATS (1)
 
-Dude Well-Do-Dwell's laziness rubs off on your canine adversaries, who are now out of commission.
+Dude Well-Do-Dwell's laziness rubs off on your canine adversaries, who are now out of commission. Again, once you go east, you can't come back, but you don't need to.
 
 >E
 >E
 
 You couldn't have done anything before, as the curs would interfere. But now you can...
 
->HELP LOTS
+>HELP LOTS (1)
 
-With all these people, um, entities to assist you, you are ready for the final bit!
+With all these people, um, entities to assist you, you are ready for the final bit! In fact, you can't backtrack anywhere else.
 
 >W
 >N
 
-If you listen, the Reap Elegy runs through.
+If you LISTEN, the Reap Elegy runs through.
 
->REPEL EDGY
+>REPEL EDGY (1)
 
 Everyone does their part, including the oaf, whether or not you summoned them.
 
-And you win!
+And you win! There are no secrets unlocked on replay or hidden bonus points.
