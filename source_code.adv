@@ -117,8 +117,11 @@ strings {
    # keyboard stuff
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
 
-   g_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
-   g_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
+   l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
+   l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
+   l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
+   l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
+   l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
 
    # noting stuff
    one_time : string "<ONE-TIME NOTE: <#f0f>>" ;
@@ -138,7 +141,7 @@ strings {
    rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
-   hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around here, complaining of the drudgework they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
+   hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around here, complaining of the drudge work they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
 
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
@@ -204,7 +207,7 @@ locations {
             } : else {
                : cycle key = "reap_elegy_stuff" predictable_order = "true" skip_interval = "0" {
                   : print "The ghost's {c_reap_elegy} rhymes creep, deep, and even \"beep\" to block out profanity." ;
-                  : print "The ghost's {c_reap_elegy} takes a weird turn. \"Elegy\"'s syllables ae stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredgey to mortals in a drive-a-wedgey manner. It has special scorn for people named Reggie." ;
+                  : print "The ghost's {c_reap_elegy} takes a weird turn. \"Elegy\"'s syllables are stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredge-y to mortals in a drive-a-wedgey manner. It has special scorn for people named Reggie." ;
                }
             }
             : done ;
@@ -535,7 +538,7 @@ subroutines {
       : print "{gsgr} was written for {ecomp} Petite Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
-      : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {g_wp} and {g_us}." ;
+      : print "{gsgr} has the same mechanic as two games I wrote in Inform 7: {l_wp} and {l_us}." ;
       : print "{gsgr} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
       : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
       : print "Some text is color-coded. <Green<#0f0>> is a clickable link, and <Orange<#f80>> or purple indicates a verb you can use. <Lavender<#88f>> text clues what to focus on." ;
@@ -557,7 +560,7 @@ subroutines {
    }
 
    meta_versions : subroutine {
-      : print "Version 1 was released for {ecomp} on itch.io on October 30, 2025." ;
+      : print "Version 1 was released for {ecomp} on itch.io on October 30, 2025, concurrently with two similar games: {l_cdsa} and {l_dadc}." ;
    }
    note_noun_based : subroutine {
       : if (noun_based_noted) {
@@ -829,7 +832,7 @@ on_command {
    : match "z _;wait _" {
       : print "\"Loaf, right? Lo, fright!\"" ;
       : if (!wait_yet) {
-         : print "{note_once}This is just a silly general response. Waiting gives no penalty or benefit." ;
+         : print "{one_time}This is just a silly general response. Waiting gives no penalty or benefit." ;
          : set_true "wait_yet" ;
       }
    }
@@ -916,7 +919,7 @@ on_command {
       : gosub "meta_verbs" ;
       : done ;
    }
-   : match "versions _;version _" {
+   : match "history _;version _;versions _" {
       : gosub "meta_versions" ;
       : done ;
    }
