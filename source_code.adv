@@ -81,7 +81,7 @@ integers {
 strings {
    # abbreviations
    gsgr : string "<Go-Strange-Ghost Range<#ff0>>" ;
-   gsgo : string "<A<#f80>> go-<stop<#f80>>-ghost <op<#f80>>" ;
+   gsgo : string "A <go<#f80>>-stop-<ghost<#f80>> op" ;
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
@@ -242,9 +242,9 @@ locations {
                : if (!point_duh_lies) {
                   : print "No way you're dealing with the {c_reap_elegy} before the dull eyes." ;
                } :else_if (!point_note_rubble) {
-                  : print "Oh, hey, that seems like a good idea, a great idea even, but there's no way you're going to be able to repel the ghost on your own." ;
+                  : print "Oh, hey, that seems like a good idea, a great idea even, but there's no way you're going to be able to repel the ghost with just the oaf alone. Maybe there are companions around." ;
                } : else {
-                  : print "While {dwdd}'s companionship gives you some confidence, they look quite intimidated by the ghost. So that won't quite work out." ;
+                  : print "While {dwdd}'s companionship gives you some confidence, they look quite intimidated by the ghost. So you still need more help." ;
                }
                : set_true "think_repel_edgy" ;
                : gosub "note_thinks" ;
@@ -439,12 +439,12 @@ barriers {
    block_ghost_south_0 : block {
       location = rue_fear
       block_when_not = point_duh_lies
-      message = You must face the dull eyes!
+      message = You must face the {c_dull_eyes}!
    }
    block_ghost_south_end : block {
       location = rue_fear
       block_when = db_at_the_end
-      message = No, your destiny is here. You have the support you need!
+      message = No, your destiny is here. You have the support you need to face down the {c_reap_elegy}!
    }
    block_rue_fear_w : block {
       location = cur_streets
