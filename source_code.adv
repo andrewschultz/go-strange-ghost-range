@@ -767,14 +767,12 @@ on_startup {
       : set_true "win_warn" ;
    }
    : press_any_key ;
+   : clear_screen ;
    : print "You're too old for Halloween scariness and silliness, of course. But you still fear ten-cent library fines when books are a day overdue. It's more the nuisance of tracking down change lying around, really." ;
-   : press_any_key ;
    : print "A couple books were due today. The library's closed now, but if you return the books in the drop before it opens tomorrow, you won't get fined." ;
-   : press_any_key ;
-   : print "You're not sure why you picked these two books, but you got ironic enjoyment from them: <The Switch-Thus Witch<#ff0>>, <Cruel-Itches-Crew Liches<#ff0>> and <Wight-Ail-Why Tale<#ff0>>. Such silliness! Things never happen that way." ;
+   : print "You're not sure why you picked these three books, but you got ironic enjoyment from them: <The Switch-Thus Witch<#ff0>>, <Cruel-Itches-Crew Liches<#ff0>> and <Wight-Ail-Why Tale<#ff0>>. Such silliness! Things never happen that way." ;
    : press_any_key ;
    : print "You take a shortcut back through a mini-forest preserve in a city park. It's maybe four blocks square. But it's taking too long to get out. What is going on?" ;
-   : press_any_key ;
    : print "Ah, there, things are opening up. But you don't recognize where you are, and there's a strange ghost. You can't face it alone!" ;
    : press_any_key ;
    : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {c_oaf_aid}. We need someone to perform a... a...\"" ;
