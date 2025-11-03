@@ -974,6 +974,12 @@ on_command {
    : match "oh _" {
       : print "{oaf_stickler} {c_oh_fade}.";
    }
+
+   : match "duh _;rue _;no _;curse _;help _;repel _" {
+      : print "{custom_unknown_verb_error}" ;
+      : done ;
+   }
+
 }
 
 assets {
