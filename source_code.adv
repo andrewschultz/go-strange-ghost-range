@@ -212,6 +212,9 @@ locations {
             }
             : done ;
          }
+         : match "_ ghost" {
+            : print {( "The ghost isn't particularly large or gruesome, but you clearly can't handle it alone. " + (point_duh_lies ? "Hard not to <v_listen>, too." : "Perhaps you could deal with the {c_dull_eyes} to start, though.") )} ;
+         }
          : match "_ eyes" {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
@@ -863,8 +866,8 @@ on_command {
       }
    }
    : if (is_present "dude") {
-      : match "_ dude" {
-         : print "Waiting for you." ;
+      : match "_ dude;_ well;_ dwell" {
+         : print "{dwdd} is saving his energy for a big event, or at least you hope he is. Not much to say, no unnecessary movements." ;
          : gosub "note_noun_based" ;
          : done ;
       }
@@ -931,7 +934,7 @@ on_command {
    }
    : match "think _" {
       : if (!thought_any) {
-         : print "You haven't thought of any point-scoring commands to try later." ;
+         : print "There are no commands you figured out and will need to re-use in the future with stronger preparation." ;
          : done ;
       }
       : if (think_curse_treats) {
