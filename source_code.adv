@@ -102,8 +102,11 @@ strings {
    l_ifcomp : string "<IFComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
 
    # changeables/clues
+   c_cur_streets : string "<CUR STREETS<#88f>>" ;
    c_dull_eyes : string "<DULL EYES<#88f>>" ;
+   c_hell_plots : string "<HELL PLOTS<#88f>>" ;
    c_reap_elegy : string "<REAP ELEGY<#88f>>" ;
+   c_rue_fear : string "<RUE FEAR<#88f>>" ;
    c_no_trouble : string "<NO TROUBLE<#88f>>" ;
 
    yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
@@ -146,10 +149,10 @@ strings {
 
    # room strings
    gsgr_desc : dynamic_string {( point_duh_lies ? "The dull eyes are " + (point_help_lots ? "long since " : "") + "gone, but the ghost remains here in {this_g}, decidedly un-silent and hard not to {v_listen} to. {repel_hint}" : "{c_dull_eyes} stare at you from behind the ghost here in {this_g}. There's an eerie sound, too." )} ;
-   rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators. But it's a practical step up. You hope." : "You fear being trapped in, except for going back south to the ghost. Maybe a new perspective could help you find passages out!" )} ;
+   rf_desc : dynamic_string {( point_roof_ere ? "You've moved on from the fear of being trapped to the fear of being ambushed from all sides, because if you can follow the passages north, south, east and west, so can predators.\nBut it's a practical step up. You hope." : "Here in {c_rue_fear}, you fear being trapped by enemies. While the ghost is back north, at least it was an open plane, making an ambush less likely.\nBut maybe a new perspective could help you find passages out!" )} ;
    nt_desc : dynamic_string {( point_note_rubble ? "You found everything here, you're pretty sure. There's no trouble left to make." : "You hear {c_no_trouble} ... {c_no_trouble}. What does it mean? Should you have no trouble figuring what to do? Had you better start no trouble? Or is there no potential friend who could cause good trouble here?" )} ;
-   cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down here. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
-   hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around here, complaining of the drudge work they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
+   cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down the {c_cur_streets}. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
+   hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around the {c_hell_plots}, complaining of the drudge work they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
 
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
