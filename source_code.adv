@@ -91,9 +91,16 @@ strings {
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+
+   #links
+   l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
+   l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
+   l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
+   l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
+   l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
    l_ectocomp : string "<EctoComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
 
-   # changeables
+   # changeables/clues
    c_dull_eyes : string "<DULL EYES<#88f>>" ;
    c_reap_elegy : string "<REAP ELEGY<#88f>>" ;
    c_no_trouble : string "<NO TROUBLE<#88f>>" ;
@@ -104,8 +111,8 @@ strings {
    to_think_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
 
    # options
-   c_oaf_aid : string "<OAF AID<#f0f>>" ;
-   c_oh_fade : string "<OH FADE<#f0f>>" ;
+   txt_oaf_aid : string "<OAF AID<#f0f>>" ;
+   txt_oh_fade : string "<OH FADE<#f0f>>" ;
 
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
@@ -122,12 +129,6 @@ strings {
 
    # keyboard stuff
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
-
-   l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
-   l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
-   l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
-   l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
-   l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
 
    # noting stuff
    one_time : string "<ONE-TIME NOTE: <#f0f>>" ;
@@ -564,7 +565,7 @@ subroutines {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
       : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
-      : print "{c_oaf_aid} and {c_oh_fade} toggle the oaf's help on and off. Using {c_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print "{txt_oaf_aid} and {txt_oh_fade} toggle the oaf's help on and off. Using {txt_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
    }
 
@@ -596,6 +597,7 @@ subroutines {
          : if (!note_half_limitations) {
             : print "{note_once}ideally, I'd keep track of which word you have right, but while Adventuron makes many things easy, its lack of support for complex classes makes the code (as I see it) hard to write and test. Sorry for any inconvenience." ;
 			: set_true "note_half_limitations" ;
+			}
       }
       : done ;
    }
@@ -775,7 +777,7 @@ on_startup {
    : print "{gsgo}" ;
    : print "Submitted to the 2025 {l_ectocomp} Petite Mort" ;
    : if (won_yet) {
-      : if (!win_warn)
+      : if (!win_warn) {
          : print "Thanks for replaying, but this is a reminder to look at the other {l_ectocomp} entries, too! Whether or not it's over now!" ;
          : press_any_key ;
       }
@@ -791,7 +793,7 @@ on_startup {
    : print "You take a shortcut back through a mini-forest preserve in a city park. It's maybe four blocks square. But it's taking too long to get out. What is going on?" ;
    : print "Ah, there, things are opening up. But you don't recognize where you are, and there's a strange ghost. You can't face it alone!" ;
    : press_any_key ;
-   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {c_oaf_aid}. We need someone to perform a... a...\"" ;
+   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {txt_oaf_aid}. We need someone to perform a... a...\"" ;
    : print "There's an awkward pause, then ..." ;
    : print "\"{gsgo}!!!\"" ;
    : press_any_key ;
@@ -887,7 +889,7 @@ on_command {
    }
    : match "_ oaf" {
       : if (!oaf_aid) {
-         : print "But the oaf is not available. {c_oaf_aid} will toggle its appearance on." ;
+         : print "But the oaf is not available. {txt_oaf_aid} will toggle its appearance on." ;
       } : else_if (done_here) {
          : print "The oaf applauds. You must be done here." ;
       } : else {
@@ -965,7 +967,7 @@ on_command {
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{c_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
+         : print {( "{txt_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
             : print "{one_time}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
@@ -974,21 +976,21 @@ on_command {
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print {( "{c_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
+         : print {( "{txt_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
        }
       : done ;
    }
    : match "oh fade" {
-      : print {( "{c_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
+      : print {( "{txt_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
       : set_false "oaf_aid" ;
       : update_graphic ;
       : done ;
    }
    : match "oaf _" {
-      : print "{oaf_stickler} {c_oaf_aid}.";
+      : print "{oaf_stickler} {txt_oaf_aid}.";
    }
    : match "oh _" {
-      : print "{oaf_stickler} {c_oh_fade}.";
+      : print "{oaf_stickler} {txt_oh_fade}.";
    }
 
    : match "duh _;rue _;no _;curse _;help _;repel _" {
