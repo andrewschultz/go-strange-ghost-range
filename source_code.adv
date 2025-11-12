@@ -131,7 +131,7 @@ strings {
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
 
    # noting stuff
-   one_time : string "<ONE-TIME NOTE: <#f0f>>" ;
+   note_once : string "<ONE-TIME NOTE: <#f0f>>" ;
 
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
@@ -585,13 +585,13 @@ subroutines {
       : if (noun_based_noted) {
          : return ;
       }
-      : print "{one_time}{this_g} tends to look at the noun more than the verb, so it will probably funnel most verbs to <X<#f80>>/<EXAMINE<#f80>>. There's enough verb guessing with the actual puzzles." ;
+      : print "{note_once}{this_g} tends to look at the noun more than the verb, so it will probably funnel most verbs to <X<#f80>>/<EXAMINE<#f80>>. There's enough verb guessing with the actual puzzles." ;
       : set_true "noun_based_noted" ;
    }
 
    note_thinks : subroutine {
       : if (!think_note_yet) {
-         : print "{one_time}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper left will show +1 or more, for commands you've guessed right but still need prep for." ;
+         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper left will show +1 or more, for commands you've guessed right but still need prep for." ;
          : set_true "think_note_yet" ;
       }
    }
@@ -810,7 +810,7 @@ on_startup {
 
 on_tick {
    : if (!showed_first_note) {
-      : print "{one_time}{vm_about} will give general game information. {vm_verbs} will describe {this_g}'s stripped-down parser." ;
+      : print "{note_once}{vm_about} will give general game information. {vm_verbs} will describe {this_g}'s stripped-down parser." ;
       : set_true "showed_first_note" ;
    }
 }
@@ -857,7 +857,7 @@ on_command {
    : match "z _;wait _" {
       : print "\"Loaf, right? Lo, fright!\"" ;
       : if (!wait_yet) {
-         : print "{one_time}This is just a silly general response. Waiting gives no penalty or benefit." ;
+         : print "{note_once}This is just a silly general response. Waiting gives no penalty or benefit." ;
          : set_true "wait_yet" ;
       }
    }
@@ -867,10 +867,10 @@ on_command {
       : update_graphic "m_blank" ;
       : if (!map_dotted_notes && !point_help_lots && (point_roof_ere || !point_duh_lies)) {
          : set_true "map_dotted_notes" ;
-         : print "{one_time}dotted lines mean a passage you know about but can't follow yet." ;
+         : print "{note_once}dotted lines mean a passage you know about but can't follow yet." ;
       }
       : if (point_note_rubble && !map_black_note) {
-         : print "{one_time}any room that is black on the map is complete. You won't be able to return to it, but you won't need to." ;
+         : print "{note_once}any room that is black on the map is complete. You won't be able to return to it, but you won't need to." ;
          : set_true "map_black_note" ;
       }
       : if (!first_map_note) {
@@ -912,7 +912,7 @@ on_command {
          : print {( "You have {to_think_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
       }
       : if (!bonus_note) {
-         : print "{one_time}{this_g} contains no hidden bonus points." ;
+         : print "{note_once}{this_g} contains no hidden bonus points." ;
          : set_true "bonus_note" ;
       }
    }
@@ -951,7 +951,7 @@ on_command {
    : match "hint _;help _" {
       : gosub "hint_help" ;
       : if (!help_note) {
-         : print "{one_time}Due to {l_ectocomp}'s time limits for programming, there is specific hinting only for the first two puzzles and the last one. Otherwise, you're just told whether you're done in the current room, you can do something to score a point now, or you'll need to go elsewhere first." ;
+         : print "{note_once}Due to {l_ectocomp}'s time limits for programming, there is specific hinting only for the first two puzzles and the last one. Otherwise, you're just told whether you're done in the current room, you can do something to score a point now, or you'll need to go elsewhere first." ;
          : set_true "help_note" ;
       }
       : done ;
@@ -979,7 +979,7 @@ on_command {
          : print {( "{txt_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
-            : print "{one_time}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
+            : print "{note_once}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
             : set_true "six_warn" ;
          }
          : update_graphic ;
