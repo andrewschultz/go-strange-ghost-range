@@ -43,7 +43,7 @@ booleans {
    listen_elegy : boolean "false" ;
    bonus_note : boolean "false" ;
    noun_based_noted : boolean "false" scope="survivor" ;
-   have_won : boolean "false" scope="survivor" ;
+   won_yet : boolean "false" scope="survivor" ;
    win_warn : boolean "false" scope="survivor" ;
    wait_yet : boolean "false" ;
    help_note : boolean "false" ;
@@ -53,6 +53,7 @@ booleans {
    show_overlay : boolean "true" ;
    done_already : boolean "false" ;
    think_already : boolean "false" ;
+   note_half_limitations : boolean "false" ;
    once_now_boolean : boolean "false" ;
    six_warn : boolean "false" ;
    showed_first_note : boolean "false" ;
@@ -286,10 +287,10 @@ locations {
                : update_graphic "s_you_saw_use_aww" ;
                : set_true "show_overlay" ;
                : print "^c^<YOU SAW USE, AWW<#ff0>>\n^l^" ;
-               : if (have_won) {
+               : if (won_yet) {
                   : print "And thanks for playing through again! Even though I had no new content to offer." ;
                }
-               : set_true "have_won" ;
+               : set_true "won_yet" ;
                : win_game ;
             }
             : done ;
@@ -587,6 +588,9 @@ subroutines {
          : print "One word's wrong, but you already figured what to do fully. See {vd_think} for a refresher." ;
       } : else {
          : print "Something almost happens. One word must be right." ;
+         : if (!note_half_limitations) {
+            : print "{note_once}ideally, I'd keep track of which word you have right, but while Adventuron makes many things easy, its lack of support for complex classes makes the code (as I see it) hard to write and test. Sorry for any inconvenience." ;
+			: set_true "note_half_limitations" ;
       }
       : done ;
    }
@@ -765,9 +769,13 @@ on_startup {
    : print "{gsgr}, by Andrew Schultz" ;
    : print "{gsgo}" ;
    : print "Submitted to the 2025 {ecomp} Petite Mort" ;
-   : if (have_won && !win_warn) {
-      : print "{one_time}There's nothing new to be found on replay, if you're wondering. But thanks for checking. Go try the other {ecomp} games! Whether or not it's over now!" ;
-      : set_true "win_warn" ;
+   : if (won_yet) {
+      : if (!win_warn)
+         : print "Thanks for replaying, but this is a reminder to look at the other {l_ectocomp} entries, too! Whether or not it's over now!" ;
+         : press_any_key ;
+      }
+   } : else {
+      : print "{note_once}whenever the blinking yellow cursor appears, push {key_enter} or left-click the mouse. This will usually happen to break up long chunks of narrative text." ;
    }
    : press_any_key ;
    : clear_screen ;
