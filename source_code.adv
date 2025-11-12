@@ -99,6 +99,7 @@ strings {
    l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
    l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
    l_ectocomp : string "<EctoComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
+   l_ifcomp : string "<IFComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
 
    # changeables/clues
    c_dull_eyes : string "<DULL EYES<#88f>>" ;
@@ -570,14 +571,14 @@ subroutines {
    }
 
    meta_versions : subroutine {
-      : print "{this_g} came about from having a bunch of ideas for {l_ut}, when I in fact got a bit stalled on {l_ut}. It was a procrastination vehicle, given the {l_ifcomp} deadline was two months before {l_ectocomp}'s, though I planned to keep it short. I wanted to see if I could implement an in-game map quickly. Turns out I could. I also didn't want to have a lot of branching." ;
+      : print "{this_g} came about from having a bunch of ideas for {l_us}, when I in fact got a bit stalled on {l_us}. It was a procrastination vehicle, given the {l_ifcomp} deadline was two months before {l_ectocomp} 2025's, though I planned to keep it short. I wanted to see if I could implement an in-game map quickly. Turns out I could. I also didn't want to have a lot of branching." ;
       : print "" ;
       : print "The six puzzles came pretty quickly from generically spooky things, and I had some Adventuron code generation from {l_qt}. I even squeezed in the oaf as a hint device." ;
       : print "" ;
       : print "Leftovers from {this_g} are found in {l_cdsa} and, later, {l_dadc}. In fact, each of the three games had unique features for EctoComp that I merged into all of them post-comp." ;
       : print "" ;
-      : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} games after that." ;
-      : print "Version 2 was published after EctoComp finished, on November 30, 2025." ;
+      : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} 2025 games after that." ;
+      : print "Version 2 was published after {l_ectocomp} 2025 finished, on November 30, 2025." ;
       : print "" ;
       : print "If you've found this elsewhere than Itch.io, the latest version should be at {l_gsgr}." ;
    }
