@@ -154,6 +154,18 @@ strings {
    cs_desc : dynamic_string {( point_curse_treats ? "The animals you goaded into eating the cursed treats are harmless now. They probably needed some rest, anyway. Hopefully, when they wake up, they'll go back to annoying souls who deserve it." : "Canine howls echo up and down the {c_cur_streets}. You see the perpetrators, and while you could take one, you'd be in trouble fighting a whole pack. They occasionally duck in and out to covered areas, licking their lips as if well-fed." )} ;
    hp_desc : dynamic_string {( point_help_lots ? "You've saved whom you can. Time to move on." : "A {wlwc} cycles around the {c_hell_plots}, complaining of the drudge work they've been sentenced to for all eternity. Perhaps they did not really deserve such a harsh fate." )} ;
 
+   # here/at dynamic strings
+   hdr_rue_fear : string "<Rue Fear<#f00>>" ;
+   hdr_hell_plots : string "<Hell Plots<#f00>>" ;
+   hdr_no_trouble : string "<No Trouble<#888>>" ;
+   hdr_cur_streets : string "<Cur Streets<#f00>>" ;
+
+   here_gsgr : dynamic_string {( is_at "go_strange_ghost_range" ? "here" : "at {this_g}" )} ;
+   here_rue : dynamic_string {( is_at "rue_fear" ? "here" : "at {hdr_rue_fear}" )} ;
+   here_trouble : dynamic_string {( is_at "no_trouble" ? "here" : "at {hdr_no_trouble}" )} ;
+   here_streets : dynamic_string {( is_at "cur_streets" ? "here" : "at {hdr_cur_streets}" )} ;
+   here_plots : dynamic_string {( is_at "hell_plots" ? "here" : "at {hdr_hell_plots}" )} ;
+
    # oaf strings
    oaf_aid_status : dynamic_string {( ( oaf_aid_extra ? "extended" : "regular" ) + " mode" )} ;
    oaf_gsgr : dynamic_string {( !point_duh_lies ? "3/4" : "5/4" )} ;
@@ -318,7 +330,7 @@ locations {
          }
       }
    }
-   rue_fear : location "{rf_desc}" header="<Rue Fear<#f00>>" {
+   rue_fear : location "{rf_desc}" header="{hdr_rue_fear}" {
       on_command {
          : match "_ ghost" {
             : print "Not very visible. It's making some noise, though." ;
@@ -353,7 +365,7 @@ locations {
          }
       }
    }
-   no_trouble : location "{nt_desc}" header="<No Trouble<#888>>" {
+   no_trouble : location "{nt_desc}" header="{hdr_no_trouble}" {
       on_command {
          : match "listen _" {
             : print {( point_note_rubble ? "Quiet. Too quiet." : "The quiet is more relaxing now." )} ;
@@ -408,7 +420,7 @@ locations {
          }
       }
    }
-   hell_plots : location "{hp_desc}" header="<Hell Plots<#f00>>" graphic="r_hell_plots" {
+   hell_plots : location "{hp_desc}" header="{hdr_hell_plots}" graphic="r_hell_plots" {
       on_command {
          : match "listen _" {
             : print {( point_help_lots ? "You faintly hear the cries of souls who have it worse than the {wlwc}. They sound terrible, and yet, you also cringe at the thought of the {wlwc} being told \"you know, there are spirits who have it worse than you. Buck up!\"" : "The {wlwc} just keep moaning and moaning about how they feel trapped." )} ;
