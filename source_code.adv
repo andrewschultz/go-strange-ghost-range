@@ -399,7 +399,7 @@ locations {
             : if (point_curse_treats) {
                : print "The treats were already cursed with lethargy. You don't need to maintain or increase the curse." ;
             } : else_if (!point_note_rubble) {
-               : print "You're too benign to provide a curse." ;
+               : print "You're too benign to provide a curse, and you're not sure what curse might work best. Maybe someone else could help you." ;
                : set_true "think_curse_treats" ;
                : gosub "note_thinks" ;
             } : else {
@@ -430,7 +430,7 @@ locations {
             : if (point_help_lots) {
                : print "You've already helped the {wlwc} enough. They're following you, after all." ;
             } : else_if (!point_curse_treats) {
-               : print "Canine howls from the west leave you too fearful." ;
+               : print "Canine howls from the west leave you too fearful. Perhaps if you got rid of them, that would work." ;
                : set_true "think_help_lots" ;
                : gosub "note_thinks" ;
             } : else {
@@ -870,6 +870,10 @@ on_command {
          : print "A ghostly apparition with \"Save? Illun', Say!\" Villain written on its front taunts your very reasonable precaution. But you don't need to listen to such meanies." ;
       }
    }
+   : match "i _" {
+      : print "While there are companions in {this_g}, there won't be any items to take or use." ;
+      : done ;
+   }
    : match "z _;wait _" {
       : print "\"Loaf, right? Lo, fright!\"" ;
       : if (!wait_yet) {
@@ -983,7 +987,7 @@ on_command {
       }
       : if (think_help_lots) {
          : set_boolean var="once_now_boolean" {( point_curse_treats )} ;
-         : print "You can <HELP LOTS<#f80>> {here_plots} {once_now} you have gotten rid of the distraction." ;
+         : print "You can <HELP LOTS<#f80>> {here_plots} {once_now} you have gotten rid of the distracting canine howls." ;
       }
       : if (think_repel_edgy) {
          : set_boolean var="once_now_boolean" {( point_help_lots )} ;
