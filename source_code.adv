@@ -389,7 +389,7 @@ locations {
          }
       }
    }
-   cur_streets : location "{cs_desc}" header="<Cur Streets<#f00>>" graphic="r_cur_streets" {
+   cur_streets : location "{cs_desc}" header="{hdr_cur_streets}" graphic="r_cur_streets" {
       on_command {
          : match "listen _" {
             : print {( point_curse_treats ? "The snoring's pretty obnoxious, but compared to the alternative, it's great." : "Supernatural canine yapping probably meant to give all near a headache." )} ;
@@ -979,15 +979,15 @@ on_command {
       }
       : if (think_curse_treats) {
          : set_boolean var="once_now_boolean" {( point_note_rubble )} ;
-         : print "You can <CURSE TREATS<#f80>> {once_now} you have someone cursed to help you." ;
+         : print "You can <CURSE TREATS<#f80>> {here_streets} {once_now} you have someone cursed to help you." ;
       }
       : if (think_help_lots) {
          : set_boolean var="once_now_boolean" {( point_curse_treats )} ;
-         : print "You can <HELP LOTS<#f80>> {once_now} you have gotten rid of the distraction." ;
+         : print "You can <HELP LOTS<#f80>> {here_plots} {once_now} you have gotten rid of the distraction." ;
       }
       : if (think_repel_edgy) {
          : set_boolean var="once_now_boolean" {( point_help_lots )} ;
-         : print "You can get rid of the ghost for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
+         : print "You can get rid of the ghost {here_gsgr} for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
       }
    }
    : match "oaf aid" {
