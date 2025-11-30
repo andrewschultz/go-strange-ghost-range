@@ -115,8 +115,8 @@ strings {
    to_think_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
 
    # options
-   txt_oaf_aid : string "<OAF AID<#f0f>>" ;
-   txt_oh_fade : string "<OH FADE<#f0f>>" ;
+   vo_oaf_aid : string "<OAF AID<#f0f>>" ;
+   vo_oh_fade : string "<OH FADE<#f0f>>" ;
 
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
@@ -581,7 +581,7 @@ subroutines {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
       : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
-      : print "{txt_oaf_aid} and {txt_oh_fade} toggle the oaf's help on and off. Using {txt_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
    }
 
@@ -818,7 +818,7 @@ on_startup {
    : print "You take a shortcut back through a mini-forest preserve in a city park. It's maybe four blocks square. But it's taking too long to get out. What is going on?" ;
    : print "Ah, there, things are opening up. But you don't recognize where you are, and there's a strange ghost. You can't face it alone!" ;
    : press_any_key ;
-   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {txt_oaf_aid}. We need someone to perform a... a...\"" ;
+   : print "But wait. There is somebody. \"I'm just an oaf,\" they say, \"I have powers to help you, but only if you call for {vo_oaf_aid}. We need someone to perform a... a...\"" ;
    : print "There's an awkward pause, then ..." ;
    : print "\"{gsgo}!!!\"" ;
    : press_any_key ;
@@ -914,7 +914,7 @@ on_command {
    }
    : match "_ oaf" {
       : if (!oaf_aid) {
-         : print "But the oaf is not available. {txt_oaf_aid} will toggle its appearance on." ;
+         : print "But the oaf is not available. {vo_oaf_aid} will toggle its appearance on." ;
       } : else_if (done_here) {
          : print "The oaf applauds. You must be done here." ;
       } : else {
@@ -992,7 +992,7 @@ on_command {
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{txt_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
+         : print {( "{vo_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
             : print "{note_once}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
@@ -1001,21 +1001,21 @@ on_command {
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print {( "{txt_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
+         : print {( "{vo_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
        }
       : done ;
    }
    : match "oh fade" {
-      : print {( "{txt_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
+      : print {( "{vo_oaf_aid} is " + (oaf_aid ? "now" : "already") + " off." )} ;
       : set_false "oaf_aid" ;
       : update_graphic ;
       : done ;
    }
    : match "oaf _" {
-      : print "{oaf_stickler} {txt_oaf_aid}.";
+      : print "{oaf_stickler} {vo_oaf_aid}.";
    }
    : match "oh _" {
-      : print "{oaf_stickler} {txt_oh_fade}.";
+      : print "{oaf_stickler} {vo_oh_fade}.";
    }
 
    : match "duh _;rue _;no _;curse _;help _;repel _" {
