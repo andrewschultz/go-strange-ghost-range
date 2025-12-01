@@ -11,7 +11,7 @@ game_settings {
 
 game_information {
    game_name                    = Go-Strange-Ghost Range
-   game_version                 = 2.0.0
+   game_version                 = 3.0.0
    game_shortname               = GSGR
    written_by                   = Andrew Schultz
    uuid                         = 194e9232-a134-4c81-b596-6e431efacea4
@@ -105,6 +105,7 @@ strings {
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
 
    #links
+   l_qt : string "<Quirky Test<#0f0>>[http://andrewschultz.itch.io/quirky-test]" ;
    l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
    l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
    l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
@@ -328,6 +329,7 @@ locations {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
             } : else {
+               : collection_modify { collection = "tried_combo" index -> (0) content -> ("true") } ;
                : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
                : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
                : gosub "add_point" ;
@@ -338,9 +340,15 @@ locations {
          }
          : match "duh _;_ lies" {
             : set_boolean var="done_already" {(point_duh_lies)} ;
+            : set_integer var="tempint" "0" ;
+            : set_false "first_half" ;
+            : match "duh _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
          : match "repel edgy" {
+            : collection_modify { collection = "tried_combo" index -> (1) content -> ("true") } ;
             : if (point_repel_edgy) {
                : print "You should have won the game already, and you shouldn't see this." ;
             } : else_if (!point_help_lots) {
@@ -399,6 +407,11 @@ locations {
          : match "repel _;_ edgy" {
             : set_boolean var="done_already" {(point_repel_edgy)} ;
             : set_boolean var="think_already" {(think_repel_edgy)} ;
+            : set_integer var="tempint" "1" ;
+            : set_false "first_half" ;
+            : match "repel _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -427,6 +440,7 @@ locations {
             }
          }
          : match "roof ere" {
+            : collection_modify { collection = "tried_combo" index -> (2) content -> ("true") } ;
             : if (point_roof_ere) {
                : print "You found enough passages from here the first time you climbed." ;
             } : else {
@@ -440,6 +454,11 @@ locations {
          }
          : match "roof _;_ ere" {
             : set_boolean var="done_already" {(point_roof_ere)} ;
+            : set_integer var="tempint" "2" ;
+            : set_false "first_half" ;
+            : match "roof _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -451,6 +470,7 @@ locations {
             : done ;
          }
          : match "note rubble" {
+            : collection_modify { collection = "tried_combo" index -> (4) content -> ("true") } ;
             : if (point_note_rubble) {
                : print "You found a companion in the rubble. That's good enough." ;
             } : else {
@@ -464,6 +484,11 @@ locations {
          }
          : match "note _;_ rubble" {
             : set_boolean var="done_already" {(point_note_rubble)} ;
+            : set_integer var="tempint" "4" ;
+            : set_false "first_half" ;
+            : match "note _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -475,6 +500,7 @@ locations {
             : done ;
          }
          : match "curse treats" {
+            : collection_modify { collection = "tried_combo" index -> (5) content -> ("true") } ;
             : if (point_curse_treats) {
                : print "The treats were already cursed with lethargy. You don't need to maintain or increase the curse." ;
             } : else_if (!point_note_rubble) {
@@ -495,6 +521,11 @@ locations {
          : match "curse _;_ treats" {
             : set_boolean var="done_already" {(point_curse_treats)} ;
             : set_boolean var="think_already" {(think_curse_treats)} ;
+            : set_integer var="tempint" "5" ;
+            : set_false "first_half" ;
+            : match "curse _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -506,6 +537,7 @@ locations {
             : done ;
          }
          : match "help lots" {
+            : collection_modify { collection = "tried_combo" index -> (3) content -> ("true") } ;
             : if (point_help_lots) {
                : print "You've already helped the {wlwc} enough. They're following you, after all." ;
             } : else_if (!point_curse_treats) {
@@ -525,6 +557,11 @@ locations {
          : match "help _;_ lots" {
             : set_boolean var="done_already" {(point_help_lots)} ;
             : set_boolean var="think_already" {(think_help_lots)} ;
+            : set_integer var="tempint" "3" ;
+            : set_false "first_half" ;
+            : match "help _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
