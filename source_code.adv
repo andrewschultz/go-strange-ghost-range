@@ -191,7 +191,67 @@ strings {
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 }
 
-collections {
+collections { # these half-done hints are arranged in clockwise order on the map, so there are no spoilers about what comes when.
+   first_words : list {
+      items = [
+         "<DUH<#f80>>",
+         "<REPEL<#f80>>",
+         "<ROOF<#f80>>",
+         "<HELP<#f80>>",
+         "<NOTE<#f80>>",
+         "<CURSE<#f80>>"
+      ]
+   };
+   second_words : list {
+      items = [
+         "<LIES<#f80>>",
+         "<EDGY<#f80>>",
+         "<ERE<#f80>>",
+         "<LOTS<#f80>>",
+         "<RUBBLE<#f80>>",
+         "<TREATS<#f80>>"
+      ]
+   };
+   situations : list {
+      items = [
+         "{here_gsgr}.",
+         "{here_gsgr}.",
+         "{here_rue}.",
+         "{here_plots}.",
+         "{here_trouble}.",
+         "{here_streets}."
+      ]
+   };
+   got_first : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
+   got_second : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
+   tried_combo : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
    num_to_word : list {
       items = [
          "zero",
