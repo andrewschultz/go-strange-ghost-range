@@ -41,6 +41,7 @@ booleans {
    oaf_aid_extra : boolean "false" ;
    opt_see_lol : boolean "true" ;
    see_lol_known : boolean "false" scope="survivor" ;
+   read_options_yet : boolean "false" scope="survivor" ;
 
    # game state boolean(s)
    in_number_choice: boolean "true" ;
@@ -121,6 +122,8 @@ strings {
    vo_oh_fade : string "<OH FADE<#f0f>>" ;
    vo_seal_all : string "<SEAL ALL<#f0f>>" ;
    vo_see_lol : string "<SEE LOL<#f0f>>" ;
+   opt_txt_see_seal : string "Remembering half-guessed phrases" ;
+   opt_txt_oaf : string "The oaf's help" ;
 
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
@@ -128,6 +131,7 @@ strings {
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
+   vm_options : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
 
@@ -641,12 +645,19 @@ subroutines {
       : print "I had no time for testers, alas, but if you find a bug, you can get your name here!" ;
    }
 
+   meta_options : subroutine {
+      : print "{this_g} has two options." ;
+	  : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+	  : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
+   }
+
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
       : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
-      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
+      : set_true "read_options_yet" ;
    }
 
    meta_versions : subroutine {
@@ -1022,6 +1033,10 @@ on_command {
    }
    : match "credits _; credit _" {
       : gosub "meta_credits" ;
+      : done ;
+   }
+   : match "opt _;opts _;option _;options _" {
+      : gosub "meta_options" ;
       : done ;
    }
    : match "verbs _;verb _" {
