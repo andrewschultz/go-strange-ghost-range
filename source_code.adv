@@ -93,6 +93,7 @@ strings {
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
 
    #links
+   l_qt : string "<Quirky Test<#0f0>>[http://andrewschultz.itch.io/quirky-test]" ;
    l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
    l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
    l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
@@ -593,7 +594,7 @@ subroutines {
       : print "Leftovers from {this_g} are found in {l_cdsa} and, later, {l_dadc}. In fact, each of the three games had unique features for EctoComp that I merged into all of them post-comp." ;
       : print "" ;
       : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} 2025 games after that." ;
-      : print "Version 2 was published after {l_ectocomp} 2025 finished, on November 30, 2025." ;
+      : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025." ;
       : print "" ;
       : print "If you've found this elsewhere than Itch.io, the latest version should be at {l_gsgr}." ;
    }

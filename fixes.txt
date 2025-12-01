@@ -1,0 +1,8 @@
+Fixes log file
+
+2.0.0 (12/1/2025):
+--INVENTORY now says you don't need inventory
+--THINK conditional text now says "here/at (location)"
+--rejecting text command explains things better
+--point scoring commands obfuscated (they gave different parser error before, a sort of spoiler, also a bit confusing if the player doesn't figure it out)
+--many _ (noun) commands implemented as generic rejects
