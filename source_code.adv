@@ -39,6 +39,8 @@ booleans {
    # option boolean(s)
    oaf_aid : boolean "false" ;
    oaf_aid_extra : boolean "false" ;
+   opt_see_lol : boolean "true" ;
+   see_lol_known : boolean "false" scope="survivor" ;
 
    # game state boolean(s)
    in_number_choice: boolean "true" ;
@@ -117,6 +119,8 @@ strings {
    # options
    vo_oaf_aid : string "<OAF AID<#f0f>>" ;
    vo_oh_fade : string "<OH FADE<#f0f>>" ;
+   vo_seal_all : string "<SEAL ALL<#f0f>>" ;
+   vo_see_lol : string "<SEE LOL<#f0f>>" ;
 
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
@@ -140,7 +144,7 @@ strings {
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
    repel_hint : dynamic_string {( think_repel_edgy && point_help_lots ? "You feel you have the support to try what failed earlier." : point_help_lots ? "How, then, to get rid of the ghost?" : "You don't feel prepared enough to tackle the ghost yet, though." )}
-   oaf_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
+   command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
 
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
@@ -1053,10 +1057,31 @@ on_command {
          : set_boolean var="once_now_boolean" {( point_help_lots )} ;
          : print "You can get rid of the ghost {here_gsgr} for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
       }
+   : match "see lol" {
+      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
+      : set_true "opt_see_lol" ;
+      : set_true "see_lol_known" ;
+	  : done ;
+   }
+   : match "seal all" {
+      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_see_lol} turns it on.") )} ;
+      : set_true "opt_see_lol" ;
+      : set_true "see_lol_known" ;
+	  : done ;
+   }
+   : if (see_lol_known) {
+      : match "see _" {
+         : print "{command_stickler} {vo_see_lol}." ;
+         : done ;
+      }
+      : match "seal _" {
+         : print "{command_stickler} {vo_seal_all}." ;
+         : done ;
+      }
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{vo_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
+         : print {( "{opt_txt_oaf} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
             : print "{note_once}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
@@ -1065,7 +1090,7 @@ on_command {
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print {( "{vo_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
+         : print {( "{opt_txt_oaf} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
        }
       : done ;
    }
@@ -1076,10 +1101,10 @@ on_command {
       : done ;
    }
    : match "oaf _" {
-      : print "{oaf_stickler} {vo_oaf_aid}.";
+      : print "{command_stickler} {vo_oaf_aid}.";
    }
    : match "oh _" {
-      : print "{oaf_stickler} {vo_oh_fade}.";
+      : print "{command_stickler} {vo_oh_fade}.";
    }
 
    : match "duh _;rue _;no _;curse _;help _;repel _" {
