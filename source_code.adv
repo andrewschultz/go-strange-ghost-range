@@ -111,8 +111,8 @@ strings {
    l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
    l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
    l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
-   l_ectocomp : string "<EctoComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
-   l_ifcomp : string "<IFComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
+   l_ectocomp : string "<EctoComp<#0f0>>[https://itch.io/jam/ectocomp-2025]" ;
+   l_ifcomp : string "<IFComp<#0f0>>[https://ifcomp.org]" ;
 
    # changeables/clues
    c_cur_streets : string "<CUR STREETS<#88f>>" ;
@@ -687,8 +687,8 @@ subroutines {
    }
 
    meta_credits : subroutine {
-      : print "Thanks to the administrators Ruber Eaglenest and Alyshkalia for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
-      : print "Thanks to Chris Ainsley for creating Adventuron." ;
+      : print "Thanks to the administrators <Ruber Eaglenest<#0f0>>[https://rubereaglenest.itch.io], <Alyshkalia<#0f0>>[https://alyshkalia.itch.io] and <Passerine<#0f0>>[https://passerine.itch.io] for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
+      : print "Thanks to Chris Ainsley for creating <Adventuron<#0f0>>[https://adventuron.itch.io/]." ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
       : print "I had no time for testers, alas, but if you find a bug, you can get your name here!" ;
    }
@@ -730,7 +730,7 @@ subroutines {
 
    note_thinks : subroutine {
       : if (!think_note_yet) {
-         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper left will show +1 or more, for commands you've guessed right but still need prep for." ;
+         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper right will show +1 or more, for commands you've guessed right but still need prep for." ;
          : set_true "think_note_yet" ;
       }
    }
