@@ -11,7 +11,7 @@ game_settings {
 
 game_information {
    game_name                    = Go-Strange-Ghost Range
-   game_version                 = 2.0.0
+   game_version                 = 3.0.0
    game_shortname               = GSGR
    written_by                   = Andrew Schultz
    uuid                         = 194e9232-a134-4c81-b596-6e431efacea4
@@ -30,15 +30,23 @@ booleans {
    point_help_lots : boolean "false" ;
 
    # THINK booleans
+   ## first: game mechanics
    think_repel_edgy : boolean "false" ;
    think_curse_treats : boolean "false" ;
    think_help_lots : boolean "false" ;
 
+   ## second: niceties for the player
    think_note_yet : boolean "false" ;
+   think_half_yet : boolean "false" ;
+   first_half : boolean "false" ;
+   solved_both_parts_nag : boolean "false" ;
 
    # option boolean(s)
    oaf_aid : boolean "false" ;
    oaf_aid_extra : boolean "false" ;
+   opt_see_lol : boolean "true" ;
+   see_lol_known : boolean "false" scope="survivor" ;
+   read_options_yet : boolean "false" scope="survivor" ;
 
    # game state boolean(s)
    in_number_choice: boolean "true" ;
@@ -80,8 +88,12 @@ booleans {
 integers {
    score : integer "0" ;
    max_score : integer "6" ;
+   tempint : integer "0" ;
+   counter : integer "0" ;
 
    to_think : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
+
+   part_word_score : dynamic_integer {( ((collection_get{ collection -> ("got_first") index -> ( counter ) } == "true") ? 1 : 0) + ((collection_get{ collection -> ("got_second") index -> ( counter ) } == "true") ? 2 : 0) )} ; # this is a really bad hack, but I couldn't find a concise way to code things. Maybe I could use a dynamic boolean.
 }
 
 strings {
@@ -99,8 +111,8 @@ strings {
    l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
    l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
    l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
-   l_ectocomp : string "<EctoComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
-   l_ifcomp : string "<IFComp<#f80>>[https://itch.io/jam/ectocomp-2025]" ;
+   l_ectocomp : string "<EctoComp<#0f0>>[https://itch.io/jam/ectocomp-2025]" ;
+   l_ifcomp : string "<IFComp<#0f0>>[https://ifcomp.org]" ;
 
    # changeables/clues
    c_cur_streets : string "<CUR STREETS<#88f>>" ;
@@ -118,6 +130,10 @@ strings {
    # options
    vo_oaf_aid : string "<OAF AID<#f0f>>" ;
    vo_oh_fade : string "<OH FADE<#f0f>>" ;
+   vo_seal_all : string "<SEAL ALL<#f0f>>" ;
+   vo_see_lol : string "<SEE LOL<#f0f>>" ;
+   opt_txt_see_seal : string "Remembering half-guessed phrases" ;
+   opt_txt_oaf : string "The oaf's help" ;
 
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
@@ -125,6 +141,7 @@ strings {
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
+   vm_options : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
    vm_versions : string "<VERSIONS<#f80>>" ;
 
@@ -141,7 +158,7 @@ strings {
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
    repel_hint : dynamic_string {( think_repel_edgy && point_help_lots ? "You feel you have the support to try what failed earlier." : point_help_lots ? "How, then, to get rid of the ghost?" : "You don't feel prepared enough to tackle the ghost yet, though." )}
-   oaf_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
+   command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
 
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
@@ -190,9 +207,71 @@ strings {
    exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
+
+   noguess : string "<(unknown)<#888>>" ;
 }
 
-collections {
+collections { # these half-done hints are arranged in clockwise order on the map, so there are no spoilers about what comes when.
+   first_words : list {
+      items = [
+         "<DUH<#f80>>",
+         "<REPEL<#f80>>",
+         "<ROOF<#f80>>",
+         "<HELP<#f80>>",
+         "<NOTE<#f80>>",
+         "<CURSE<#f80>>"
+      ]
+   };
+   second_words : list {
+      items = [
+         "<LIES<#f80>>",
+         "<EDGY<#f80>>",
+         "<ERE<#f80>>",
+         "<LOTS<#f80>>",
+         "<RUBBLE<#f80>>",
+         "<TREATS<#f80>>"
+      ]
+   };
+   situations : list {
+      items = [
+         "{here_gsgr}.",
+         "{here_gsgr}.",
+         "{here_rue}.",
+         "{here_plots}.",
+         "{here_trouble}.",
+         "{here_streets}."
+      ]
+   };
+   got_first : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
+   got_second : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
+   tried_combo : list {
+      items = [
+         "false",
+         "false",
+         "false",
+         "false",
+         "false",
+         "false"
+      ]
+   };
    num_to_word : list {
       items = [
          "zero",
@@ -250,6 +329,7 @@ locations {
             : if (point_duh_lies) {
                : print "The eyes are no longer here." ;
             } : else {
+               : collection_modify { collection = "tried_combo" index -> (0) content -> ("true") } ;
                : print "You realize it isn't enough just to stare back at the dull eyes. You'll never win a staring contest. You have put meaning into your stare, and it's a tense 15 seconds, but the dull eyes finally blinking go away, maybe looking for someone easier to push around." ;
                : print "You feel less pinned to the spot now. Perhaps it's time to go check what's to the south, or you can {v_listen} to preview what you're ultimately up against." ;
                : gosub "add_point" ;
@@ -260,9 +340,15 @@ locations {
          }
          : match "duh _;_ lies" {
             : set_boolean var="done_already" {(point_duh_lies)} ;
+            : set_integer var="tempint" "0" ;
+            : set_false "first_half" ;
+            : match "duh _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
          : match "repel edgy" {
+            : collection_modify { collection = "tried_combo" index -> (1) content -> ("true") } ;
             : if (point_repel_edgy) {
                : print "You should have won the game already, and you shouldn't see this." ;
             } : else_if (!point_help_lots) {
@@ -321,6 +407,11 @@ locations {
          : match "repel _;_ edgy" {
             : set_boolean var="done_already" {(point_repel_edgy)} ;
             : set_boolean var="think_already" {(think_repel_edgy)} ;
+            : set_integer var="tempint" "1" ;
+            : set_false "first_half" ;
+            : match "repel _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -349,6 +440,7 @@ locations {
             }
          }
          : match "roof ere" {
+            : collection_modify { collection = "tried_combo" index -> (2) content -> ("true") } ;
             : if (point_roof_ere) {
                : print "You found enough passages from here the first time you climbed." ;
             } : else {
@@ -362,6 +454,11 @@ locations {
          }
          : match "roof _;_ ere" {
             : set_boolean var="done_already" {(point_roof_ere)} ;
+            : set_integer var="tempint" "2" ;
+            : set_false "first_half" ;
+            : match "roof _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -373,6 +470,7 @@ locations {
             : done ;
          }
          : match "note rubble" {
+            : collection_modify { collection = "tried_combo" index -> (4) content -> ("true") } ;
             : if (point_note_rubble) {
                : print "You found a companion in the rubble. That's good enough." ;
             } : else {
@@ -386,6 +484,11 @@ locations {
          }
          : match "note _;_ rubble" {
             : set_boolean var="done_already" {(point_note_rubble)} ;
+            : set_integer var="tempint" "4" ;
+            : set_false "first_half" ;
+            : match "note _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -397,6 +500,7 @@ locations {
             : done ;
          }
          : match "curse treats" {
+            : collection_modify { collection = "tried_combo" index -> (5) content -> ("true") } ;
             : if (point_curse_treats) {
                : print "The treats were already cursed with lethargy. You don't need to maintain or increase the curse." ;
             } : else_if (!point_note_rubble) {
@@ -417,6 +521,11 @@ locations {
          : match "curse _;_ treats" {
             : set_boolean var="done_already" {(point_curse_treats)} ;
             : set_boolean var="think_already" {(think_curse_treats)} ;
+            : set_integer var="tempint" "5" ;
+            : set_false "first_half" ;
+            : match "curse _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -428,6 +537,7 @@ locations {
             : done ;
          }
          : match "help lots" {
+            : collection_modify { collection = "tried_combo" index -> (3) content -> ("true") } ;
             : if (point_help_lots) {
                : print "You've already helped the {wlwc} enough. They're following you, after all." ;
             } : else_if (!point_curse_treats) {
@@ -447,6 +557,11 @@ locations {
          : match "help _;_ lots" {
             : set_boolean var="done_already" {(point_help_lots)} ;
             : set_boolean var="think_already" {(think_help_lots)} ;
+            : set_integer var="tempint" "3" ;
+            : set_false "first_half" ;
+            : match "help _" {
+               : set_true "first_half" ;
+            }
             : gosub "reject_half" ;
          }
       }
@@ -572,18 +687,25 @@ subroutines {
    }
 
    meta_credits : subroutine {
-      : print "Thanks to the administrators Ruber Eaglenest and Alyshkalia for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
-      : print "Thanks to Chris Ainsley for creating Adventuron." ;
+      : print "Thanks to the administrators <Ruber Eaglenest<#0f0>>[https://rubereaglenest.itch.io], <Alyshkalia<#0f0>>[https://alyshkalia.itch.io] and <Passerine<#0f0>>[https://passerine.itch.io] for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
+      : print "Thanks to Chris Ainsley for creating <Adventuron<#0f0>>[https://adventuron.itch.io/]." ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
       : print "I had no time for testers, alas, but if you find a bug, you can get your name here!" ;
+   }
+
+   meta_options : subroutine {
+      : print "{this_g} has two options." ;
+	  : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+	  : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
    }
 
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
       : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
-      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
+      : set_true "read_options_yet" ;
    }
 
    meta_versions : subroutine {
@@ -608,7 +730,7 @@ subroutines {
 
    note_thinks : subroutine {
       : if (!think_note_yet) {
-         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper left will show +1 or more, for commands you've guessed right but still need prep for." ;
+         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper right will show +1 or more, for commands you've guessed right but still need prep for." ;
          : set_true "think_note_yet" ;
       }
    }
@@ -620,10 +742,15 @@ subroutines {
          : print "One word's right and one is wrong, but you already figured what to do fully. You just needed to solve a few other in-game puzzles for it to work. See {vd_think} for a refresher." ;
       } : else {
          : print "Something almost happens. One word must be right." ;
+         : if (first_half) {
+            : collection_modify { collection = "got_first" index -> (tempint) content -> ("true") ; }
+         } : else {
+            : collection_modify { collection = "got_second" index -> (tempint) content -> ("true") ; }
+         }
          : if (!note_half_limitations) {
-            : print "{note_once}ideally, I'd keep track of which word you have right, but while Adventuron makes many things easy, its lack of support for complex classes makes the code (as I see it) hard to write and test. Sorry for any inconvenience." ;
-			: set_true "note_half_limitations" ;
-			}
+            : print "{note_once}{this_g} spells out half-right guesses with {vd_think} by default. This option can be disabled with {vo_seal_all} or enabled with {vo_see_lol}." ;
+            : set_true "note_half_limitations" ;
+            }
       }
       : done ;
    }
@@ -961,6 +1088,10 @@ on_command {
       : gosub "meta_credits" ;
       : done ;
    }
+   : match "opt _;opts _;option _;options _" {
+      : gosub "meta_options" ;
+      : done ;
+   }
    : match "verbs _;verb _" {
       : gosub "meta_verbs" ;
       : done ;
@@ -978,10 +1109,6 @@ on_command {
       : done ;
    }
    : match "think _" {
-      : if (!thought_any) {
-         : print "There are no commands you figured out and will need to re-use in the future with stronger preparation." ;
-         : done ;
-      }
       : if (think_curse_treats) {
          : set_boolean var="once_now_boolean" {( point_note_rubble )} ;
          : print "You can <CURSE TREATS<#f80>> {here_streets} {once_now} you have someone cursed to help you." ;
@@ -994,10 +1121,56 @@ on_command {
          : set_boolean var="once_now_boolean" {( point_help_lots )} ;
          : print "You can get rid of the ghost {here_gsgr} for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
       }
+      : set_integer var="counter" "0" ;
+      : set_false "think_half_yet" ;
+      : if (opt_see_lol) {
+         : while (counter < 6) {
+            : if ((collection_get{ collection -> ("tried_combo") index -> ( counter )} == "false")) {
+               : if (part_word_score > 0) {
+                  : if (!think_half_yet) {
+                     : print {( (thought_any ? "Also, here" : "Here") + " is what you know from partially correct guessing:" )} ;
+                     : set_true "think_half_yet" ;
+                  }
+                  : print {( (part_word_score != 2 ? (collection_get{ collection -> ("first_words") index -> (counter) }) : "{noguess}") + " " + (part_word_score >= 2 ? (collection_get{ collection -> ("second_words") index -> (counter) }) : "{noguess}") + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
+                  : set_true "think_half_yet" ;
+                  : if (!solved_both_parts_nag && part_word_score == 3) {
+                     : print "{note_once}You have solved something in parts, but you haven't typed the complete command yet. If it doesn't work once you do,  you'll still see it here in {vd_think}." ;
+                     : set_true "solved_both_parts_nag" ;
+                  }
+               }
+            }
+            : increment "counter" ;
+         }
+      }
+      : if (!think_half_yet && !thought_any) {
+         : print "There's nothing you've currently figured out only partially, whether it's the right phrase and the wrong time, or half of a phrase you need." ;
+      }
+   }
+   : match "see lol" {
+      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
+      : set_true "opt_see_lol" ;
+      : set_true "see_lol_known" ;
+	  : done ;
+   }
+   : match "seal all" {
+      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_see_lol} turns it on.") )} ;
+      : set_true "opt_see_lol" ;
+      : set_true "see_lol_known" ;
+	  : done ;
+   }
+   : if (see_lol_known) {
+      : match "see _" {
+         : print "{command_stickler} {vo_see_lol}." ;
+         : done ;
+      }
+      : match "seal _" {
+         : print "{command_stickler} {vo_seal_all}." ;
+         : done ;
+      }
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
-         : print {( "{vo_oaf_aid} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
+         : print {( "{opt_txt_oaf} is now on, in {oaf_aid_status}. The oaf reappears." )} ;
          : set_true "oaf_aid" ;
          : if (!six_warn) {
             : print "{note_once}the oaf informs you that it is a terrible speller, but it has been blessed with knowing how many letters are in the actions you need to perform. Since it only has five fingers on one hand, wiggling their thumb counts as two fingers. Resourceful, especially for an oaf!" ;
@@ -1006,7 +1179,7 @@ on_command {
          : update_graphic ;
       } : else {
          : set_boolean var="oaf_aid_extra" {(!oaf_aid_extra)} ;
-         : print {( "{vo_oaf_aid} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
+         : print {( "{opt_txt_oaf} is now switched to {oaf_aid_status}. The oaf makes itself " + ( oaf_aid_extra ? "more" : "less" ) + " prominent." )} ;
        }
       : done ;
    }
@@ -1017,10 +1190,10 @@ on_command {
       : done ;
    }
    : match "oaf _" {
-      : print "{oaf_stickler} {vo_oaf_aid}.";
+      : print "{command_stickler} {vo_oaf_aid}.";
    }
    : match "oh _" {
-      : print "{oaf_stickler} {vo_oh_fade}.";
+      : print "{command_stickler} {vo_oh_fade}.";
    }
 
    : match "duh _;rue _;no _;curse _;help _;repel _" {
