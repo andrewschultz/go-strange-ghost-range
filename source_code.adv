@@ -73,7 +73,7 @@ booleans {
 
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
-   thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots|| think_curse_treats )} ;
+   thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots || think_curse_treats )} ;
    done_here : dynamic_boolean {( (point_help_lots && is_at "hell_plots") ||
       (point_roof_ere && is_at "rue_fear") ||
       (point_note_rubble && is_at "no_trouble") ||
@@ -695,8 +695,8 @@ subroutines {
 
    meta_options : subroutine {
       : print "{this_g} has two options." ;
-	  : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
-	  : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
+      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
    }
 
    meta_verbs : subroutine {
@@ -750,7 +750,7 @@ subroutines {
          : if (!note_half_limitations) {
             : print "{note_once}{this_g} spells out half-right guesses with {vd_think} by default. This option can be disabled with {vo_seal_all} or enabled with {vo_see_lol}." ;
             : set_true "note_half_limitations" ;
-            }
+         }
       }
       : done ;
    }
@@ -1132,7 +1132,6 @@ on_command {
                      : set_true "think_half_yet" ;
                   }
                   : print {( (part_word_score != 2 ? (collection_get{ collection -> ("first_words") index -> (counter) }) : "{noguess}") + " " + (part_word_score >= 2 ? (collection_get{ collection -> ("second_words") index -> (counter) }) : "{noguess}") + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
-                  : set_true "think_half_yet" ;
                   : if (!solved_both_parts_nag && part_word_score == 3) {
                      : print "{note_once}You have solved something in parts, but you haven't typed the complete command yet. If it doesn't work once you do,  you'll still see it here in {vd_think}." ;
                      : set_true "solved_both_parts_nag" ;
@@ -1147,16 +1146,16 @@ on_command {
       }
    }
    : match "see lol" {
-      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
+      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "already" : "now") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
       : set_true "opt_see_lol" ;
       : set_true "see_lol_known" ;
-	  : done ;
+      : done ;
    }
    : match "seal all" {
       : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_see_lol} turns it on.") )} ;
-      : set_true "opt_see_lol" ;
+      : set_false "opt_see_lol" ;
       : set_true "see_lol_known" ;
-	  : done ;
+      : done ;
    }
    : if (see_lol_known) {
       : match "see _" {
