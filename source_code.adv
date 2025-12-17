@@ -756,6 +756,48 @@ subroutines {
       : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
    }
 
+   meta_think_conditionals : subroutine {
+      : if (think_curse_treats) {
+         : set_boolean var="once_now_boolean" {( point_note_rubble )} ;
+         : print "You can <CURSE TREATS<#f80>> {here_streets} {once_now} you have someone cursed to help you." ;
+      }
+      : if (think_help_lots) {
+         : set_boolean var="once_now_boolean" {( point_curse_treats )} ;
+         : print "You can <HELP LOTS<#f80>> {here_plots} {once_now} you have gotten rid of the distracting canine howls." ;
+      }
+      : if (think_repel_edgy) {
+         : set_boolean var="once_now_boolean" {( point_help_lots )} ;
+         : print "You can get rid of the ghost {here_gsgr} for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
+      }
+   }
+
+   meta_think_main : subroutine {
+      : gosub "meta_think_conditionals" ;
+      : set_integer var="counter" "0" ;
+      : set_false "think_half_yet" ;
+      : if (opt_see_lol) {
+         : while (counter < max_score) {
+            : if ((collection_get{ collection -> ("tried_combo") index -> ( counter )} == "false")) {
+               : if (part_word_score > 0) {
+                  : if (!think_half_yet) {
+                     : print {( (thought_any ? "Also, here" : "Here") + " is what you know from partially correct guessing:" )} ;
+                     : set_true "think_half_yet" ;
+                  }
+                  : print {( (part_word_score != 2 ? (collection_get{ collection -> ("first_words") index -> (counter) }) : "{noguess}") + " " + (part_word_score >= 2 ? (collection_get{ collection -> ("second_words") index -> (counter) }) : "{noguess}") + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
+                  : if (!solved_both_parts_nag && part_word_score == 3) {
+                     : print "{note_once}You have solved something in parts, but you haven't typed the complete command yet. If it doesn't work once you do, {vd_think} will track it until it does." ;
+                     : set_true "solved_both_parts_nag" ;
+                  }
+               }
+            }
+            : increment "counter" ;
+         }
+      }
+      : if (!think_half_yet && !thought_any) {
+         : print "There's nothing you've currently figured out only partially, whether it's the right phrase and the wrong time, or half of a phrase you need." ;
+      }
+   }
+
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
@@ -1122,43 +1164,8 @@ on_command {
       }
       : done ;
    }
+
    : match "think _" {
-      : if (think_curse_treats) {
-         : set_boolean var="once_now_boolean" {( point_note_rubble )} ;
-         : print "You can <CURSE TREATS<#f80>> {here_streets} {once_now} you have someone cursed to help you." ;
-      }
-      : if (think_help_lots) {
-         : set_boolean var="once_now_boolean" {( point_curse_treats )} ;
-         : print "You can <HELP LOTS<#f80>> {here_plots} {once_now} you have gotten rid of the distracting canine howls." ;
-      }
-      : if (think_repel_edgy) {
-         : set_boolean var="once_now_boolean" {( point_help_lots )} ;
-         : print "You can get rid of the ghost {here_gsgr} for good with <REPEL EDGY<#f80>> {once_now} you have enough support." ;
-      }
-      : set_integer var="counter" "0" ;
-      : set_false "think_half_yet" ;
-      : if (opt_see_lol) {
-         : while (counter < 6) {
-            : if ((collection_get{ collection -> ("tried_combo") index -> ( counter )} == "false")) {
-               : if (part_word_score > 0) {
-                  : if (!think_half_yet) {
-                     : print {( (thought_any ? "Also, here" : "Here") + " is what you know from partially correct guessing:" )} ;
-                     : set_true "think_half_yet" ;
-                  }
-                  : print {( (part_word_score != 2 ? (collection_get{ collection -> ("first_words") index -> (counter) }) : "{noguess}") + " " + (part_word_score >= 2 ? (collection_get{ collection -> ("second_words") index -> (counter) }) : "{noguess}") + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
-                  : if (!solved_both_parts_nag && part_word_score == 3) {
-                     : print "{note_once}You have solved something in parts, but you haven't typed the complete command yet. If it doesn't work once you do,  you'll still see it here in {vd_think}." ;
-                     : set_true "solved_both_parts_nag" ;
-                  }
-               }
-            }
-            : increment "counter" ;
-         }
-      }
-      : if (!think_half_yet && !thought_any) {
-         : print "There's nothing you've currently figured out only partially, whether it's the right phrase and the wrong time, or half of a phrase you need." ;
-      }
-   }
    : match "see lol" {
       : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "already" : "now") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
       : set_true "opt_see_lol" ;
