@@ -656,6 +656,38 @@ subroutines {
       }
    }
 
+   check_standard_verbs : subroutine {
+      : match "take _;drop _" {
+         : if (!take_drop_warn) {
+            : print "You never need to take or drop anything in {this_g}. Everything is implicitly taken or destroyed as used." ;
+            : set_true "take_drop_warn" ;
+         } : else {
+            : print "Take and drop aren't used in {this_g}." ;
+         }
+         : done ;
+      }
+      : match "z _;wait _" {
+         : print "\"Loaf, right? Lo, fright!\"" ;
+         : if (!wait_yet) {
+            : print {( "{note_once}This is just a silly general response" + ( is_at "wee_clink" ? ", though it does provide a clue how to get out of here, in its own way" : "" ) + ". Waiting gives no penalty or benefit." )} ;
+            : set_true "wait_yet" ;
+         }
+      }
+      : match "map _;m _" {
+         : set_true "showing_map" ;
+         : clear_screen ;
+         : update_graphic "m_blank" ;
+         : gosub "game_specific_map_checks" ; #~
+         : if (!first_map_note) {
+            : print "{note_once}You can mouse-click or hit {key_enter} to return to the game. Arrows indicate one-way paths, and red lines show ones you don't need any more, if {vo_hone_aye} is active." ;
+            : set_true "first_map_note" ;
+         }
+         : press_any_key ;
+         : set_false "showing_map" ;
+         : redescribe ;
+      }
+   }
+
    hint_help : subroutine {
       : if (done_here) {
          : print "You are done here." ;
@@ -1008,34 +1040,10 @@ on_command {
       : print "While there are companions in {this_g}, there won't be any items to take or use." ;
       : done ;
    }
-   : match "z _;wait _" {
-      : print "\"Loaf, right? Lo, fright!\"" ;
-      : if (!wait_yet) {
-         : print "{note_once}This is just a silly general response. Waiting gives no penalty or benefit." ;
-         : set_true "wait_yet" ;
-      }
-   }
-   : match "map _" {
-      : set_true "showing_map" ;
-      : clear_screen ;
-      : update_graphic "m_blank" ;
-      : if (!map_dotted_notes && !point_help_lots && (point_roof_ere || !point_duh_lies)) {
-         : set_true "map_dotted_notes" ;
-         : print "{note_once}dotted lines mean a passage you know about but can't follow yet." ;
-      }
-      : if (point_note_rubble && !map_black_note) {
-         : print "{note_once}any room that is black on the map is complete. You won't be able to return to it, but you won't need to." ;
-         : set_true "map_black_note" ;
-      }
-      : if (!first_map_note) {
-         : print "You can mouse-click or hit ENTER to return to the game." ;
-         : set_true "first_map_note" ;
-      }
-      : press_any_key ;
-      : set_false "showing_map" ;
-      : redescribe ;
-      : done ;
-   }
+
+   : gosub "check_odd_verbs" ;
+   : gosub "check_standard_verbs" ;
+
    : if (is_present "wee_cloud") {
       : match "_ weak;_ loud;_ wee;_ cloud" {
          : print {( point_help_lots ? "Restless with anticipation of bettering themselves/itself." : "Fidgety and moaning about its fate in the afterlife." )} ;
