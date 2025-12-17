@@ -60,6 +60,7 @@ booleans {
    win_warn : boolean "false" scope="survivor" ;
    wait_yet : boolean "false" ;
    help_note : boolean "false" ;
+   warn_generic_credit : boolean "false" ;
 
    # auxiliary semi-function-parameter booleans
    showing_map : boolean "false" ;
@@ -763,6 +764,7 @@ subroutines {
       : print "{this_g} has two options." ;
       : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
       : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
+      : set_true "read_options_yet" ;
    }
 
    meta_think_conditionals : subroutine {
@@ -813,7 +815,6 @@ subroutines {
       : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
-      : set_true "read_options_yet" ;
    }
 
    meta_versions : subroutine {
@@ -824,7 +825,8 @@ subroutines {
       : print "Leftovers from {this_g} are found in {l_cdsa} and, later, {l_dadc}. In fact, each of the three games had unique features for EctoComp that I merged into all of them post-comp." ;
       : print "" ;
       : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} 2025 games after that." ;
-      : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025." ;
+      : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025. It fixed small bugs and upgraded the {vm_think} command." ;
+      : print "Version 3 will be published before the end of 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to rh." ;
       : print "" ;
       : print "If you've found this elsewhere than Itch.io, the latest version should be at {l_gsgr}." ;
    }
