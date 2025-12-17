@@ -317,7 +317,7 @@ locations {
             : done ;
          }
          : match "_ ghost" {
-            : print {( "The ghost isn't particularly large or gruesome, but you clearly can't handle it alone. " + (point_duh_lies ? "Hard not to <v_listen>, too." : "Perhaps you could deal with the {c_dull_eyes} to start, though.") )} ;
+            : print {( "The ghost isn't particularly large or gruesome, but you clearly can't handle it alone. " + (point_duh_lies ? "Hard not to {v_listen}, too." : "Perhaps you could deal with the {c_dull_eyes} to start, though.") )} ;
          }
          : match "_ eyes" {
             : if (point_duh_lies) {
@@ -734,6 +734,7 @@ subroutines {
       : print "You're ready to work on the room name here." ;
       : return ;
    }
+
    meta_about : subroutine {
       : print "{this_g} was written for {l_ectocomp} Petite Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
@@ -842,6 +843,31 @@ subroutines {
       : if (!think_note_yet) {
          : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper right will show +1 or more, for commands you've guessed right but still need prep for." ;
          : set_true "think_note_yet" ;
+      }
+   }
+
+   opt_see_seal : subroutine {
+      : match "see lol" {
+         : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "already" : "now") + " on." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
+         : set_true "opt_see_lol" ;
+         : set_true "see_lol_known" ;
+         : done ;
+      }
+      : match "seal all" {
+         : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_see_lol} turns it on.") )} ;
+         : set_false "opt_see_lol" ;
+         : set_true "see_lol_known" ;
+         : done ;
+      }
+      : if (see_lol_known) {
+         : match "see _" {
+            : print "{command_stickler} {vo_see_lol}." ;
+            : done ;
+         }
+         : match "seal _" {
+            : print "{command_stickler} {vo_seal_all}." ;
+            : done ;
+         }
       }
    }
 
@@ -1177,27 +1203,6 @@ on_command {
    }
 
    : match "think _" {
-   : match "see lol" {
-      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "already" : "now") + " off." + (see_lol_known ? "" : " {vo_seal_all} turns it off.") )} ;
-      : set_true "opt_see_lol" ;
-      : set_true "see_lol_known" ;
-      : done ;
-   }
-   : match "seal all" {
-      : print {( "{opt_txt_see_seal} is " + (opt_see_lol ? "now" : "already") + " off." + (see_lol_known ? "" : " {vo_see_lol} turns it on.") )} ;
-      : set_false "opt_see_lol" ;
-      : set_true "see_lol_known" ;
-      : done ;
-   }
-   : if (see_lol_known) {
-      : match "see _" {
-         : print "{command_stickler} {vo_see_lol}." ;
-         : done ;
-      }
-      : match "seal _" {
-         : print "{command_stickler} {vo_seal_all}." ;
-         : done ;
-      }
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
