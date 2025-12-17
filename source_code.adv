@@ -631,6 +631,13 @@ barriers {
 }
 
 subroutines {
+
+   add_point : subroutine {
+      : print "<Your score has just gone up by a point!<#ff0>>" ;
+      : increment "score" ;
+      : update_graphic ;
+   }
+
    check_odd_verbs : subroutine {
       : match "xyzzy _" {
          : print "A hollow voice intones \"Our gaol: argh, ail!\" It's so spooky, you don't dare quibble over details of pronunciation." ;
@@ -772,11 +779,7 @@ subroutines {
       }
       : done ;
    }
-   add_point : subroutine {
-      : print "<Your score has just gone up by a point!<#ff0>>" ;
-      : increment "score" ;
-      : update_graphic ;
-   }
+
 }
 
 themes {
