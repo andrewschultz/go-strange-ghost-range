@@ -697,6 +697,17 @@ subroutines {
       }
    }
 
+   game_specific_map_checks : subroutine {
+      : if (!map_dotted_notes && !point_help_lots && (point_roof_ere || !point_duh_lies)) {
+         : set_true "map_dotted_notes" ;
+         : print "{note_once}dotted lines mean a passage you know about but can't follow yet." ;
+      }
+      : if (point_note_rubble && !map_black_note) {
+         : print "{note_once}any room that is black on the map is complete. You won't be able to return to it, but you won't need to." ;
+         : set_true "map_black_note" ;
+      }
+   }
+
    hint_help : subroutine {
       : if (done_here) {
          : print "You are done here." ;
