@@ -62,6 +62,9 @@ booleans {
    help_note : boolean "false" ;
    warn_generic_credit : boolean "false" ;
 
+   # game specific booleans
+   elegy_verse_tried : boolean "false" ;
+
    # auxiliary semi-function-parameter booleans
    showing_map : boolean "false" ;
    show_overlay : boolean "true" ;
@@ -310,9 +313,10 @@ locations {
                : set_true "listen_elegy" ;
             } : else {
                : cycle key = "reap_elegy_stuff" predictable_order = "true" skip_interval = "0" {
-                  : print "The first verse of the ghost's {c_reap_elegy} rhymes creep, deep, and even \"beep\" to block out profanity." ;
+                  : print {( "The first verse of the ghost's {c_reap_elegy} " + (elegy_verse_tried ? "starts again, rhyming" : "rhymes" ) + " creep, deep, and even \"beep\" to block out profanity." )} ;
                   : print "The second verse of the ghost's {c_reap_elegy} takes a weird turn. \"Elegy\"'s syllables are stressed wrong. It is not hedge-y or on-the-ledge-y about being terror up-dredge-y to mortals in a drive-a-wedgey manner. It ends with special scorn for people named Reggie. But it will start up again, soon enough." ;
                }
+               : set_true "elegy_verse_tried" ;
             }
             : done ;
          }
