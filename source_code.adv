@@ -783,6 +783,42 @@ subroutines {
       }
    }
 
+   meta_think_first : subroutine {
+      : if (!is_at "go_strange_ghost_range") {
+         : return ;
+      }
+      : set_integer var="counter" "0" ;
+      : if (part_word_score > last_first_puzzle_score) {
+         : print {( "<NOTE<#ff0>>: you have figured out " + (part_word_score == 3 ? "<DUH LIES<#f80>> with separate commands, so you can just type it in. If you're not sure why, continue to {vm_think} for the explanation." : (part_word_score == 1 ? "<DUH<#f80>> as the first word." : "<LIES<#f80>> as the second word.") ) )} ;
+         : if (part_word_score < 3) {
+            : print "So I'll cut off the game mechanics hints this time, though if you type {vm_think} again, they will proceed." ;
+         }
+         : set_integer var="last_first_puzzle_score" {( part_word_score )} ;
+         : done ;
+      }
+      : if (!point_duh_lies) {
+         : cycle key = "this_g_hints_1" predictable_order = "true" skip_interval = "0" {
+            : print "You may notice something about the title of the game. " ;
+            : print "You may also notice something about the commands to have the oaf help or not. " ;
+            : print "You may also remember the names of the books you laughed at in the introduction. " ;
+            : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
+            : print "The dull eyes are stopping you from going south. You need to do something to talk back against them. " ;
+            : print "What two words together sound like dull eyes?" ;
+            : print "The first one's a bit slangy." ;
+            : print "<DUH LIES<#88f>>." ;
+         }
+      } : else {
+         : cycle key = "this_g_hints_2" predictable_order = "true" skip_interval = "0" {
+            : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow. " ;
+            : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
+            : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
+            : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
+            : print "<REPEL EDGY<#88f>>." ;
+         }
+      }
+      : done ;
+   }
+
    meta_think_main : subroutine {
       : gosub "meta_think_conditionals" ;
       : set_integer var="counter" "0" ;
@@ -1203,6 +1239,9 @@ on_command {
    }
 
    : match "think _" {
+      : gosub "meta_think_first" ;
+      : gosub "meta_think_conditionals" ;
+      : gosub "meta_think_main" ;
    }
    : match "oaf aid" {
       : if (!oaf_aid) {
