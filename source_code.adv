@@ -112,15 +112,15 @@ strings {
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
 
-   #links
+   # links
    l_qt : string "<Quirky Test<#0f0>>[http://andrewschultz.itch.io/quirky-test]" ;
-   l_us : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
    l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
+   l_ut : string "<Us Too<#0f0>>[http://andrewschultz.itch.io/us-too]" ;
    l_cdsa : string "<Chez Dark Shade Ark<#0f0>>[http://andrewschultz.itch.io/chez-dark-shade-ark]" ;
    l_dadc : string "<Dusk, Airy, Does Carry<#0f0>>[http://andrewschultz.itch.io/dusk-airy-does-carry]" ;
    l_gsgr : string "<Go-Strange-Ghost Range<#0f0>>[http://andrewschultz.itch.io/go-strange-ghost-range]" ;
-   l_ectocomp : string "<EctoComp<#0f0>>[https://itch.io/jam/ectocomp-2025]" ;
-   l_ifcomp : string "<IFComp<#0f0>>[https://ifcomp.org]" ;
+   l_ectocomp : string "<EctoComp<#0f0>>[http://itch.io/jam/ectocomp-2025]" ;
+   l_ifcomp : string "<IFComp<#0f0>>[http://ifcomp.org]" ;
 
    # changeables/clues
    c_cur_streets : string "<CUR STREETS<#88f>>" ;
@@ -747,7 +747,7 @@ subroutines {
       : print "{this_g} was written for {l_ectocomp} Petite Mort 2025." ;
       : print "I used Python scripts to generate a lot of the code to keep the development time under 4 hours." ;
       : print "I'm grateful to the organizers for not having image creation time count against these four hours." ;
-      : print "{this_g} has the same mechanic as two games I wrote in Inform 7: {l_wp} and {l_us}." ;
+      : print "{this_g} has the same mechanic as two games I wrote in Inform 7: {l_wp} and {l_ut}." ;
       : print "{this_g} is meant to be a fairly straightforward game with five rooms and six points to score. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
       : print "Every point scoring command is an unusual verb, which it is indicated by the location, or something in the location." ;
       : print "Some text is color-coded. <Green<#0f0>> is a clickable link, and <Orange<#f80>> or purple indicates a verb you can use. <Lavender<#88f>> text clues what to focus on." ;
@@ -863,7 +863,7 @@ subroutines {
    }
 
    meta_versions : subroutine {
-      : print "{this_g} came about from having a bunch of ideas for {l_us}, when I in fact got a bit stalled on {l_us}. It was a procrastination vehicle, given the {l_ifcomp} deadline was two months before {l_ectocomp} 2025's, though I planned to keep it short. I wanted to see if I could implement an in-game map quickly. Turns out I could. I also didn't want to have a lot of branching." ;
+      : print "{this_g} came about from having a bunch of ideas for {l_ut}, when I in fact got a bit stalled on {l_ut}. It was a procrastination vehicle, given the {l_ifcomp} deadline was two months before {l_ectocomp} 2025's, though I planned to keep it short. I wanted to see if I could implement an in-game map quickly. Turns out I could. I also didn't want to have a lot of branching." ;
       : print "" ;
       : print "The six puzzles came pretty quickly from generically spooky things, and I had some Adventuron code generation from {l_qt}. I even squeezed in the oaf as a hint device." ;
       : print "" ;
