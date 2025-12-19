@@ -731,26 +731,25 @@ subroutines {
          }
          : done ;
       }
-      : if (is_at "go_strange_ghost_range") {
-         : if (!point_duh_lies) {
-            : cycle key = "this_g_hints_1" predictable_order = "true" skip_interval = "0" {
-               : print "You may notice something about the title of the game. " ;
-               : print "You may also notice something about the commands to have the oaf help or not. " ;
-               : print "You may also remember the names of the books you laughed at in the introduction. " ;
-               : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
-               : print "The dull eyes are stopping you from going south. You need to do something to talk back against them. " ;
-               : print "What two words together sound like dull eyes?" ;
-               : print "The first one's a bit slangy." ;
-               : print "<DUH LIES<#88f>>." ;
-            }
-         } : else {
-            : cycle key = "this_g_hints_2" predictable_order = "true" skip_interval = "0" {
-               : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow. " ;
-               : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
-               : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
-               : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
-               : print "<REPEL EDGY<#88f>>." ;
-            }
+      } : else_if (!point_duh_lies) {
+         : cycle key = "this_g_hints_1" predictable_order = "true" skip_interval = "0" {
+            : print "You may notice something about the title of the game." ;
+            : print "You may also notice something about the commands to have the oaf help or not." ;
+            : print "You may also remember the names of the books you laughed at in the introduction." ;
+            : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
+            : print "The dull eyes are stopping you from going south. You need to do something to talk back against them." ;
+            : print "What two words together sound like dull eyes?" ;
+            : print "The first one's a bit slangy." ;
+            : print "<DUH LIES<#88f>>.{hint_clue_cycle}" ;
+         }
+         : done ;
+      } : else_if (is_at "go_strange_ghost_range") {
+         : cycle key = "this_g_hints_2" predictable_order = "true" skip_interval = "0" {
+            : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow." ;
+            : print "You need to have everyone with you, and you do, so what is a good way to get rid of it?" ;
+            : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
+            : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
+            : print "<REPEL EDGY<#88f>>.{hint_clue_cycle}" ;
          }
          : done ;
       }
@@ -807,7 +806,7 @@ subroutines {
    }
 
    meta_think_first : subroutine {
-      : if (!is_at "go_strange_ghost_range") {
+      : if (point_duh_lies) {
          : return ;
       }
       : set_integer var="counter" "0" ;
@@ -819,29 +818,12 @@ subroutines {
          : set_integer var="last_first_puzzle_score" {( part_word_score )} ;
          : done ;
       }
-      : if (!point_duh_lies) {
-         : cycle key = "this_g_hints_1" predictable_order = "true" skip_interval = "0" {
-            : print "You may notice something about the title of the game. " ;
-            : print "You may also notice something about the commands to have the oaf help or not. " ;
-            : print "You may also remember the names of the books you laughed at in the introduction. " ;
-            : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
-            : print "The dull eyes are stopping you from going south. You need to do something to talk back against them. " ;
-            : print "What two words together sound like dull eyes?" ;
-            : print "The first one's a bit slangy." ;
-            : print "<DUH LIES<#88f>>." ;
-         }
-      } : else {
-         : cycle key = "this_g_hints_2" predictable_order = "true" skip_interval = "0" {
-            : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow. " ;
-            : print "You need to have everyone with you, and you do, so what is a good way to get rid of it? " ;
-            : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
-            : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
-            : print "<REPEL EDGY<#88f>>." ;
       : if (!think_hint_funnel_note) {
          : print "{note_once}small check before I give spoilers. Unless you've scored your first point or made progress towards it since your last {vd_think}, this will funnel into {vd_hint}." ;
          : set_true "think_hint_funnel_note" ;
          : done ;
       }
+      : gosub "hint_help" ;
       : done ;
    }
 
