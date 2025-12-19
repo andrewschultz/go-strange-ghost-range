@@ -32,6 +32,9 @@ booleans {
    point_curse_treats : boolean "false" ;
    point_help_lots : boolean "false" ;
 
+   # think/hint hybrid (game specific)
+   think_hint_funnel_note : boolean "false" ;
+
    # THINK booleans
    ## first: game mechanics
    think_repel_edgy : boolean "false" ;
@@ -834,7 +837,10 @@ subroutines {
             : print "It seems to think it's cleverer than it is, and maybe you need to take a few risks, too." ;
             : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
             : print "<REPEL EDGY<#88f>>." ;
-         }
+      : if (!think_hint_funnel_note) {
+         : print "{note_once}small check before I give spoilers. Unless you've scored your first point or made progress towards it since your last {vd_think}, this will funnel into {vd_hint}." ;
+         : set_true "think_hint_funnel_note" ;
+         : done ;
       }
       : done ;
    }
