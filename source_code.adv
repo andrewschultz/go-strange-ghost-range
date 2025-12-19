@@ -122,6 +122,16 @@ strings {
    l_ectocomp : string "<EctoComp<#0f0>>[http://itch.io/jam/ectocomp-2025]" ;
    l_ifcomp : string "<IFComp<#0f0>>[http://ifcomp.org]" ;
 
+   # EctoComp general strings
+   conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
+   key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
+   nospecial_custom : string "You see no specific item like that. To examine a room, <LOOK<#0f0>>. Note that the parser may not recognize adjectives as synonyms, so using a noun works best." ;
+   note_once : string "<ONE-TIME NOTE:<#f0f>> " ;
+   my_score : string "{score}{conditional_score}/{max_score}" ;
+   thought_right_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
+   xme : string "<X ME<#0f0>>" ;
+   yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
+
    # changeables/clues
    c_cur_streets : string "<CUR STREETS<#88f>>" ;
    c_dull_eyes : string "<DULL EYES<#88f>>" ;
@@ -130,17 +140,14 @@ strings {
    c_rue_fear : string "<RUE FEAR<#88f>>" ;
    c_no_trouble : string "<NO TROUBLE<#88f>>" ;
 
-   yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
-   my_score : string "{score}{conditional_score}/{max_score}" ;
-   conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
-   to_think_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
-
    # options
-   vo_oaf_aid : string "<OAF AID<#f0f>>" ;
-   vo_oh_fade : string "<OH FADE<#f0f>>" ;
    vo_seal_all : string "<SEAL ALL<#f0f>>" ;
    vo_see_lol : string "<SEE LOL<#f0f>>" ;
    opt_txt_see_seal : string "Remembering half-guessed phrases" ;
+
+   # game-specfic options
+   vo_oaf_aid : string "<OAF AID<#f0f>>" ;
+   vo_oh_fade : string "<OH FADE<#f0f>>" ;
    opt_txt_oaf : string "The oaf's help" ;
 
    # verbs
@@ -156,12 +163,6 @@ strings {
    # diagnostic verbs
    vd_hint : string "<HINT<#f80>>" ;
    vd_think : string "<THINK<#f80>>" ;
-
-   # keyboard stuff
-   key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
-
-   # noting stuff
-   note_once : string "<ONE-TIME NOTE: <#f0f>>" ;
 
    # in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
@@ -212,7 +213,7 @@ strings {
       "BUG" )} ;
 
    custom_unknown_verb_error : string "Nothing comes of that. {this_g} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
-   exitserr : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
+   exits_err : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 
