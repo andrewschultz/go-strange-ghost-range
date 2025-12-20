@@ -25,6 +25,7 @@ booleans {
    take_drop_warn : boolean "false" ;
 
    # POINT booleans
+   first_point : dynamic_boolean {( point_duh_lies )} ;
    point_duh_lies : boolean "false" ;
    point_repel_edgy : boolean "false" ;
    point_roof_ere : boolean "false" ;
@@ -463,7 +464,7 @@ locations {
                : print "You found enough passages from here the first time you climbed." ;
             } : else {
                : print "You half-jokingly request a roof to come down to you. Then you think, hmm, here is how to climb one of them." ;
-               : print "While the houses seem to be watching you, you realize they don't have arms or feet or anything like that, so while there still might be a bad looking around a corner, the house is themselves can't stop you. You climb on to one of them, and you see passages to the west, south, and east. When you get back down, they seem to have given up on trying to intimidate you, sort of knowing that jig is up. They're resting for the next poor soul to come this way, maybe. " ;
+               : print "While the houses seem to be watching you, you realize they don't have arms or feet or anything like that, so while there still might be a bad looking around a corner, the house is themselves can't stop you. You climb on to one of them, and you see passages to the west, south, and east. When you get back down, they seem to have given up on trying to intimidate you, sort of knowing that jig is up. They're resting for the next poor soul to come this way, maybe." ;
                : gosub "add_point" ;
                : set_true "point_roof_ere" ;
                : update_graphic ;
@@ -804,6 +805,7 @@ subroutines {
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
       : print "Thanks to rh for post-comp testing of the half-right {vm_think} feature and more." ;
       : gosub "meta_credits_general" ;
+   }
 
    meta_credits_general : subroutine {
       : print "Thanks to the administrators <Ruber Eaglenest<#0f0>>[https://rubereaglenest.itch.io], <Alyshkalia<#0f0>>[https://alyshkalia.itch.io] and <Passerine<#0f0>>[https://passerine.itch.io] for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
@@ -985,17 +987,19 @@ themes {
          status_bar_paper = #222
       }
       system_messages {
-
-   i_cant_do_that = That's a valid command, but not right here and now.
-   not_present = You can't see ${entity} here.
-   ask_new_game                                   = Would you like to restart {this_g}?
-   ask_quit                                       = Do you wish to quit {this_g}?
-   invalid_choice                                 = {yn_or_12_or_14}
-   post_quit = I hope you enjoyed the experience. Pressing {key_enter} will restart {this_g}.
-   unknown_verb                                   = {custom_unknown_verb_error}
-   you_cant_go_that_direction                     = {exitserr}
+         i_cant_do_that = That's a valid command, but not right here and now.
+         not_present = You can't see ${entity} here.
+         ask_new_game                                   = Would you like to restart {this_g}?
+         ask_quit                                       = \"Sign out. *SIGH*, nowt!\", you mutter under your breath.\"\nDo you wish to quit {this_g}?
+         invalid_choice                                 = {yn_or_12_or_14}
+         post_quit = I hope you enjoyed the experience. Pressing {key_enter} will restart {this_g}.
+         unknown_verb                                   = {custom_unknown_verb_error}
+         you_cant_go_that_direction                     = {exits_err}
+         you_see_nothing_special = {nospecial_custom}
+         you_see_nothing_special_2 = {nospecial_custom}
       }
    }
+
 }
 
 on_render {
