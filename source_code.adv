@@ -34,10 +34,11 @@ strings {
    # EctoComp general strings
    about_spoiler_flag : dynamic_string {( first_point ? "" : " It also contains names of similar games which may be a spoiler or hint for the first point." )} ;
    command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
-   conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
+   conditional_score : dynamic_string {( thought_right > 0 ? "+{thought_right}" : "" )} ;
    custom_unknown_verb_error : string "Nothing comes of that. {this_g} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
    my_score : string "{score}{conditional_score}/{max_score}" ;
+   noguess_0 : string "<(unknown)<#888>>" ;
    nospecial_custom : string "You see no specific item like that. To examine a room, <LOOK<#0f0>>. Note that the parser may not recognize adjectives as synonyms, so using a noun works best." ;
    note_once : string "<ONE-TIME NOTE:<#f0f>> " ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
@@ -141,7 +142,7 @@ strings {
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 
-   noguess : string "<(unknown)<#888>>" ;
+   noguess : string "{noguess_0}" ;
 }
 
 integers {
