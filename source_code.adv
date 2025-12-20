@@ -1216,7 +1216,22 @@ on_pre_command {
 
 on_command {
    : match "i _" {
-      : print "While there are companions in {this_g}, there won't be any items to take or use." ;
+      : if (oaf_aid) {
+         : print "The oaf is here, waiting to give hints when needed." ;
+      } : else {
+         : print "The oaf is waiting in the shadows if you want a hint." ;
+      }
+      : if (!point_note_rubble) {
+         : print "You don't have any other companions, though." ;
+      } : else_if (!point_help_lots) {
+         : print "You've also gained the friendship of {dwdd}, who is following you loyally." ;
+      } : else {
+         : print "You have a loyal, puzzle-tested friend in {dwdd} and a pack of grateful followers in the {wlwc}." ;
+      }
+      : if (!inventory_note) {
+         : print "{this_g} has no items to pick up. So {vd_i} / {vd_inv} tracks companions you've found, instead." ;
+         : set_true "inventory_note" ;
+      }
       : done ;
    }
 
