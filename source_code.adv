@@ -41,7 +41,7 @@ strings {
    nospecial_custom : string "You see no specific item like that. To examine a room, <LOOK<#0f0>>. Note that the parser may not recognize adjectives as synonyms, so using a noun works best." ;
    note_once : string "<ONE-TIME NOTE:<#f0f>> " ;
    once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
-   thought_right_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
+   thought_right_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( thought_right ) } )} ;
    xme : string "<X ME<#0f0>>" ;
    yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
 
@@ -150,7 +150,7 @@ integers {
    tempint : integer "0" ;
    counter : integer "0" ;
 
-   to_think : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
+   thought_right : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
 
    part_word_score : dynamic_integer {( ((collection_get{ collection -> ("got_first") index -> ( counter ) } == "true") ? 1 : 0) + ((collection_get{ collection -> ("got_second") index -> ( counter ) } == "true") ? 2 : 0) )} ; # this is a really bad hack, but I couldn't find a concise way to code things. Maybe I could use a dynamic boolean.
    last_first_puzzle_score : integer "0" ;
@@ -1232,9 +1232,9 @@ on_command {
       : gosub "note_noun_based" ;
    }
    : match "score _" {
-      : print "You have scored {score} of {max_score} points so far." ;
-      : if (to_think > 0) {
-         : print {( "You have {thought_right_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
+      : print "You've currently scored {score} of {max_score} total points." ;
+      : if (thought_right > 0) {
+         : print {( "You've also discovered {thought_right_words} command" + (thought_right > 1 ? "s" : "" ) + " you can re-use in the future with stronger preparation." )} ;
       }
       : if (!bonus_note) {
          : print "{note_once}{this_g} contains no hidden bonus points." ;
