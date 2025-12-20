@@ -678,6 +678,10 @@ subroutines {
    }
 
    check_standard_verbs : subroutine {
+      : match "sw _;se _;ne _;nw _" {
+         : print "Diagonal directions aren't used in {this_g}." ;
+         : done ;
+      }
       : match "take _;drop _" {
          : if (!take_drop_warn) {
             : print "You never need to take or drop anything in {this_g}. Everything is implicitly taken or destroyed as used." ;
@@ -1241,10 +1245,7 @@ on_command {
          : set_true "score_note" ;
       }
    }
-   : match "sw _;se _;ne _;nw _" {
-      : print "Diagonal directions aren't used in {this_g}." ;
-      : done ;
-   }
+
    : match "u _;d _" {
       : print "Vertical directions aren't used in {this_g}." ;
       : done ;
