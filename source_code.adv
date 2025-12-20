@@ -843,7 +843,9 @@ subroutines {
             : print "So I'll cut off the game mechanics hints this time, though if you type {vm_think} again, they will proceed." ;
          }
          : set_integer var="last_first_puzzle_score" {( part_word_score )} ;
-         : done ;
+         : if (think_hint_funnel_note) {
+            : done ;
+         }
       }
       : if (!think_hint_funnel_note) {
          : print "{note_once}small check before I give spoilers. Unless you've scored your first point or made progress towards it since your last {vd_think}, this will funnel into {vd_hint}." ;
