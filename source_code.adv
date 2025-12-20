@@ -159,6 +159,7 @@ integers {
 booleans {
    # non-game-specific
    take_drop_warn : boolean "false" ;
+   score_note : boolean "false" scope="survivor";
 
    # POINT booleans
    first_point : dynamic_boolean {( point_duh_lies )} ;
@@ -197,7 +198,6 @@ booleans {
    map_black_note : boolean "false" scope="survivor" ;
    first_map_note : boolean "false" scope="survivor" ;
    listen_elegy : boolean "false" ;
-   bonus_note : boolean "false" ;
    noun_based_noted : boolean "false" scope="survivor" ;
    won_yet : boolean "false" scope="survivor" ;
    win_warn : boolean "false" scope="survivor" ;
@@ -1236,9 +1236,9 @@ on_command {
       : if (thought_right > 0) {
          : print {( "You've also discovered {thought_right_words} command" + (thought_right > 1 ? "s" : "" ) + " you can re-use in the future with stronger preparation." )} ;
       }
-      : if (!bonus_note) {
-         : print "{note_once}{this_g} contains no hidden bonus points." ;
-         : set_true "bonus_note" ;
+      : if (!score_note) {
+         : print "{note_once}score information is tracked in the upper right. Also, {this_g} contains no hidden bonus points" ;
+         : set_true "score_note" ;
       }
    }
    : match "sw _;se _;ne _;nw _" {
