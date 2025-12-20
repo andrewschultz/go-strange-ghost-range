@@ -161,9 +161,40 @@ integers {
 }
 
 booleans {
-   # non-game-specific
-   take_drop_warn : boolean "false" ;
+   # game-state booleans (mostly did the player use a certain command) in all EctoComp games
+   in_number_choice: boolean "true" ;
+   noun_based_noted : boolean "false" scope="survivor" ;
    score_note : boolean "false" scope="survivor";
+   showed_first_note : boolean "false" scope="survivor" ;
+   take_drop_warn : boolean "false" scope="survivor" ;
+   wait_yet : boolean "false" scope="survivor" ;
+   warn_generic_credit : boolean "false" scope="survivor" ;
+   win_warn : boolean "false" scope="survivor" scope="survivor" ;
+   won_yet : boolean "false" scope="survivor" scope="survivor" ;
+
+   # option booleans in all EctoComp games
+   opt_see_lol : boolean "true" scope="survivor" ;
+   see_lol_known : boolean "false" scope="survivor" ;
+   read_options_yet : boolean "false" scope="survivor" ;
+
+   # THINK tracking booleans in all EctoComp games
+   note_half_limitations : boolean "false" scope="survivor" ;
+   solved_both_parts_nag : boolean "false" scope="survivor" ;
+   think_note_yet : boolean "false" scope="survivor" ;
+
+   # THINK temporary booleans in all EctoComp games
+   done_already : boolean "false" ;
+   first_half : boolean "false" ;
+   once_now_boolean : boolean "false" ;
+   think_already : boolean "false" ;
+   think_half_yet : boolean "false" ;
+
+   # map booleans in all EctoComp games
+   first_map_note : boolean "false" scope="survivor" ;
+   show_overlay : boolean "true" ;
+   showing_map : boolean "false" ;
+
+   #####################booleans specific to this game
 
    # POINT booleans
    first_point : dynamic_boolean {( point_duh_lies )} ;
@@ -183,43 +214,20 @@ booleans {
    think_curse_treats : boolean "false" ;
    think_help_lots : boolean "false" ;
 
-   ## second: niceties for the player
-   think_note_yet : boolean "false" ;
-   think_half_yet : boolean "false" ;
-   first_half : boolean "false" ;
-   solved_both_parts_nag : boolean "false" ;
-
-   # option boolean(s)
+   # Oaf option boolean(s)
    oaf_aid : boolean "false" ;
    oaf_aid_extra : boolean "false" ;
-   opt_see_lol : boolean "true" ;
-   see_lol_known : boolean "false" scope="survivor" ;
-   read_options_yet : boolean "false" scope="survivor" ;
 
    # game state boolean(s)
-   in_number_choice: boolean "true" ;
    map_dotted_notes : boolean "false" scope="survivor" ;
    map_black_note : boolean "false" scope="survivor" ;
-   first_map_note : boolean "false" scope="survivor" ;
    listen_elegy : boolean "false" ;
-   noun_based_noted : boolean "false" scope="survivor" ;
-   won_yet : boolean "false" scope="survivor" ;
-   win_warn : boolean "false" scope="survivor" ;
-   wait_yet : boolean "false" ;
-   warn_generic_credit : boolean "false" ;
 
    # game specific booleans
    elegy_verse_tried : boolean "false" ;
 
    # auxiliary semi-function-parameter booleans
-   showing_map : boolean "false" ;
-   show_overlay : boolean "true" ;
-   done_already : boolean "false" ;
-   think_already : boolean "false" ;
-   note_half_limitations : boolean "false" ;
-   once_now_boolean : boolean "false" ;
    six_warn : boolean "false" ;
-   showed_first_note : boolean "false" ;
 
    # dynamic boolean(s)
    db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
@@ -1239,6 +1247,7 @@ on_command {
       }
       : gosub "note_noun_based" ;
    }
+
    : match "score _" {
       : print "You've currently scored {score} of {max_score} total points." ;
       : if (thought_right > 0) {
