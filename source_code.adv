@@ -108,12 +108,17 @@ integers {
 }
 
 strings {
-   # abbreviations
+   # game specific strings
+   about_game_specific : string " There are no alternate spellings." ;
+   about_map_notes : string "The puzzles are linear, starting and ending in {gsgr_desc} and with one puzzle in each other room. There are five total rooms and six points. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
    this_g : string "<Go-Strange-Ghost Range<#ff0>>" ;
    gsgo : string "A <go<#f80>>-stop-<ghost<#f80>> op" ;
    wlwc : string "<weak loud wee cloud<#faa>>" ;
    dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
    pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+   placing : string "9th" ;
+
+   hint_clue_cycle : string " The next {vd_hint} will restart the clues." ;
 
    # links
    l_qt : string "<Quirky Test<#0f0>>[http://andrewschultz.itch.io/quirky-test]" ;
@@ -126,6 +131,7 @@ strings {
    l_ifcomp : string "<IFComp<#0f0>>[http://ifcomp.org]" ;
 
    # EctoComp general strings
+   about_spoiler_flag : dynamic_string {( first_point ? "" : " It also contains names of similar games which may be a spoiler or hint for the first point." )} ;
    conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
    nospecial_custom : string "You see no specific item like that. To examine a room, <LOOK<#0f0>>. Note that the parser may not recognize adjectives as synonyms, so using a noun works best." ;
@@ -159,9 +165,9 @@ strings {
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
    vm_credits : string "<CREDITS<#f80>>" ;
+   vm_history : string "<VERSIONS<#f80>>" ;
    vm_options : string "<OPTIONS<#f80>>" ;
    vm_verbs : string "<VERBS<#f80>>" ;
-   vm_versions : string "<VERSIONS<#f80>>" ;
 
    # diagnostic verbs
    vd_hint : string "<HINT<#f80>>" ;
@@ -682,7 +688,7 @@ subroutines {
       : match "z _;wait _" {
          : print "\"Loaf, right? Lo, fright!\"" ;
          : if (!wait_yet) {
-            : print {( "{note_once}This is just a silly general response" + ( is_at "wee_clink" ? ", though it does provide a clue how to get out of here, in its own way" : "" ) + ". Waiting gives no penalty or benefit." )} ;
+            : print {( "{note_once}This is just a silly general response" + ( score == 0 ? ", though it does provide a clue how to solve the first puzzle, in its own way" : "" ) + ". Waiting gives no penalty or benefit." )} ;
             : set_true "wait_yet" ;
          }
       }
@@ -886,9 +892,9 @@ subroutines {
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
-      : print "<HELP<#f80>> and <HINT<#f80>> are available in the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
+      : print "<HELP<#f80>> and <HINT<#f80>> are available everywhere, though they will note if you aren't prepared to score a point in the current room. They may be particularly helpful for the the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
-      : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_versions}." ;
+      : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_history}." ;
    }
 
    meta_versions : subroutine {
@@ -1223,7 +1229,7 @@ on_command {
    : match "score _" {
       : print "You have scored {score} of {max_score} points so far." ;
       : if (to_think > 0) {
-         : print {( "You have {to_think_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
+         : print {( "You have {thought_right_words} command" + ( to_think > 1 ? "s" : "") + " you figured, but you didn't have enough support to succeed. {vd_think} will show the details." )} ;
       }
       : if (!bonus_note) {
          : print "{note_once}{this_g} contains no hidden bonus points." ;
