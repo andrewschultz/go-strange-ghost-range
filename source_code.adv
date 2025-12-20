@@ -21,18 +21,6 @@ game_information {
 }
 
 strings {
-   # game specific strings
-   about_game_specific : string " There are no alternate spellings." ;
-   about_map_notes : string "The puzzles are linear, starting and ending in {gsgr_desc} and with one puzzle in each other room. There are five total rooms and six points. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
-   this_g : string "<Go-Strange-Ghost Range<#ff0>>" ;
-   gsgo : string "A <go<#f80>>-stop-<ghost<#f80>> op" ;
-   wlwc : string "<weak loud wee cloud<#faa>>" ;
-   dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
-   pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
-   placing : string "9th" ;
-
-   hint_clue_cycle : string " The next {vd_hint} will restart the clues." ;
-
    # links
    l_qt : string "<Quirky Test<#0f0>>[http://andrewschultz.itch.io/quirky-test]" ;
    l_wp : string "<Why Pout<#0f0>>[http://andrewschultz.itch.io/why-pout]" ;
@@ -45,35 +33,22 @@ strings {
 
    # EctoComp general strings
    about_spoiler_flag : dynamic_string {( first_point ? "" : " It also contains names of similar games which may be a spoiler or hint for the first point." )} ;
+   command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
    conditional_score : dynamic_string {( to_think > 0 ? "+{to_think}" : "" )} ;
+   custom_unknown_verb_error : string "Nothing comes of that. {this_g} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
+   my_score : string "{score}{conditional_score}/{max_score}" ;
    nospecial_custom : string "You see no specific item like that. To examine a room, <LOOK<#0f0>>. Note that the parser may not recognize adjectives as synonyms, so using a noun works best." ;
    note_once : string "<ONE-TIME NOTE:<#f0f>> " ;
-   my_score : string "{score}{conditional_score}/{max_score}" ;
+   once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
    thought_right_words : dynamic_string {( collection_get{ collection -> ("num_to_word") index -> ( to_think ) } )} ;
    xme : string "<X ME<#0f0>>" ;
    yn_or_12_or_14 : dynamic_string {( (verb_is "save" || verb_is "load") ? "Please choose from 1 to 4." : in_number_choice ? "Please choose 1 or 2." : "Please choose YES/Y or NO/N." )}
-
-   # changeables/clues
-   c_cur_streets : string "<CUR STREETS<#88f>>" ;
-   c_dull_eyes : string "<DULL EYES<#88f>>" ;
-   c_hell_plots : string "<HELL PLOTS<#88f>>" ;
-   c_reap_elegy : string "<REAP ELEGY<#88f>>" ;
-   c_rue_fear : string "<RUE FEAR<#88f>>" ;
-   c_no_trouble : string "<NO TROUBLE<#88f>>" ;
 
    # options
    vo_seal_all : string "<SEAL ALL<#f0f>>" ;
    vo_see_lol : string "<SEE LOL<#f0f>>" ;
    opt_txt_see_seal : string "Remembering half-guessed phrases" ;
-
-   # game-specfic options
-   vo_oaf_aid : string "<OAF AID<#f0f>>" ;
-   vo_oh_fade : string "<OH FADE<#f0f>>" ;
-   opt_txt_oaf : string "The oaf's help" ;
-
-   # verbs
-   v_listen : string "<LISTEN<#0f0>>" ;
 
    # meta-verbs
    vm_about : string "<ABOUT<#f80>>" ;
@@ -86,14 +61,42 @@ strings {
    vd_hint : string "<HINT<#f80>>" ;
    vd_think : string "<THINK<#f80>>" ;
 
-   # in-game text
+   # game specific stuff
+
+   # verbs
+   v_listen : string "<LISTEN<#0f0>>" ;
+
+   # strings defined differently in other games
+   about_game_specific : string " There are no alternate spellings." ;
+   about_map_notes : string "The puzzles are linear, starting and ending in {gsgr_desc} and with one puzzle in each other room. There are five total rooms and six points. I realized that the first two puzzles probably had more slang than the next ones, but {vd_hint}s can help non-English speakers." ;
+   this_g : string "<Go-Strange-Ghost Range<#ff0>>" ;
+
+   # misc in-game text
    rue_fear_block : string "Maybe you could go that way, but you're too scared, and you aren't in a position to see any such passage." ;
    repel_hint : dynamic_string {( think_repel_edgy && point_help_lots ? "You feel you have the support to try what failed earlier." : point_help_lots ? "How, then, to get rid of the ghost?" : "You don't feel prepared enough to tackle the ghost yet, though." )}
-   command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
+   gsgo : string "A <go<#f80>>-stop-<ghost<#f80>> op" ;
+   wlwc : string "<weak loud wee cloud<#faa>>" ;
+   dwdd : string "<Dude Well-Do-Dwell<#faa>>" ;
+   pals : dynamic_string {( point_help_lots ? "" : "s" )} ;
+   placing : string "9th" ;
+
+   hint_clue_cycle : string " The next {vd_hint} will restart the clues." ;
+
+   # changeables/clues
+   c_cur_streets : string "<CUR STREETS<#88f>>" ;
+   c_dull_eyes : string "<DULL EYES<#88f>>" ;
+   c_hell_plots : string "<HELL PLOTS<#88f>>" ;
+   c_reap_elegy : string "<REAP ELEGY<#88f>>" ;
+   c_rue_fear : string "<RUE FEAR<#88f>>" ;
+   c_no_trouble : string "<NO TROUBLE<#88f>>" ;
+
+   # game-specfic options
+   vo_oaf_aid : string "<OAF AID<#f0f>>" ;
+   vo_oh_fade : string "<OH FADE<#f0f>>" ;
+   opt_txt_oaf : string "The oaf's help" ;
 
    # dynamic or long/special strings
    right_hand : dynamic_string {(oaf_aid ? oaf_shows : my_score)} ;
-   once_now : dynamic_string {( once_now_boolean ? "now" : "once" )} ;
    oaf_status : dynamic_string {( unready_here ? "tentative" : "purposeful" )} ;
 
    # room strings
@@ -134,7 +137,6 @@ strings {
       is_at "hell_plots" ? "four fingers on one hand and four on the other" :
       "BUG" )} ;
 
-   custom_unknown_verb_error : string "Nothing comes of that. {this_g} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
    exits_err : dynamic_string {( is_at "rue_fear" ? ( point_roof_ere ? "Not that way, but the four main cardinal directions work." : "The only path is back north.") : end_exits )} ;
    all_exits : dynamic_string {( is_at "rue_fear" ? ( !point_roof_ere ? "You see no exits except back north. Well, for now." : "You can go north, south, east or west." ) : end_exits )} ;
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
