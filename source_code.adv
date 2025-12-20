@@ -35,7 +35,7 @@ strings {
    about_spoiler_flag : dynamic_string {( first_point ? "" : " It also contains names of similar games which may be a spoiler or hint for the first point." )} ;
    command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
    conditional_score : dynamic_string {( thought_right > 0 ? "+{thought_right}" : "" )} ;
-   custom_unknown_verb_error : string "Nothing comes of that. {this_g} has a reduced verb list, which you can see with {vm_verbs}, and all point-scoring commands are irregular." ;
+   custom_unknown_verb_error : dynamic_string {( "Nothing comes of that. {this_g} is largely noun-based, and you can see the reduced verb list with {vm_verbs}." + (score > 0 ? "" : All point-scoring commands are one-offs and may have a noun or adjective first.") )} ;
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
    my_score : string "{score}{conditional_score}/{max_score}" ;
    noguess_0 : string "<(unknown)<#888>>" ;
@@ -169,8 +169,8 @@ booleans {
    take_drop_warn : boolean "false" scope="survivor" ;
    wait_yet : boolean "false" scope="survivor" ;
    warn_generic_credit : boolean "false" scope="survivor" ;
-   win_warn : boolean "false" scope="survivor" scope="survivor" ;
-   won_yet : boolean "false" scope="survivor" scope="survivor" ;
+   win_warn : boolean "false" scope="survivor" ;
+   won_yet : boolean "false" scope="survivor" ;
 
    # option booleans in all EctoComp games
    opt_see_lol : boolean "true" scope="survivor" ;
