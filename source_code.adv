@@ -20,93 +20,6 @@ game_information {
    short_synopsis               = {l_ectocomp} 2025 Petite Mort entry, one of three
 }
 
-booleans {
-   # non-game-specific
-   take_drop_warn : boolean "false" ;
-
-   # POINT booleans
-   first_point : dynamic_boolean {( point_duh_lies )} ;
-   point_duh_lies : boolean "false" ;
-   point_repel_edgy : boolean "false" ;
-   point_roof_ere : boolean "false" ;
-   point_note_rubble : boolean "false" ;
-   point_curse_treats : boolean "false" ;
-   point_help_lots : boolean "false" ;
-
-   # think/hint hybrid (game specific)
-   think_hint_funnel_note : boolean "false" ;
-
-   # THINK booleans
-   ## first: game mechanics
-   think_repel_edgy : boolean "false" ;
-   think_curse_treats : boolean "false" ;
-   think_help_lots : boolean "false" ;
-
-   ## second: niceties for the player
-   think_note_yet : boolean "false" ;
-   think_half_yet : boolean "false" ;
-   first_half : boolean "false" ;
-   solved_both_parts_nag : boolean "false" ;
-
-   # option boolean(s)
-   oaf_aid : boolean "false" ;
-   oaf_aid_extra : boolean "false" ;
-   opt_see_lol : boolean "true" ;
-   see_lol_known : boolean "false" scope="survivor" ;
-   read_options_yet : boolean "false" scope="survivor" ;
-
-   # game state boolean(s)
-   in_number_choice: boolean "true" ;
-   map_dotted_notes : boolean "false" scope="survivor" ;
-   map_black_note : boolean "false" scope="survivor" ;
-   first_map_note : boolean "false" scope="survivor" ;
-   listen_elegy : boolean "false" ;
-   bonus_note : boolean "false" ;
-   noun_based_noted : boolean "false" scope="survivor" ;
-   won_yet : boolean "false" scope="survivor" ;
-   win_warn : boolean "false" scope="survivor" ;
-   wait_yet : boolean "false" ;
-   warn_generic_credit : boolean "false" ;
-
-   # game specific booleans
-   elegy_verse_tried : boolean "false" ;
-
-   # auxiliary semi-function-parameter booleans
-   showing_map : boolean "false" ;
-   show_overlay : boolean "true" ;
-   done_already : boolean "false" ;
-   think_already : boolean "false" ;
-   note_half_limitations : boolean "false" ;
-   once_now_boolean : boolean "false" ;
-   six_warn : boolean "false" ;
-   showed_first_note : boolean "false" ;
-
-   # dynamic boolean(s)
-   db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
-   thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots || think_curse_treats )} ;
-   done_here : dynamic_boolean {( (point_help_lots && is_at "hell_plots") ||
-      (point_roof_ere && is_at "rue_fear") ||
-      (point_note_rubble && is_at "no_trouble") ||
-      (point_curse_treats && is_at "cur_streets")
-   )} ;
-   unready_here : dynamic_boolean {( (is_at "hell_plots" && !point_curse_treats) ||
-      (is_at "go_strange_ghost_range" && point_duh_lies && !point_help_lots) ||
-      (is_at "cur_streets" && !point_note_rubble)
-   )} ;
-}
-
-integers {
-   score : integer "0" ;
-   max_score : integer "6" ;
-   tempint : integer "0" ;
-   counter : integer "0" ;
-
-   to_think : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
-
-   part_word_score : dynamic_integer {( ((collection_get{ collection -> ("got_first") index -> ( counter ) } == "true") ? 1 : 0) + ((collection_get{ collection -> ("got_second") index -> ( counter ) } == "true") ? 2 : 0) )} ; # this is a really bad hack, but I couldn't find a concise way to code things. Maybe I could use a dynamic boolean.
-   last_first_puzzle_score : integer "0" ;
-}
-
 strings {
    # game specific strings
    about_game_specific : string " There are no alternate spellings." ;
@@ -227,6 +140,93 @@ strings {
    end_exits : dynamic_string {( !point_duh_lies ? "South is the only way out, but you need to break free from the {c_dull_eyes}." : "You can only go " + (has_visited "rue_fear" ? "back " : "" ) + (is_at "no_trouble" ? "north" : is_at "hell_plots" ? "west" : is_at "cur_streets" ? "east" : "south" ) + "." )}
 
    noguess : string "<(unknown)<#888>>" ;
+}
+
+integers {
+   score : integer "0" ;
+   max_score : integer "6" ;
+   tempint : integer "0" ;
+   counter : integer "0" ;
+
+   to_think : dynamic_integer {( (think_repel_edgy ? 1 : 0) + (think_curse_treats ? 1 : 0) + (think_help_lots ? 1 : 0) )} ;
+
+   part_word_score : dynamic_integer {( ((collection_get{ collection -> ("got_first") index -> ( counter ) } == "true") ? 1 : 0) + ((collection_get{ collection -> ("got_second") index -> ( counter ) } == "true") ? 2 : 0) )} ; # this is a really bad hack, but I couldn't find a concise way to code things. Maybe I could use a dynamic boolean.
+   last_first_puzzle_score : integer "0" ;
+}
+
+booleans {
+   # non-game-specific
+   take_drop_warn : boolean "false" ;
+
+   # POINT booleans
+   first_point : dynamic_boolean {( point_duh_lies )} ;
+   point_duh_lies : boolean "false" ;
+   point_repel_edgy : boolean "false" ;
+   point_roof_ere : boolean "false" ;
+   point_note_rubble : boolean "false" ;
+   point_curse_treats : boolean "false" ;
+   point_help_lots : boolean "false" ;
+
+   # think/hint hybrid (game specific)
+   think_hint_funnel_note : boolean "false" ;
+
+   # THINK booleans
+   ## first: game mechanics
+   think_repel_edgy : boolean "false" ;
+   think_curse_treats : boolean "false" ;
+   think_help_lots : boolean "false" ;
+
+   ## second: niceties for the player
+   think_note_yet : boolean "false" ;
+   think_half_yet : boolean "false" ;
+   first_half : boolean "false" ;
+   solved_both_parts_nag : boolean "false" ;
+
+   # option boolean(s)
+   oaf_aid : boolean "false" ;
+   oaf_aid_extra : boolean "false" ;
+   opt_see_lol : boolean "true" ;
+   see_lol_known : boolean "false" scope="survivor" ;
+   read_options_yet : boolean "false" scope="survivor" ;
+
+   # game state boolean(s)
+   in_number_choice: boolean "true" ;
+   map_dotted_notes : boolean "false" scope="survivor" ;
+   map_black_note : boolean "false" scope="survivor" ;
+   first_map_note : boolean "false" scope="survivor" ;
+   listen_elegy : boolean "false" ;
+   bonus_note : boolean "false" ;
+   noun_based_noted : boolean "false" scope="survivor" ;
+   won_yet : boolean "false" scope="survivor" ;
+   win_warn : boolean "false" scope="survivor" ;
+   wait_yet : boolean "false" ;
+   warn_generic_credit : boolean "false" ;
+
+   # game specific booleans
+   elegy_verse_tried : boolean "false" ;
+
+   # auxiliary semi-function-parameter booleans
+   showing_map : boolean "false" ;
+   show_overlay : boolean "true" ;
+   done_already : boolean "false" ;
+   think_already : boolean "false" ;
+   note_half_limitations : boolean "false" ;
+   once_now_boolean : boolean "false" ;
+   six_warn : boolean "false" ;
+   showed_first_note : boolean "false" ;
+
+   # dynamic boolean(s)
+   db_at_the_end : dynamic_boolean {( is_at "go_strange_ghost_range" && point_help_lots)} ;
+   thought_any : dynamic_boolean {( think_repel_edgy || think_help_lots || think_curse_treats )} ;
+   done_here : dynamic_boolean {( (point_help_lots && is_at "hell_plots") ||
+      (point_roof_ere && is_at "rue_fear") ||
+      (point_note_rubble && is_at "no_trouble") ||
+      (point_curse_treats && is_at "cur_streets")
+   )} ;
+   unready_here : dynamic_boolean {( (is_at "hell_plots" && !point_curse_treats) ||
+      (is_at "go_strange_ghost_range" && point_duh_lies && !point_help_lots) ||
+      (is_at "cur_streets" && !point_note_rubble)
+   )} ;
 }
 
 collections { # these half-done hints are arranged in clockwise order on the map, so there are no spoilers about what comes when.
