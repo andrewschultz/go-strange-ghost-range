@@ -164,7 +164,8 @@ integers {
 
 booleans {
    # game-state booleans (mostly did the player use a certain command) in all EctoComp games
-   in_number_choice: boolean "true" ;
+   in_number_choice : boolean "true" ;
+   inventory_note : boolean "false" scope="survivor" ;
    noun_based_noted : boolean "false" scope="survivor" ;
    score_note : boolean "false" scope="survivor";
    showed_first_note : boolean "false" scope="survivor" ;
@@ -353,6 +354,7 @@ locations {
          }
          : match "_ ghost" {
             : print {( "The ghost isn't particularly large or gruesome, but you clearly can't handle it alone. " + (point_duh_lies ? "Hard not to {v_listen}, too." : "Perhaps you could deal with the {c_dull_eyes} to start, though.") )} ;
+            : gosub "note_noun_based" ;
          }
          : match "_ eyes" {
             : if (point_duh_lies) {
@@ -360,6 +362,7 @@ locations {
             } : else {
                : print "The eyes simply stare at you, freezing you and making you feel like a much worse person than you thought you were being. And if you don't agree, why, maybe you're not trying hard enough to be objective." ;
             }
+            : gosub "note_noun_based" ;
          }
          : match "duh lies" {
             : if (point_duh_lies) {
@@ -888,7 +891,6 @@ subroutines {
    }
 
    meta_think_main : subroutine {
-      : gosub "meta_think_conditionals" ;
       : set_integer var="counter" "0" ;
       : set_false "think_half_yet" ;
       : if (opt_see_lol) {
