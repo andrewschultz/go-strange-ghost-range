@@ -825,11 +825,13 @@ subroutines {
    meta_credits : subroutine {
       : print "Game-specific thanks:" ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
-      : print "Thanks to rh for post-comp testing of the half-right {vm_think} feature and more." ;
+      : print "Thanks to <rh<#0f0>>[http://rh8.itch.io] for post-comp testing of the half-right {vd_think} feature and more." ;
       : gosub "meta_credits_general" ;
    }
 
    meta_credits_general : subroutine {
+      : print "" ;
+      : print "<GENERAL THANKS<#f80>>:" ;
       : print "Thanks to the administrators <Ruber Eaglenest<#0f0>>[https://rubereaglenest.itch.io], <Alyshkalia<#0f0>>[https://alyshkalia.itch.io] and <Passerine<#0f0>>[https://passerine.itch.io] for holding {l_ectocomp}, as well as former administrators like JJ Guest and Duncan Bowsman." ;
       : print "Thanks to Chris Ainsley for creating <Adventuron<#0f0>>[https://adventuron.itch.io/]." ;
       : print "Blanket thanks to Python and its developers for scripts that helped me generate similar code (point scoring, etc.) quickly." ;
