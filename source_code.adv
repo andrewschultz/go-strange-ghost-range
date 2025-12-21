@@ -742,12 +742,12 @@ subroutines {
          : return ;
       }
       : if (unready_here) {
-         : print "You can guess what to do or say here, but it won't work yet. The c." ;
+         : print "You can guess what to do or say here, but it won't work yet, so I won't reveal hints until it does. Maybe check elsewhere before summoning hints." ;
          : done ;
       }
       : if (is_at "no_trouble") {
          : cycle key = "no_trouble_hints" predictable_order = "true" skip_interval = "0" {
-            : print "You may have an impulse to say \"no trouble\", but you sort of need to find a bit of it. Trouble for others," ;
+            : print "You may have an impulse to say \"no trouble,\" but you sort of need to find a bit of it. Well, trouble for others." ;
             : print "If you were more observant, perhaps you could find something." ;
             : print "First you'd need to note it. But what to note?" ;
             : print "<NOTE RUBBLE<#88f>>.{hint_clue_cycle}" ;
@@ -783,8 +783,9 @@ subroutines {
             : print "You may notice something about the title of the game." ;
             : print "You may also notice something about the commands to have the oaf help or not." ;
             : print "You may also remember the names of the books you laughed at in the introduction." ;
-            : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym." ;
-            : print "The dull eyes are stopping you from going south. You need to do something to talk back against them." ;
+            : print "Also, {xme} gives a clue as well." ;
+            : print "You will notice that there is a pattern of two pairs of words that sound the same combined, but each one is spelled and pronounced different. The term for this is oronym. Oronyms form the basis of all six puzzles in {this_g}." ;
+            : print "For the first puzzle, then, the dull eyes are stopping you from going south. You need to do something to talk back against them." ;
             : print "What two words together sound like dull eyes?" ;
             : print "The first one's a bit slangy." ;
             : print "<DUH LIES<#88f>>.{hint_clue_cycle}" ;
@@ -800,7 +801,7 @@ subroutines {
          }
          : done ;
       }
-      : print "You're ready to work on the room name here." ;
+      : print "This is a fallthrough case that should never happen." ;
       : return ;
    }
 
@@ -1215,6 +1216,10 @@ on_pre_command {
 }
 
 on_command {
+   : match "x me;x myself" {
+      : print "You don't seem physically different from usual, but you can't help a little introspective thought: <soul, only SO lonely<#dba>>, you think to yourself." ;
+      : done ;
+   }
    : match "i _" {
       : if (oaf_aid) {
          : print "The oaf is here, waiting to give hints when needed." ;
