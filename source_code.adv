@@ -166,6 +166,7 @@ booleans {
    # game-state booleans (mostly did the player use a certain command) in all EctoComp games
    in_number_choice : boolean "true" ;
    inventory_note : boolean "false" scope="survivor" ;
+   map_x_to_look_note : boolean "false" scope="survivor" ;
    noun_based_noted : boolean "false" scope="survivor" ;
    score_note : boolean "false" scope="survivor";
    showed_first_note : boolean "false" scope="survivor" ;
@@ -1199,6 +1200,13 @@ on_tick {
       : print "{note_once}{vm_about} will give general game information. {vm_verbs} will describe {this_g}'s stripped-down parser." ;
       : set_true "showed_first_note" ;
    }
+   : if (!map_x_to_look_note) {
+      : match "x -" {
+         : print "{note_once}<X<#0f0>> by itself will map to examining yourself. It was that or redescribing, but <L<#0f0>> does that." ;
+         : set_true "map_x_to_look_note" ;
+         : done ;
+      }
+   }
 }
 
 on_pre_describe {
@@ -1225,7 +1233,7 @@ on_pre_command {
 }
 
 on_command {
-   : match "x me;x myself" {
+   : match "x -;x me;x myself;x self" {
       : print "You don't seem physically different from usual, but you can't help a little introspective thought: <soul, only SO lonely<#dba>>, you think to yourself." ;
       : done ;
    }
