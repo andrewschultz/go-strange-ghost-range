@@ -59,7 +59,7 @@ strings {
    vm_verbs : string "<VERBS<#f80>>" ;
 
    # diagnostic verbs
-   vd_hint : string "<HINT<#88f>>/<HINTS<#88f>>/<HELP<#88f>>" ;
+   vd_hint : string "<HINT<#88f>>/<HINTS<#88f>>" ; #~ # no "help" since it is part of a puzzle
    vd_i : string "<I<#88f>>" ;
    vd_inv : string "<INVENTORY<#88f>>" ;
    vd_think : string "<THINK<#88f>>" ;
@@ -170,6 +170,7 @@ booleans {
    noun_based_noted : boolean "false" scope="survivor" ;
    score_note : boolean "false" scope="survivor";
    showed_first_note : boolean "false" scope="survivor" ;
+   star_help_noted : boolean "false" scope="survivor" ;
    take_drop_warn : boolean "false" scope="survivor" ;
    wait_yet : boolean "false" scope="survivor" ;
    warn_generic_credit : boolean "false" scope="survivor" ;
@@ -746,20 +747,15 @@ subroutines {
    hint_help : subroutine {
       : if (done_here) {
          : print "You are done here." ;
-         : return ;
-      }
-      : if (unready_here) {
+      } : else_if (unready_here) {
          : print "You can guess what to do or say here, but it won't work yet, so I won't reveal hints until it does. Maybe check elsewhere before summoning hints." ;
-         : done ;
-      }
-      : if (is_at "no_trouble") {
+      } : else_if (is_at "no_trouble") {
          : cycle key = "no_trouble_hints" predictable_order = "true" skip_interval = "0" {
             : print "You may have an impulse to say \"no trouble,\" but you sort of need to find a bit of it. Well, trouble for others." ;
             : print "If you were more observant, perhaps you could find something." ;
             : print "First you'd need to note it. But what to note?" ;
             : print "<NOTE RUBBLE<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
       } : else_if (is_at "cur_streets") {
          : cycle key = "cur_streets_hints" predictable_order = "true" skip_interval = "0" {
             : print "The cur streets contain very active and hungry dogs." ;
@@ -768,14 +764,12 @@ subroutines {
             : print "You can't quite curse them, but you can curse something they like or need." ;
             : print "<CURSE TREATS<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
       } : else_if (is_at "hell_plots") {
          : cycle key = "hell_plots_hints" predictable_order = "true" skip_interval = "0" {
             : print "The {wlwc} seem in need of relief. Well, maybe not relief from the hell plots, but ..." ;
             : print "They could use a little help. More than a little, in fact." ;
             : print "<HELP LOTS<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
       } : else_if (is_at "rue_fear") {
          : cycle key = "rue_fear_hints" predictable_order = "true" skip_interval = "0" {
             : print "The location is what you need to work with here, as opposed to something in it." ;
@@ -784,7 +778,6 @@ subroutines {
             : print "But what does the rest become? Ear doesn't quite make sense." ;
             : print "If you drop the letter, though, you will see that you get <ROOF ERE<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
       } : else_if (!point_duh_lies) {
          : cycle key = "this_g_hints_1" predictable_order = "true" skip_interval = "0" {
             : print "You may notice something about the title of the game." ;
@@ -797,7 +790,6 @@ subroutines {
             : print "The first one's a bit slangy." ;
             : print "<DUH LIES<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
       } : else_if (is_at "go_strange_ghost_range") {
          : cycle key = "this_g_hints_2" predictable_order = "true" skip_interval = "0" {
             : print "The {c_reap_elegy} pulses through everywhere, and you need to shut it down, somehow." ;
@@ -806,10 +798,10 @@ subroutines {
             : print "If you {v_listen} to it, you will gain some clues. What is being rhymed?" ;
             : print "<REPEL EDGY<#88f>>.{hint_clue_cycle}" ;
          }
-         : done ;
+      } : else {
+         : print "I'm not sure what advice to give here. This should not have happened. Use <TSTART<#0f0>> and <TSTOP<#0f0>> to give a transcript and send me a mail so I can fix this bug, or leave it in Itch's comments." ;
       }
-      : print "This is a fallthrough case that should never happen." ;
-      : return ;
+      : done ;
    }
 
    meta_about : subroutine {
