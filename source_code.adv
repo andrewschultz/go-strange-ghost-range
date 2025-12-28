@@ -919,6 +919,14 @@ subroutines {
       : print "<HELP<#f80>> and <HINT<#f80>> are available everywhere, though they will note if you aren't prepared to score a point in the current room. They may be particularly helpful for the the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_history}." ;
+      : gosub "meta_verbs_star_help_onetime" ;
+   }
+
+   meta_verbs_star_help_onetime : subroutine {
+      : if (!star_help_noted) {
+         : print "{note_once}<*HELP<#0f0>> gives a list of common Adventuron verbs, but it is only so useful here." ;
+         : set_true "star_help_noted" ;
+      }
    }
 
    meta_versions : subroutine {
