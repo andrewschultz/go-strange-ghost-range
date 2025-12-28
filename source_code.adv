@@ -66,6 +66,8 @@ strings {
 
    # game specific stuff
 
+   l_rh : string "<rh<#0f0>>[http://rh9.itch.io]" ;
+
    # verbs
    v_listen : string "<LISTEN<#0f0>>" ;
 
@@ -690,6 +692,7 @@ subroutines {
          }
          : match "restore -" {
             : print "You hear a tune. It could be called a re-load reel/ode, I guess." ;
+            : set_sentence "load" ;
          }
          : match "save -" {
             : print "A ghostly apparition with \"Save? Illun', Say!\" Villain written on its front taunts your very reasonable precaution. But you don't need to listen to such meanies." ;
@@ -821,7 +824,7 @@ subroutines {
    meta_credits : subroutine {
       : print "Game-specific thanks:" ;
       : print "Thanks to Billy Argel for his DripInk font which I used in the game map." ;
-      : print "Thanks to <rh<#0f0>>[http://rh8.itch.io] for post-comp testing of the half-right {vd_think} feature and more." ;
+      : print "Thanks to {l_rh} for post-comp testing of the half-right {vd_think} feature and more." ;
       : gosub "meta_credits_general" ;
    }
 
@@ -927,7 +930,7 @@ subroutines {
       : print "" ;
       : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} 2025 games after that." ;
       : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025. It fixed small bugs and upgraded the {vd_think} command." ;
-      : print "Version 3 will be published before the end of 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to rh." ;
+      : print "Version 3 will be published before the end of 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to {l_rh}." ;
       : print "" ;
       : print "If you've found this elsewhere than Itch.io, the latest version should be at {l_gsgr}." ;
    }
