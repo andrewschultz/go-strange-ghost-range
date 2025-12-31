@@ -59,10 +59,10 @@ strings {
    vm_verbs : string "<VERBS<#f80>>" ;
 
    # diagnostic verbs
-   vd_hint : string "<HINT<#88f>>/<HINTS<#88f>>" ; #~ # no "help" since it is part of a puzzle
-   vd_i : string "<I<#88f>>" ;
-   vd_inv : string "<INVENTORY<#88f>>" ;
-   vd_think : string "<THINK<#88f>>" ;
+   vd_hint : string "<HINT<#f0f>>/<HINTS<#f0f>>" ; #~ # no "help" since it is part of a puzzle
+   vd_i : string "<I<#f0f>>" ;
+   vd_inv : string "<INVENTORY<#f0f>>" ;
+   vd_think : string "<THINK<#f0f>>" ;
 
    # game specific stuff
 
@@ -804,6 +804,7 @@ subroutines {
       } : else {
          : print "I'm not sure what advice to give here. This should not have happened. Use <TSTART<#0f0>> and <TSTOP<#0f0>> to give a transcript and send me a mail so I can fix this bug, or leave it in Itch's comments." ;
       }
+      : gosub "meta_verbs_star_help_onetime" ;
       : done ;
    }
 
@@ -812,7 +813,7 @@ subroutines {
       : print "I used Python scripts to generate a lot of the code to keep the development time under those four hours, and I'm grateful to the organizers for not having image creation time count against these four hours." ;
       : print "" ;
       : print "Each puzzle requires a two-word command that riffs on the location or something in location. {this_g} tracks when you've guessed one word right with {vd_think}.{about_game_specific}" ;
-      : print "{this_g} uses a color-coding scheme for game text. Puzzle text is <lavender<#f4f>>, while stuff that's just for amusement is <grey<#ccc>>. Links in <green<#0f0>> open a new tab." ;
+      : print "{this_g} uses a color-coding scheme for game text. Diagnostic verbs are <purple<#f0f>>, while physical verbs are <orange<#f80>>. Puzzle text is <violet<#88f>>, while text that's just for amusement is <tan<#db9>>. Links in <green<#0f0>> open a new tab." ;
       : print "" ;
       : print "{about_map_notes}" ;
       : print "" ;
