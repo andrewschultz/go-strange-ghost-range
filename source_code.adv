@@ -35,7 +35,7 @@ strings {
    about_spoiler_flag : dynamic_string {( first_point ? "" : " It also contains names of similar games which may be a spoiler or hint for the first point." )} ;
    command_stickler : string "I'm going to be a stickler and enforce the spirit of the game on you and make you type " ;
    conditional_score : dynamic_string {( thought_right > 0 ? "+{thought_right}" : "" )} ;
-   custom_unknown_verb_error : dynamic_string {( "Nothing comes of that. {this_g} is largely noun-based, and you can see the reduced verb list with {vm_verbs}." + (score > 0 ? "" : "All point-scoring commands are one-offs and may have a noun or adjective first.") )} ;
+   custom_unknown_verb_error : dynamic_string {( "Nothing comes of that. {this_g} is largely noun-based, and you can see the reduced verb list with {vm_verbs}." + (score > 0 ? "" : " All point-scoring commands are one-offs and may have a noun or adjective first.") )} ; #~
    key_enter : string "the <ENTER<#f88>>/<RETURN<#f88>> key" ;
    my_score : string "{score}{conditional_score}/{max_score}" ;
    noguess_0 : string "<(unknown)<#888>>" ;
@@ -174,6 +174,7 @@ booleans {
    showed_first_note : boolean "false" scope="survivor" ;
    star_help_noted : boolean "false" scope="survivor" ;
    take_drop_warn : boolean "false" scope="survivor" ;
+   think_hint_funnel_note : boolean "false" scope="survivor" ;
    wait_yet : boolean "false" scope="survivor" ;
    warn_generic_credit : boolean "false" scope="survivor" ;
    win_warn : boolean "false" scope="survivor" ;
@@ -211,9 +212,6 @@ booleans {
    point_note_rubble : boolean "false" ;
    point_curse_treats : boolean "false" ;
    point_help_lots : boolean "false" ;
-
-   # think/hint hybrid (game specific)
-   think_hint_funnel_note : boolean "false" ;
 
    # THINK booleans
    ## first: game mechanics
@@ -843,7 +841,7 @@ subroutines {
 
    meta_options : subroutine {
       : print "{this_g} has two options." ;
-      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ;
+      : print "{vo_oaf_aid} and {vo_oh_fade} toggle the oaf's help on and off. Using {vo_oaf_aid} when it is on toggles whether or not the oaf also clues whether you can do something right now." ; #~
       : print "{vo_see_lol} and {vo_seal_all} toggle whether {vd_think} will show specific words you've guessed right." ;
       : set_true "read_options_yet" ;
    }
