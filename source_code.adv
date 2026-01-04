@@ -872,7 +872,7 @@ subroutines {
             : print "If you type {vd_think} again, your command will be funneled to {vd_hint} with potential spoilers for the first puzzle." ;
          }
          : set_true "think_hint_funnel_note" ;
-		 : done ;
+         : done ;
       }
       : if (!think_hint_funnel_note) {
          : print "{note_once}small check before I give spoilers. Unless you've scored your first point or made progress towards it since your last {vd_think}, this will funnel into {vd_hint}." ;
@@ -912,7 +912,7 @@ subroutines {
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
-      : print "{vd_i} / {vd_inv} shows companions you've found. Usually it tracks what you're carrying, but {this_g} has no items to pick up." ; #~
+      : print "{vd_i} / {vd_inv} shows companions you've found. Usually it tracks what you're carrying, but {this_g} has no items to pick up, so <TAKE<#0f0>> and <DROP<#0f0>> aren't used." ; #~
       : print "<HELP<#f80>> and <HINT<#f80>> are available everywhere, though they will note if you aren't prepared to score a point in the current room. They may be particularly helpful for the the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_history}." ;
@@ -937,7 +937,7 @@ subroutines {
       : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025. It fixed small bugs and upgraded the {vd_think} command." ;
       : print "Version 3 will be published before the end of 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to {l_rh}." ;
       : print "" ;
-      : print "If you've found this elsewhere than Itch.io, the latest version should be at {l_gsgr}." ;
+      : print "If you've found this elsewhere than Itch.io, the original version should be at {l_gsgr}." ;
    }
 
    note_noun_based : subroutine {
@@ -1234,7 +1234,7 @@ on_pre_command {
 
 on_command {
    : match "x -;x me;x myself;x self" {
-      : print "You don't seem physically different from usual, but you can't help a little introspective thought: <soul, only SO lonely<#dba>>, you think to yourself." ;
+      : print "You don't seem physically different from usual, but you can't help a little introspective thought: <soul, only SO lonely<#db9>>, you think to yourself." ;
       : done ;
    }
    : match "i _" {
@@ -1328,7 +1328,7 @@ on_command {
       : gosub "meta_versions" ;
       : done ;
    }
-   : match "hint _;help _" {
+   : match "hint _;hints _;help _" {
       : gosub "hint_help" ;
       : done ;
    }
