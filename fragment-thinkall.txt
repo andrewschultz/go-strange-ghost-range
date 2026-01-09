@@ -1,0 +1,8 @@
+   : match "thinkall _" {
+      : set_integer var="counter" "0" ;
+      : while (counter < max_score) {
+         : print {( (collection_get{ collection -> ("first_words") index -> (counter) }) + " " + (collection_get{ collection -> ("second_words") index -> (counter) }) + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
+         : increment "counter" ;
+     }
+
+   }
