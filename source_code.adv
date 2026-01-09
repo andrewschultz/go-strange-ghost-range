@@ -60,7 +60,7 @@ strings {
 
    # diagnostic verbs
    vd_hint : string "<HINT<#f0f>>/<HINTS<#f0f>>" ; #~ # no "help" since it is part of a puzzle
-   vd_i : string "<I<#f0f>>" ;
+   vd_i : string "<I<#f0f>> / <INV<#f0f>>" ;
    vd_inv : string "<INVENTORY<#f0f>>" ;
    vd_think : string "<THINK<#f0f>>" ;
 
@@ -904,7 +904,7 @@ subroutines {
                   }
                   : print {( (part_word_score != 2 ? (collection_get{ collection -> ("first_words") index -> (counter) }) : "{noguess}") + " " + (part_word_score >= 2 ? (collection_get{ collection -> ("second_words") index -> (counter) }) : "{noguess}") + " " + (collection_get{ collection -> ("situations") index -> (counter) }) )} ;
                   : if (!solved_both_parts_nag && part_word_score == 3) {
-                     : print "{note_once}You have figured each half of a point-scoring command, but you haven't typed them both together. That still might not work if you haven't prepared by solving other puzzles, but if that's the case, {vd_think} will remind you with contest until it does." ;
+                     : print "{note_once}You have figured each half of a point-scoring command, but you haven't typed them both together. That still might not work if you haven't prepared by solving other puzzles, but if that's the case, {vd_think} will remind you with context until it does." ;
                      : set_true "solved_both_parts_nag" ;
                   }
                }
@@ -920,7 +920,7 @@ subroutines {
    meta_verbs : subroutine {
       : print "Many standard verbs aren't useful here. Also, there are no diagonal directions, or up or down." ;
       : print "{vd_think} is a useful verb, if you got a command right, but you hadn't prepped properly in-game yet." ;
-      : print "{vd_i} / {vd_inv} shows companions you've found. Usually it tracks what you're carrying, but {this_g} has no items to pick up, so <TAKE<#0f0>> and <DROP<#0f0>> aren't used." ; #~
+      : print "{this_g} has no items to pick up, so <TAKE<#0f0>> and <DROP<#0f0>> aren't used. Also, {vd_inv}, which usually shows what you're carrying, now lists companions you've found. It can be abbreviated with {vd_o}." ; #~
       : print "<HELP<#f80>> and <HINT<#f80>> are available everywhere, though they will note if you aren't prepared to score a point in the current room. They may be particularly helpful for the the first two rooms, where the slanginess may be slightly confusing for players whose first language is not English." ;
       : print {( "{vm_options} shows two option commands that follow {this_g}'s mechanic." + (score == 0 && !read_options_yet ? " They may be spoilers or clues for the first puzzle." : "" ) )}  ;
       : print "You can learn about {this_g}'s creation with {vm_about}, {vm_credits} and {vm_history}." ;
@@ -943,7 +943,7 @@ subroutines {
       : print "" ;
       : print "Version 1 was mostly written from July 15, 2025, to August 3, with small cut and pastes of simple code from my other {l_ectocomp} 2025 games after that." ;
       : print "Version 2 was published after {l_ectocomp} 2025 finished, on December 1, 2025. It fixed small bugs and upgraded the {vd_think} command." ;
-      : print "Version 3 will be published before the end of 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to {l_rh}." ;
+      : print "Version 3 will be published January 2026. Its main feature is to track half-right guesses, but it also has general improvements thanks to {l_rh}." ;
       : print "" ;
       : print "If you've found this elsewhere than Itch.io, the original version should be at {l_gsgr}." ;
    }
@@ -958,7 +958,7 @@ subroutines {
 
    note_thinks : subroutine {
       : if (!think_note_yet) {
-         : print "{note_once}{vd_think} will track any command that will score points at a later time. Also, the status line in the upper right will show +1 or more, for commands you've guessed right but still need prep for." ;
+         : print "{note_once}{vd_think} will track any command that you need to retry later, after preparation. Also, the status line in the upper left will show +1 or more, for commands you've guessed right but still need prep for." ;
          : set_true "think_note_yet" ;
       }
    }
@@ -1233,7 +1233,7 @@ on_pre_describe {
 
 on_describe {
    : if (point_note_rubble) {
-      : print {( "{dwdd} " + (point_help_lots ? " and the {wlwc} " : "") + (linger() > 0 ? "stand{pals} by you" : "follow{pals} you") + " loyally." )} ;
+      : print {( "{dwdd}" + (point_help_lots ? " and the {wlwc}" : "") + (linger() > 0 ? " stand{pals} by you" : " follow{pals} you") + " loyally." )} ;
    }
 }
 
