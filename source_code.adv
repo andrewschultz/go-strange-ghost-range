@@ -540,6 +540,14 @@ locations {
             : print {( point_curse_treats ? "The snoring's pretty obnoxious, but compared to the alternative, it's great." : "Supernatural canine yapping probably meant to give all near a headache or worse." )} ;
             : done ;
          }
+         : match "_ cur;_ curs" {
+            : if (!point_curse_treats) {
+                : print "They seem hungry, physically and spiritually." ;
+            } : else {
+                : print "They will be unconscious for a while." ;
+            }
+            : gosub "note_noun_based" ;
+         }
          : match "curse treats" {
             : collection_modify { collection = "tried_combo" index -> (5) content -> ("true") } ;
             : if (point_curse_treats) {
